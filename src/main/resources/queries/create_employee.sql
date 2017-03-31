@@ -3,5 +3,5 @@ CREATE TABLE Employee(
 	schedule varchar(100), 
 	salary numeric(10,2), 
 	work_store_id int,
-	primary key(user_id)
-	foreign key(work_store_id) references Store(store_id)));
+	PRIMARY KEY(user_id)
+	FOREIGN KEY(work_store_id) REFERENCES Store(store_id)));
