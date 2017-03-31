@@ -1,0 +1,14 @@
+.itemSection {
+    height: 350px;
+    background-color: #000000;
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
+
+.item {
+    height: 250px;
+    width: 250px;
+    background-color: #b2dba1;
+}

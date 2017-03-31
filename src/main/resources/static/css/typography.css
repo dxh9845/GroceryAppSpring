@@ -1,0 +1,20 @@
+h1, h2, h3, h4, h5, h6{
+    font-family: 'franklin_gothic_fsdemi', Helvetica, sans-serif;
+}
+
+.FranklinRegular {
+    font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
+}
+
+
+.FranklinDemi {
+    font-family: 'franklin_gothic_fsdemi', Helvetica, sans-serif;
+}
+
+.FranklinItalic {
+    font-family: 'franklin_gothic_fsbook_italic', Helvetica, sans-serif;
+}
+
+.LeadText {
+    color: #FFFFFF;
+}

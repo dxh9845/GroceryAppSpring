@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+    <head>
+        <title>Hello world page</title>
+        <th:block layout:fragment="css">
+            <link rel="stylesheet" type="text/css"
+                  href="/css/owl.carousel.min.css"/>
+            <link rel="stylesheet" type="text/css"
+                  href="/css/owl.theme.default.min.css"/>
+        </th:block>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <section class="itemSection">
+                        <div class="col-xs-12">
+                            <h1 class="LeadText">Items on sale</h1>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="owl-carousel">
+                                <div class="item">1</div>
+                                <div class="item">2</div>
+                                <div class="item">3</div>
+                                <div class="item">4</div>
+                                <div class="item">5</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </body>
+    <th:block layout:fragment="scripts">
+        <script type="text/javascript" src="/scripts/owl.carousel.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".owl-carousel").owlCarousel({
+                    loop:true,
+                    margin:10,
+                    nav:true,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:3
+                        },
+                        1000:{
+                            items:5
+                        }
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</html>
