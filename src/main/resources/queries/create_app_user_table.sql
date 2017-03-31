@@ -5,5 +5,5 @@ CREATE TABLE App_User(
 	phone char(10), 
 	address varchar(100), 
 	role_id int,
-	primary key(user_id),
-	foreign key(role_id) references Role(role_id));
+	PRIMARY KEY(user_id),
+	FOREIGN KEY(role_id) REFERENCES Role(role_id));
