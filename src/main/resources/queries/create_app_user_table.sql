@@ -1,5 +1,6 @@
 CREATE TABLE App_User(
-	user_id int, 
+	user_id int,
+	username varchar(25), 
 	name varchar(25), 
 	password varchar(16), 
 	phone char(10), 
