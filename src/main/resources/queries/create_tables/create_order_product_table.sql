@@ -3,5 +3,5 @@ CREATE TABLE Order_Product(
 	product_id int NOT NULL, 
 	qty int, 
 	PRIMARY KEY (order_id, product_id),
-	FOREIGN KEY (order_id) REFERENCES Order(order_id),
+	FOREIGN KEY (order_id) REFERENCES Grocery_Order(order_id),
     FOREIGN KEY (product_id) REFERENCES Product(product_id));
