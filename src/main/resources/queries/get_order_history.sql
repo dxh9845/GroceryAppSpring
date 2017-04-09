@@ -1,11 +1,10 @@
 -- Gets all the dates of order in desc order
-
 SELECT Order.order_time
 FROM Order
 GROUP BY Order.order_time
 ORDER BY Order.order_time DESC;
 
-
+-- Combines Order_Product with its foreign keys
 CREATE VIEW Order_Info AS
 SELECT Order_Product.count,
        Product.price,
@@ -17,7 +16,6 @@ JOIN Order ON Order_Product.order_id = Order.order_id
 ORDER BY Order.order_time DESC;
 
 -- Gets all order items for a certain date
-
 SELECT Product.Name,
        Order_Product.qty,
 FROM Order_Info
