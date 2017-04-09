@@ -11,14 +11,20 @@ WHERE
 	AND
 	Shopping_Cart.product_id = Product.product_id;
 	
-SELECT
-	Shopping_Cart_View.name,
-	Shopping_Cart_View.price,
-	Shopping_Cart_View.qty
-FROM
-	Shopping_Cart_View
-WHERE
-	Shopping_Cart_View.User_id = ?;
+CREATE PROCEDURE get_shopping_cart(
+	@search_id int
+)	
+AS
+BEGIN
+	SELECT
+		Shopping_Cart_View.name,
+		Shopping_Cart_View.price,
+		Shopping_Cart_View.qty
+	FROM
+		Shopping_Cart_View
+	WHERE
+		Shopping_Cart_View.User_id = @search_id
+END
 	
 
 	
