@@ -1,19 +1,19 @@
 -- Gets all the dates of order in desc order
-SELECT Order.order_time
-FROM Order
-GROUP BY Order.order_time
-ORDER BY Order.order_time DESC;
+SELECT Grocery_Order.order_time
+FROM Grocery_Order
+GROUP BY Grocery_Order.order_time
+ORDER BY Grocery_Order.order_time DESC;
 
 -- Combines Order_Product with its foreign keys
 CREATE VIEW Order_Info AS
 SELECT Order_Product.count,
        Product.price,
        Product.name,
-       Order.order_time
+       Grocery_Order.order_time
 FROM Order_Product
 JOIN Product ON Order_Product.product_id = Product.product_id
-JOIN Order ON Order_Product.order_id = Order.order_id
-ORDER BY Order.order_time DESC;
+JOIN Grocery_Order ON Order_Product.order_id = Grocery_Order.order_id
+ORDER BY Grocery_Order.order_time DESC;
 
 -- Gets all order items for a certain date
 SELECT Product.Name,
