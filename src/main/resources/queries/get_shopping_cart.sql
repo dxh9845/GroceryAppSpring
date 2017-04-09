@@ -7,7 +7,7 @@ SELECT
 FROM
 	Shopping_Cart, Customer, Product
 WHERE
-	Shopping_Cart.user_id = Customer.user_id
+	Shopping_Cart.customer_id = Customer.user_id
 	AND
 	Shopping_Cart.product_id = Product.product_id;
 	
