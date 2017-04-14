@@ -18,7 +18,7 @@ public class DataSourceConfig {
     @Bean(name="mainDataSource")
     public DataSource createMainDataSource() {
         JdbcDataSource ds = new JdbcDataSource();
-        ds.setURL("jdbc:h2:" + temp_dir + "/testdata;");
+        ds.setURL("jdbc:h2:./grocery;");
         return ds;
     }
 }
