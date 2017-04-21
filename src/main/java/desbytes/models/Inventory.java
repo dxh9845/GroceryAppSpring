@@ -13,7 +13,7 @@ public class Inventory {
     private int aisle;
 
 
-    public Grocery_Order(String product_id, int store_id, int qty, int aisle) {
+    public Inventory(String product_id, int store_id, int qty, int aisle) {
         this.product_id = product_id;
         this.store_id = store_id;
         this.qty = qty;
