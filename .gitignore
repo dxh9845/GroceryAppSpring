@@ -25,3 +25,8 @@ nbdist/
 
 # DB
 src/main/java/resource/db
+*.db
+
+
+# Complied junk
+classes/production
