@@ -7,24 +7,24 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class Inventory {
 
-    private String product_id;
+    private double product_id;
     private int store_id;
     private int qty;
     private int aisle;
 
 
-    public Inventory(String product_id, int store_id, int qty, int aisle) {
+    public Inventory(double product_id, int store_id, int qty, int aisle) {
         this.product_id = product_id;
         this.store_id = store_id;
         this.qty = qty;
         this.aisle = aisle;
     }
 
-    public String getProduct_id() {
+    public double getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(String product_id) {
+    public void setProduct_id(double product_id) {
         this.product_id = product_id;
     }
 

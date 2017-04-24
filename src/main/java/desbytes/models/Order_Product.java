@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class Order_Product {
     private int order_id;
-    private int product_id;
+    private double product_id;
     private int qty;
 
-    public Order_Product(int order_id, int product_id, int qty) {
+    public Order_Product(int order_id, double product_id, int qty) {
         this.order_id = order_id;
         this.product_id = product_id;
         this.qty = qty;
@@ -24,7 +24,7 @@ public class Order_Product {
         this.order_id = order_id;
     }
 
-    public int getProduct_id() {
+    public double getProduct_id() {
         return product_id;
     }
 
