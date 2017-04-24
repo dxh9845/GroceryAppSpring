@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS Role(
-  role_id integer,
+  role_id int auto_increment,
   role_desc varchar(255),
   PRIMARY KEY(role_id)
 );
 
 CREATE TABLE IF NOT EXISTS App_User(
-	user_id int,
+	user_id int auto_increment,
 	username varchar(25),
 	name varchar(25),
 	password varchar(16),
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS App_User(
 	FOREIGN KEY(role_id) REFERENCES Role(role_id));
 
 CREATE TABLE IF NOT EXISTS Store(
-  store_id int,
+  store_id int auto_increment,
   name varchar(25),
   location varchar(50),
   PRIMARY KEY (store_id));
@@ -30,20 +30,20 @@ CREATE TABLE IF NOT EXISTS Customer(
 
 CREATE TABLE IF NOT EXISTS Employee(
 	user_id int,
-	schedule varchar(100),
+	schedule varchar(600),
 	salary numeric(10,2),
 	work_store_id int,
 	PRIMARY KEY(user_id),
 	FOREIGN KEY(work_store_id) REFERENCES Store(store_id));
 
 CREATE TABLE IF NOT EXISTS Product(
-  product_id int,
-  name varchar(50),
+  product_id bigint,
+  name varchar(100),
   price numeric(5, 2),
   PRIMARY KEY (product_id));
 
 CREATE TABLE IF NOT EXISTS Inventory(
-  product_id varchar(14),
+  product_id bigint,
   store_id int,
   qty integer,
   aisle integer,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS Inventory(
 );
 
 CREATE TABLE IF NOT EXISTS Grocery_Order(
-  order_id int,
+  order_id int auto_increment,
   order_time SMALLDATETIME,
   store_id int NOT NULL,
   user_id int NOT NULL,
@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS Grocery_Order(
   FOREIGN KEY (user_id) REFERENCES App_User(user_id));
 
 CREATE TABLE IF NOT EXISTS Order_Product(
-	order_id int,
-	product_id int,
+	order_id int auto_increment,
+	product_id bigint,
 	qty int,
 	PRIMARY KEY (order_id, product_id),
 	FOREIGN KEY (order_id) REFERENCES Grocery_Order(order_id),
@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS Order_Product(
 
 
 CREATE TABLE IF NOT EXISTS Shopping_Cart(
-  customer_id integer,
-  product_id integer,
+  customer_id int,
+  product_id bigint,
   qty int,
   PRIMARY KEY(customer_id, product_id),
   FOREIGN KEY(customer_id) REFERENCES Customer(user_id),
