@@ -1,5 +1,6 @@
 package desbytes.models;
 
+
 /**
  * Product object representing a tuple in the Product table
  */

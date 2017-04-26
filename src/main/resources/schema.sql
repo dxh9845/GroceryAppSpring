@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS Product(
 CREATE TABLE IF NOT EXISTS Inventory(
   product_id bigint,
   store_id int,
-  qty integer,
-  aisle integer,
+  qty int,
+  aisle int,
   PRIMARY KEY(product_id, store_id),
   FOREIGN KEY (product_id) REFERENCES Product(product_id),
   FOREIGN KEY (store_id) REFERENCES Store(store_id)
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS Inventory(
 
 CREATE TABLE IF NOT EXISTS Grocery_Order(
   order_id int auto_increment,
-  order_time SMALLDATETIME,
+  order_time DATETIME,
   store_id int NOT NULL,
   user_id int NOT NULL,
   PRIMARY KEY (order_id),

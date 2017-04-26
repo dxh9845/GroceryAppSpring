@@ -1,10 +1,10 @@
 package desbytes.models;
 
+
 /**
  * Employee object representing a tuple from the Employee table
  */
 public class Employee {
-
     private int user_id;
     private String schedule;
     private float salary;

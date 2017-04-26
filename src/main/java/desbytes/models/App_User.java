@@ -1,11 +1,9 @@
 package desbytes.models;
 
-
-import org.springframework.jdbc.core.JdbcTemplate;
-
 /**
  * An App_User object representing an App_User tuple
  */
+
 public class App_User
 {
     private int id;
@@ -14,17 +12,17 @@ public class App_User
 	private String password;
 	private String phone;
 	private String address;
-	private int roll_id;
+	private int role_id;
 
     public App_User(int id, String username, String name, String password, String phone,
-		String address, int roll_id) {
+		String address, int role_id) {
         this.id = id;
 		this.username = username;
 		this.name = name;
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
-		this.roll_id = roll_id;
+		this.role_id = role_id;
     }
 
 	public int getId() {
@@ -75,12 +73,12 @@ public class App_User
 		this.address = address;
 	}
 
-	public int getRoll_id() {
-		return roll_id;
+	public int getRole_id() {
+		return role_id;
 	}
 
-	public void setRoll_id(int roll_id) {
-		this.roll_id = roll_id;
+	public void setRole_id(int roll_id) {
+		this.role_id = role_id;
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class App_User
 				", password='" + password + '\'' +
 				", phone='" + phone + '\'' +
 				", address='" + address + '\'' +
-				", roll_id=" + roll_id +
+				", role_id=" + role_id +
 				'}';
 	}
 }

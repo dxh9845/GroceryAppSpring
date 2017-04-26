@@ -1,17 +1,13 @@
 package desbytes.models;
 
-
-import org.springframework.jdbc.core.JdbcTemplate;
 /**
  * A Grocery_Order object representing a Grocery_Order tuple
  */
 public class Inventory {
-
     private double product_id;
     private int store_id;
     private int qty;
     private int aisle;
-
 
     public Inventory(double product_id, int store_id, int qty, int aisle) {
         this.product_id = product_id;
@@ -62,3 +58,4 @@ public class Inventory {
                 '}';
     }
 }
+

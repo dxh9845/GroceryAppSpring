@@ -1,11 +1,11 @@
 package desbytes.models;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 
 /**
- * Created by zach on 4/21/17.
+ * An Order_Product object.
  */
+
 public class Order_Product {
+
     private int order_id;
     private double product_id;
     private int qty;

@@ -1,7 +1,6 @@
 package desbytes.models;
 
 
-import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * A store object representing the Store in the Database table

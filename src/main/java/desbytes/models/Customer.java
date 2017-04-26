@@ -1,5 +1,7 @@
 package desbytes.models;
 
+
+
 /**
  * Customer object representing a tuple in the Customer table
  */

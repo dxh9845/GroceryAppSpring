@@ -1,19 +1,18 @@
 package desbytes.models;
 
+import java.util.Date;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 /**
  * A Grocery_Order object representing a Grocery_Order tuple
  */
 public class Grocery_Order {
-
     private int order_id;
-    private String order_time;
+    private Date order_time;
     private int store_id;
     private int user_id;
 
 
-    public Grocery_Order(int order_id, String order_time, int store_id, int user_id) {
+    public Grocery_Order(int order_id, Date order_time, int store_id, int user_id) {
         this.order_id = order_id;
         this.order_time = order_time;
         this.store_id = store_id;
@@ -28,11 +27,11 @@ public class Grocery_Order {
         this.order_id = order_id;
     }
 
-    public String getOrder_time() {
+    public Date getOrder_time() {
         return order_time;
     }
 
-    public void setOrder_time(String order_time) {
+    public void setOrder_time(Date order_time) {
         this.order_time = order_time;
     }
 
@@ -56,7 +55,7 @@ public class Grocery_Order {
     public String toString() {
         return "Grocery_Order{" +
                 "order_id=" + order_id +
-                ", order_time='" + order_time + '\'' +
+                ", order_time='" + order_time.toString() + '\'' +
                 ", store_id=" + store_id +
                 ", user_id=" + user_id +
                 '}';

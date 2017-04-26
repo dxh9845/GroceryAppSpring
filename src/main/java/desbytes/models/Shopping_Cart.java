@@ -1,15 +1,17 @@
 package desbytes.models;
 
 /**
- * Created by danie on 4/15/2017.
+ * A shopping cart object.
  */
-public class ShoppingCart
+
+public class Shopping_Cart
 {
+
     private int customer_id;
     private double product_id;
     private int qty;
 
-    public ShoppingCart(int customer_id, double product_id, int qty) {
+    public Shopping_Cart(int customer_id, double product_id, int qty) {
         this.customer_id = customer_id;
         this.product_id = product_id;
         this.qty = qty;
