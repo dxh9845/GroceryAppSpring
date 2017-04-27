@@ -1,6 +1,6 @@
 package desbytes.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * A Grocery_Order object representing a Grocery_Order tuple
