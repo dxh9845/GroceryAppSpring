@@ -1,6 +1,5 @@
 package desbytes.Repositories;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import desbytes.models.Customer;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
