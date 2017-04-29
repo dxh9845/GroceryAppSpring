@@ -1,9 +1,11 @@
 CREATE VIEW Shopping_Cart_View AS
 SELECT
+  Product.product_id,
 	Product.name,
 	Product.price,
 	Shopping_Cart.qty,
 	Customer.user_id
+
 FROM
 	Shopping_Cart, Customer, Product
 WHERE
