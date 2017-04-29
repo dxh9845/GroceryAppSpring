@@ -1,2 +1,2 @@
-INSERT INTO Product(producta_id, name, price)
+INSERT INTO Product(product_id, name, price)
 VALUES(?,?,?);

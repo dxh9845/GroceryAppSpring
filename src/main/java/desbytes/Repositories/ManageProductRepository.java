@@ -1,9 +1,7 @@
 package desbytes.Repositories;
 
 
-import desbytes.models.Inventory;
 import desbytes.models.Manage_Product_Info;
-import desbytes.models.Product;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -67,22 +65,22 @@ public class ManageProductRepository {
         jdbcTemplate.update(sql, price, productId);
     }
 
-    public void insertProductInfo(Product newProduct, Inventory newInventory) {
+    public void insertProductInfo(Manage_Product_Info productInfo) {
         QueryReader reader = new QueryReader();
-
-        // Make new inventory row
-        String sqlNewInventory = reader.readQueryFile(
-                "manage_queries", "update_inventory_qty.sql");
-        jdbcTemplate.update(sqlNewInventory,
-                newInventory.getProduct_id(), newInventory.getStore_id(),
-                newInventory.getAisle(), newInventory.getQty()
-        );
 
         // Make new product row
         String sqlNewProduct = reader.readQueryFile(
-                "manage_queries", "update_inventory_qty.sql");
+                "manage_queries", "insert_product.sql");
         jdbcTemplate.update(sqlNewProduct,
-                newProduct.getProduct_id(), newProduct.getName(), newProduct.getPrice()
+                productInfo.getProduct_id(), productInfo.getName(), productInfo.getPrice()
+        );
+
+        // Make new inventory row
+        String sqlNewInventory = reader.readQueryFile(
+                "manage_queries", "insert_inventory.sql");
+        jdbcTemplate.update(sqlNewInventory,
+                productInfo.getProduct_id(), productInfo.getStore_id(),
+                productInfo.getAisle(), productInfo.getQty()
         );
     }
 

@@ -30,8 +30,9 @@ public class ManageController {
         return "manage";
     }
 
-    @PostMapping("/manage")
+    @PostMapping(value = "/manage")
     public  String addProductInfo(@ModelAttribute Manage_Product_Info productInfo){
+        this.productInfoRepo.insertProductInfo(productInfo);
         return "manage";
     }
 }
