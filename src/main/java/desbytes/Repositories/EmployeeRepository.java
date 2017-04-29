@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by zanegrasso
  * Created on 4/27/17.
  */
+@Repository
 public class EmployeeRepository {
 
     private JdbcTemplate jdbcTemplate;

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by zanegrasso
  * Created on 4/27/17.
  */
+@Repository
 public class CustomerRepository {
 
     private JdbcTemplate jdbcTemplate;
@@ -31,13 +33,13 @@ public class CustomerRepository {
     @PostConstruct
     public List<Customer> findAllCustomers(){
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("customer_queries", "select_all_employee.sql");
+        String content = reader.readQueryFile("customer_queries", "select_all_customer.sql");
         return jdbcTemplate.query(content, new CustomerRowMapper());
     }
 
     public Customer findCustomerByID(int id){
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("customer_queries", "get_employee.sql");
+        String content = reader.readQueryFile("customer_queries", "get_customer.sql");
         return jdbcTemplate.queryForObject(content,
                 new Object[]{id}, new CustomerRowMapper());
     }
@@ -45,13 +47,13 @@ public class CustomerRepository {
 
     public List<Customer> findCustomersByStore(){
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("customer_query","get_customer_by_store.sql");
+        String content = reader.readQueryFile("customer_queries","get_customer_by_store.sql");
         return jdbcTemplate.query(content, new CustomerRowMapper());
     }
 
     public Customer insertCustomer(Customer newCustomer) {
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("customer_queries", "create_new_employee.sql");
+        String content = reader.readQueryFile("customer_queries", "create_new_customer.sql");
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
