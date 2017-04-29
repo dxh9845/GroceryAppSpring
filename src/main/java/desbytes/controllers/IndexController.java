@@ -1,8 +1,10 @@
 package desbytes.controllers;
 
 import desbytes.Repositories.ProductRepository;
+import desbytes.Repositories.ShoppingCartRepository;
 import desbytes.Repositories.StoreRepository;
 import desbytes.models.Product;
+import desbytes.models.Shopping_Cart;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +24,15 @@ public class IndexController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+
     @RequestMapping("/")
     public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
 
         List<Product> productList = productRepository.findTopProducts(25, 0);
+
+        Shopping_Cart shopping_cart = shoppingCartRepository.getShoppingCartByID(4);
         model.addAttribute("name", name);
         model.addAttribute("productList", productList);
         return "index";

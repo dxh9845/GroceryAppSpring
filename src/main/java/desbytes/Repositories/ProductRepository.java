@@ -40,7 +40,7 @@ public class ProductRepository {
                 new ProductRowMapper());
     }
 
-    public Product findProductById(int id) {
+    public Product findProductById(double id) {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("product_queries", "get_product.sql");
         return jdbcTemplate.queryForObject(content,

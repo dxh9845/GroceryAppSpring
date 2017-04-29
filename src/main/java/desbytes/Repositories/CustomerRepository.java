@@ -33,7 +33,8 @@ public class CustomerRepository {
     @PostConstruct
     public List<Customer> findAllCustomers(){
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("customer_queries", "select_all_customer.sql");
+
+        String content = reader.readQueryFile("customer_queries", "select_all_customers.sql");
         return jdbcTemplate.query(content, new CustomerRowMapper());
     }
 
