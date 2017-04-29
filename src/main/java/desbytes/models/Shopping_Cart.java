@@ -1,4 +1,5 @@
 package desbytes.models;
+import java.util.HashMap;
 
 /**
  * A shopping cart object.
@@ -6,38 +7,28 @@ package desbytes.models;
 
 public class Shopping_Cart
 {
+    private Customer customer;
+    private HashMap<Product, Integer> productList = new HashMap<>();
 
-    private int customer_id;
-    private double product_id;
-    private int qty;
-
-    public Shopping_Cart(int customer_id, double product_id, int qty) {
-        this.customer_id = customer_id;
-        this.product_id = product_id;
-        this.qty = qty;
+    public Shopping_Cart(Customer customer, HashMap<Product, Integer> productList)
+    {
+        this.customer = customer;
+        this.productList = productList;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public double getProduct_id() {
-        return product_id;
+    public HashMap<Product, Integer> getProductList() {
+        return productList;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setProductList(HashMap<Product, Integer> productList) {
+        this.productList = productList;
     }
 }
