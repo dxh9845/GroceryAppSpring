@@ -7,7 +7,9 @@ import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -17,17 +19,16 @@ import java.util.List;
  * @author Daniel
  */
 @Controller
-public class IndexController {
+public class SearchController {
 
     @Autowired
     private ProductRepository productRepository;
 
-    @RequestMapping("/")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String greeting(@RequestParam(value="query", required=false) String query, Model model) {
 
-        List<Product> productList = productRepository.findTopProducts(25, 0);
-        model.addAttribute("name", name);
+        List<Product> productList = productRepository.searchProducts(query);
         model.addAttribute("productList", productList);
-        return "index";
+        return "search";
     }
 }

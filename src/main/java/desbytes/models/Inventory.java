@@ -4,6 +4,7 @@ package desbytes.models;
  * A Grocery_Order object representing a Grocery_Order tuple
  */
 public class Inventory {
+
     private double product_id;
     private int store_id;
     private int qty;

@@ -22,17 +22,16 @@
                         </div>
 
                         <div class="col-xs-12">
-                            <!--<div class="owl-carousel">-->
-                                <!--<div class="item">1</div>-->
-                                <!--<div class="item">2</div>-->
-                                <!--<div class="item">3</div>-->
-                                <!--<div class="item">4</div>-->
-                                <!--<div class="item">5</div>-->
-                            <!--</div>-->
                             <div class="owl-carousel">
 
-                                <div th:each="store: ${storeList}" class="item">
-                                    <span th:text="${store.location}"/>
+                                <div th:each="product: ${productList}" class="item">
+                                    <div class="icon-container">
+                                        <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="text-container">
+                                        <span th:text="${product.name}"/>
+                                        <span th:text="${product.price}"/>
+                                    </div>
                                 </div>
                             </div>
 
@@ -49,7 +48,7 @@
                 $(".owl-carousel").owlCarousel({
                     loop:true,
                     margin:10,
-                    nav:true,
+                    nav:false,
                     responsive:{
                         0:{
                             items:1

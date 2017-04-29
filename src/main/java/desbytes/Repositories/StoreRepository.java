@@ -1,5 +1,6 @@
 package desbytes.Repositories;
 
+import desbytes.models.Product;
 import desbytes.models.Store;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletContext;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
@@ -23,10 +24,6 @@ import java.util.List;
 public class StoreRepository {
 
     private JdbcTemplate jdbcTemplate;
-
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private ServletContext context;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -50,7 +47,7 @@ public class StoreRepository {
 
     public Store insertStore(Store newStore) {
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("create_queries", "create_new_store.sql");
+        String content = reader.readQueryFile("store_queries", "create_new_store.sql");
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
