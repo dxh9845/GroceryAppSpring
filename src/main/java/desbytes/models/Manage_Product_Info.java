@@ -11,6 +11,9 @@ public class Manage_Product_Info {
     private int qty;
     private int aisle;
 
+    public Manage_Product_Info(){
+        super();
+    }
     public Manage_Product_Info(double product_id, double store_id, String name, float price, int qty, int aisle) {
         this.product_id = product_id;
         this.store_id = store_id;

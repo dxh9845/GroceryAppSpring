@@ -39,16 +39,31 @@
         </table>
 
         <div>
-            <form action="#" th:action="@{/manage}" th:object="${Manage_Product_Info}" method="post">
-                <div class="row">
+            <div class="row">
                 <h2>Add Product</h2>
+            </div>
+            <form action="#" th:action="@{/manage}" th:object="${productInfo}" method="post">
+                <div class="input-group">
+                    <input type="text" th:field="*{product_id}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                </div>
+                <div class="input-group">
+                    <input type="text" th:field="*{store_id}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                </div>
+                <div class="input-group">
+                    <input type="text" th:field="*{name}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
                     <input type="text" th:field="*{price}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
                     <span class="input-group-addon">.00</span>
                 </div>
-
+                <div class="input-group">
+                    <input type="text" th:field="*{qty}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                </div>
+                <div class="input-group">
+                    <input type="text" th:field="*{aisle}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" value="save">Submit</button>
             </form>
         </div>
 

@@ -5,7 +5,9 @@ import desbytes.models.Manage_Product_Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -17,13 +19,19 @@ public class ManageController {
     @Autowired
     private ManageProductRepository productInfoRepo;
 
-    @RequestMapping("/manage")
+    @GetMapping("/manage")
     public String render(Model model){
         int storeId = 7;
         List<Manage_Product_Info> productInfos =
                 productInfoRepo.findProductInventoryPage(0, storeId);
         model.addAttribute("ProductInfos", productInfos);
         model.addAttribute("CurrentStore", storeId);
+        model.addAttribute("productInfo", new Manage_Product_Info());
+        return "manage";
+    }
+
+    @PostMapping("/manage")
+    public  String addProductInfo(@ModelAttribute Manage_Product_Info productInfo){
         return "manage";
     }
 }
