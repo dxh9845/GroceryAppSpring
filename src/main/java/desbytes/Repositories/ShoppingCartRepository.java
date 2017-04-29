@@ -1,5 +1,7 @@
 package desbytes.Repositories;
 import com.oracle.javafx.jmx.SGMXBeanImpl;
+import desbytes.models.Customer;
+import desbytes.models.Product;
 import desbytes.models.Shopping_Cart;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
 import javax.sql.*;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,10 +43,10 @@ public class ShoppingCartRepository {
     public class ShoppingCartRowMapper implements RowMapper<Shopping_Cart> {
         @Override
         public Shopping_Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
-            int customer_id = rs.getInt("customer_id");
-            double product_id  = rs.getDouble("product_id");
-            int qty = rs.getInt("qty");
-            return new Shopping_Cart(customer_id, product_id, qty);
+            Customer customer = new CustomerRepository().findCustomerByID(rs.getInt("user_id"));
+            HashMap<Product, Integer> productList = new ProductRepository().findProductByID(rs.getArray("product_id"));
+
+            return new Shopping_Cart(customer,productList);
         }
     }
 }
