@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Manage Products</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" type="text/css"
+              href="/css/owl.carousel.min.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="/css/owl.theme.default.min.css"/>
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <h1>Manage Products</h1>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <!--<th>Product Id</th>-->
+                <th>Name</th>
+                <th>Price</th>
+                <th>Aisle</th>
+                <th>Quantity</th>
+            </tr>
+            <tr th:each="info: ${ProductInfos}" class="item">
+                <!--<td th:text="${info.product_id}"></td>-->
+                <td th:text="${info.name}"></td>
+                <td th:text="${info.price}"></td>
+                <td th:text="${info.aisle}"></td>
+                <td th:text="${info.qty}"></td>
+            </tr>
+        </table>
+
+        <div>
+            <form action="#" th:action="@{/manage}" th:object="${Manage_Product_Info}" method="post">
+                <div class="row">
+                <h2>Add Product</h2>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" th:field="*{price}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
+                    <span class="input-group-addon">.00</span>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
