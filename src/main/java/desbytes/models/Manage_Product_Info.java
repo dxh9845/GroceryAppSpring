@@ -1,14 +1,23 @@
 package desbytes.models;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by zach on 4/27/17.
  */
 public class Manage_Product_Info {
+    @NotNull
     private double product_id;
+    @NotNull
     private double store_id;
+    @Size(min=1)
     private String name;
+    @NotNull
     private float price;
+    @NotNull
     private int qty;
+    @NotNull
     private int aisle;
 
     public Manage_Product_Info(){
