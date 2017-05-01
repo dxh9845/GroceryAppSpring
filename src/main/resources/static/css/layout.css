@@ -1,3 +1,9 @@
+/* Resuable components */
+.page-header {
+    font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
+}
+
+/* Homepage */
 .itemSection {
     height: 350px;
     background-color: #000000;
@@ -55,3 +61,55 @@
     -webkit-filter: blur(12px);
     filter: blur(12px);
 }
+
+
+.itemSection {
+    height: 350px;
+    background-color: #000000;
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
+
+/**
+* Item row
+ */
+
+.item-row {
+    display: flex;
+    align-items: center;
+    background-color: #ececec;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.search-item {
+    height: 100px;
+    width: 100px;
+    background-color: #dbdbdb;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.search-item .icon-container {
+    text-align: center;
+    height: 75px;
+    width: 75px;
+    background-color: #c7254e;
+}
+
+.search-item .glyphicon {
+    line-height: 75px;
+    font-size: 50px;
+    color: #ffffff;
+}
+
+.product-text {
+    font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
+}
+

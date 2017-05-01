@@ -28,6 +28,8 @@ public class SearchController {
     public String greeting(@RequestParam(value="query", required=false) String query, Model model) {
 
         List<Product> productList = productRepository.searchProducts(query);
+        model.addAttribute("searchTerm", query);
+        System.out.println(query);
         model.addAttribute("productList", productList);
         return "search";
     }

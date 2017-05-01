@@ -10,14 +10,40 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-
-            <div th:each="product: ${productList}">
-                <span th:text="${product.name}"/>
-                <span th:text="${product.price}"/>
+            <div class="col-sm-12">
+                <h2 class="page-header">Search for '<span th:text="${searchTerm}"></span>': </h2>
             </div>
         </div>
+        <div th:switch="${productList.isEmpty()}">
+            <div th:case="${false}" class="row item-row" th:each="product: ${productList}">
+                <div class="col-md-2 col-sm-6">
+                    <div class="search-item">
+                        <div class="icon-container">
+                            <span class="glyphicon glyphicon-qrcode"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-6">
+                    <div class="product-text">
+                        <h3 th:text="${product.name}"/>
+                        <h4>Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center" th:case="${true}" >
+                <span style="font-size: 75px;">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                </span>
+                <h2 class="page-header">
+                    <i class="fa fa-frown-o"></i>
+                    We couldn't find any results that matched <span th:text="${searchTerm}"></span>.
+                </h2>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>
