@@ -7,13 +7,15 @@ import java.util.HashMap;
  */
 public class OrderHistory {
     private HashMap<Product, Integer> productList = new HashMap<>();
-    private Date date;
+    private Date order_time;
     private Store store;
+    private int user_id;
 
-    public OrderHistory(HashMap<Product, Integer> productList, Date date, Store store) {
+    public OrderHistory(HashMap<Product, Integer> productList, Date order_time, Store store, int user_id) {
         this.productList = productList;
-        this.date = date;
+        this.order_time = order_time;
         this.store = store;
+        this.user_id = user_id;
     }
 
     public OrderHistory(){
@@ -27,12 +29,12 @@ public class OrderHistory {
         this.productList = productList;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getOrder_time() {
+        return order_time;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setOrder_time(Date order_time) {
+        this.order_time = order_time;
     }
 
     public Store getStore() {
@@ -41,5 +43,13 @@ public class OrderHistory {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

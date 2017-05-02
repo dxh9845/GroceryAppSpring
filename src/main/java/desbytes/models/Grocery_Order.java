@@ -11,6 +11,7 @@ public class Grocery_Order {
     private int store_id;
     private int user_id;
 
+    public Grocery_Order(){}
 
     public Grocery_Order(int order_id, Date order_time, int store_id, int user_id) {
         this.order_id = order_id;

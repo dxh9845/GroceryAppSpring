@@ -1,7 +1,9 @@
 package desbytes.controllers;
 
-import desbytes.Repositories.Grocery_OrderRepository;
+import desbytes.Repositories.OrderHistoryRepository;
 import desbytes.models.Grocery_Order;
+import desbytes.models.OrderHistory;
+import desbytes.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,19 +12,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 
 /**
- * Created by Jeff on 4/29/2017.
+ * @author Jeff
  */
 @Controller
 public class OrderHistoryController {
 
-    @RequestMapping("/OrderHistory")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        Grocery_OrderRepository r = new Grocery_OrderRepository();
-        int id = 1;
-        List<Grocery_Order> orderList = r .getOrdersByUser(id);
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
 
-        model.addAttribute("name", name);
-        return "index";
+    @RequestMapping("/history")
+    public String greeting(Model model) {
+
+        int id = 1;
+        //List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
+        OrderHistory history = orderHistoryRepository.findOrderById(1);
+
+        //model.addAttribute("orderList", orderList);
+        model.addAttribute("productList", history.getProductList().keySet());
+        return "history";
     }
 
 }
