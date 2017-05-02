@@ -1,3 +1,16 @@
+
+DROP TABLE IF EXISTS Role;
+DROP TABLE IF EXISTS App_User;
+DROP TABLE IF EXISTS Store;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Employee;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Inventory;
+DROP TABLE IF EXISTS Grocery_Order;
+DROP TABLE IF EXISTS Order_Product;
+DROP TABLE IF EXISTS Shopping_Cart;
+
+
 CREATE TABLE IF NOT EXISTS Role(
   role_id int auto_increment,
   role_desc varchar(255),
