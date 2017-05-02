@@ -50,13 +50,13 @@ CREATE TABLE IF NOT EXISTS Employee(
 	FOREIGN KEY(work_store_id) REFERENCES Store(store_id));
 
 CREATE TABLE IF NOT EXISTS Product(
-  product_id bigint,
+  product_id char(14),
   name varchar(100),
   price numeric(5, 2),
   PRIMARY KEY (product_id));
 
 CREATE TABLE IF NOT EXISTS Inventory(
-  product_id bigint,
+  product_id char(14),
   store_id int,
   qty int,
   aisle int,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Grocery_Order(
 
 CREATE TABLE IF NOT EXISTS Order_Product(
 	order_id int auto_increment,
-	product_id bigint,
+	product_id char(14),
 	qty int,
 	PRIMARY KEY (order_id, product_id),
 	FOREIGN KEY (order_id) REFERENCES Grocery_Order(order_id),
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Order_Product(
 
 CREATE TABLE IF NOT EXISTS Shopping_Cart(
   customer_id int,
-  product_id bigint,
+  product_id char(14),
   qty int,
   PRIMARY KEY(customer_id, product_id),
   FOREIGN KEY(customer_id) REFERENCES Customer(user_id),

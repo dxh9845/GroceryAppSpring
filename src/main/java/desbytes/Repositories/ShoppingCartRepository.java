@@ -59,7 +59,7 @@ public class ShoppingCartRepository {
 
             HashMap<Product, Integer> productList = new HashMap<>();
             do {
-                double prodId = rs.getDouble("product_id");
+                String prodId = rs.getString("product_id");
                 String prodName = rs.getString("name");
                 float prodPrice = rs.getFloat("price");
                 int qty = rs.getInt("qty");

@@ -96,8 +96,8 @@ public class ManageProductRepository {
     public class ManageProductInfoRowMapper implements RowMapper<Manage_Product_Info> {
         @Override
         public Manage_Product_Info mapRow(ResultSet rs, int rowNum) throws SQLException {
-            double productId = rs.getDouble("product_id");
-            double storeId = rs.getDouble("store_id");
+            String productId = rs.getString("product_id");
+            int storeId = rs.getInt("store_id");
             String productName = rs.getString("name");
             float price = rs.getFloat("price");
             int qty = rs.getInt("qty");

@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-10 col-sm-6">
                     <div class="product-text">
-                        <h3 th:text="${product.name}"/>
+                        <h3><a th:text="${product.name}" th:href="@{/product?id={id}(id=${product.product_id})}"></a></h3>
                         <h4>Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h4>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <span style="font-size: 75px;">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
                 </span>
-                <h2 class="page-header">
+                <h2 class="page-header no-border">
                     <i class="fa fa-frown-o"></i>
                     We couldn't find any results that matched <span th:text="${searchTerm}"></span>.
                 </h2>

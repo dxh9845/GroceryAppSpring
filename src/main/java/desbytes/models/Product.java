@@ -6,22 +6,22 @@ package desbytes.models;
  */
 public class Product {
 
-    private double product_id;
+    private String product_id;
     private String name;
     private float price;
 
 
-    public Product(double product_id, String name, float price) {
+    public Product(String product_id, String name, float price) {
         this.product_id = product_id;
         this.name = name;
         this.price = price;
     }
 
-    public double getProduct_id() {
+    public String getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(int product_id) {
+    public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }
 

@@ -40,7 +40,7 @@ public class ProductRepository {
                 new ProductRowMapper());
     }
 
-    public Product findProductById(double id) {
+    public Product findProductById(String id) {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("product_queries", "get_product.sql");
         return jdbcTemplate.queryForObject(content,
@@ -64,7 +64,7 @@ public class ProductRepository {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(content);
-                ps.setDouble(0, newProduct.getProduct_id());
+                ps.setString(0, newProduct.getProduct_id());
                 ps.setString(1, newProduct.getName());
                 ps.setFloat(2, newProduct.getPrice());
                 return ps;
@@ -83,7 +83,7 @@ public class ProductRepository {
                 PreparedStatement ps = connection.prepareStatement(content);
                 ps.setString(0, updatedProduct.getName());
                 ps.setFloat(1, updatedProduct.getPrice());
-                ps.setDouble(2, updatedProduct.getProduct_id());
+                ps.setString(2, updatedProduct.getProduct_id());
                 return ps;
             }
         });
@@ -94,7 +94,7 @@ public class ProductRepository {
     public class ProductRowMapper implements RowMapper<Product> {
         @Override
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-            double product_id = rs.getDouble("product_id");
+            String product_id = rs.getString("product_id");
             String store_name = rs.getString("name");
             float price = rs.getFloat("price");
             return new Product(product_id, store_name, price);

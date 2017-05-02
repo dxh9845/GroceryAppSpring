@@ -72,10 +72,9 @@
                                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
                                     <li sec:authorize="isAnonymous()"><a href="#">Create an account</a></li>
                                     <li sec:authorize="isAuthenticated()"><a href="#">Profile</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li sec:authorize="isAuthenticated()">
-                                        <a th:href="@{/logout}">Logout</a>
-                                    </li>
+
+                                    <li sec:authorize="isAuthenticated()" role="separator" class="divider"></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 
                                 </ul>
                             </li>

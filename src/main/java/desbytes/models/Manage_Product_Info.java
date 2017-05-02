@@ -8,9 +8,9 @@ import javax.validation.constraints.Size;
  */
 public class Manage_Product_Info {
     @NotNull
-    private double product_id;
+    private String product_id;
     @NotNull
-    private double store_id;
+    private int store_id;
     @Size(min=1)
     private String name;
     @NotNull
@@ -23,7 +23,7 @@ public class Manage_Product_Info {
     public Manage_Product_Info(){
         super();
     }
-    public Manage_Product_Info(double product_id, double store_id, String name, float price, int qty, int aisle) {
+    public Manage_Product_Info(String product_id, int store_id, String name, float price, int qty, int aisle) {
         this.product_id = product_id;
         this.store_id = store_id;
         this.name = name;
@@ -32,19 +32,19 @@ public class Manage_Product_Info {
         this.aisle = aisle;
     }
 
-    public double getProduct_id() {
+    public String getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(double product_id) {
+    public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }
 
-    public double getStore_id() {
+    public int getStore_id() {
         return store_id;
     }
 
-    public void setStore_id(double store_id) {
+    public void setStore_id(int store_id) {
         this.store_id = store_id;
     }
 

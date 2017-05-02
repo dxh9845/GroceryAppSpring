@@ -3,6 +3,10 @@
     font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
 }
 
+.no-border {
+    border-bottom: none!important;
+}
+
 .alert .glyphicon {
     margin-right: 10px;
 }
@@ -113,3 +117,22 @@
     font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
 }
 
+.product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dbdbdb;
+    width: 375px;
+    height: 375px;
+}
+
+.product-image div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 325px;
+    height: 325px;
+    background-color: #c7254e;
+    color: #FFF;
+    font-size: 250px;
+}

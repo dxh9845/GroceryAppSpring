@@ -7,10 +7,10 @@ package desbytes.models;
 public class Order_Product {
 
     private int order_id;
-    private double product_id;
+    private String product_id;
     private int qty;
 
-    public Order_Product(int order_id, double product_id, int qty) {
+    public Order_Product(int order_id, String product_id, int qty) {
         this.order_id = order_id;
         this.product_id = product_id;
         this.qty = qty;
@@ -24,11 +24,11 @@ public class Order_Product {
         this.order_id = order_id;
     }
 
-    public double getProduct_id() {
+    public String getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(int product_id) {
+    public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }
 
