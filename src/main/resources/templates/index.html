@@ -29,8 +29,10 @@
                                         <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
                                     </div>
                                     <div class="text-container">
-                                        <span th:text="${product.name}"/>
-                                        <span th:text="${product.price}"/>
+                                        <h4 class="FranklinDemi" th:text="${product.name}"></h4>
+                                        <h4 class="FranklinRegular">
+                                            Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/>
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +55,10 @@
                         0:{
                             items:1
                         },
-                        600:{
+                        600: {
+                            items: 2
+                        },
+                        768:{
                             items:3
                         },
                         1000:{
