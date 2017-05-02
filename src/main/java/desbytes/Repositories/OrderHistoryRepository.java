@@ -76,7 +76,7 @@ public class OrderHistoryRepository {
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                     PreparedStatement ps = connection.prepareStatement(content);
                     ps.setInt(1, orderWithId.getOrder_id());
-                    ps.setDouble(2, p.getProduct_id());
+                    ps.setString(2, p.getProduct_id());
                     ps.setInt(3, newHistory.getProductList().get(p));
                     return ps;
                 }
@@ -97,7 +97,7 @@ public class OrderHistoryRepository {
             HashMap<Product, Integer> productList = new HashMap<>();
 
             do {
-                double prodId = rs.getDouble("product_id");
+                String prodId = rs.getString("product_id");
                 String prodName = rs.getString("name");
                 float prodPrice = rs.getFloat("price");
                 int qty = rs.getInt("qty");
