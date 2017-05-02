@@ -3,6 +3,10 @@
     font-family: 'franklin_gothic_fsbook', Helvetica, sans-serif;
 }
 
+.alert .glyphicon {
+    margin-right: 10px;
+}
+
 /* Homepage */
 .itemSection {
     height: 350px;
