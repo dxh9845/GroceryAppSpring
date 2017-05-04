@@ -1,18 +1,26 @@
 package desbytes.controllers;
 
-import desbytes.Repositories.ProductRepository;
-import desbytes.Repositories.ShoppingCartRepository;
-import desbytes.Repositories.StoreRepository;
-import desbytes.models.Product;
-import desbytes.models.Shopping_Cart;
-import desbytes.models.Store;
+import desbytes.Repositories.*;
+import desbytes.models.*;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.ClassUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -21,6 +29,8 @@ import java.util.List;
  */
 @Controller
 public class IndexController {
+    @Autowired
+    private AppUserRepository userRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -28,13 +38,30 @@ public class IndexController {
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private StoreRepository storeRepository;
+
     @RequestMapping("/")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(Model model) {
+
+//        App_User user = userRepository.findUserByName("hwhite");
+
 
         List<Product> productList = productRepository.findTopProducts(25, 0);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            String currentUser = auth.getName();
+//            user = userRepository.findUserByName(currentUser);
+//            if (user != null) {
+//                int customerId = user.getId();
+//                int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
+//                model.addAttribute("storeId", storeId);
+//            }
+//        }
 
-        Shopping_Cart shopping_cart = shoppingCartRepository.getShoppingCartByID(4);
-        model.addAttribute("name", name);
         model.addAttribute("productList", productList);
         return "index";
     }
@@ -46,8 +73,41 @@ public class IndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String postLogin() {
-        // TODO Enable form login with Spring Security (trigger error for now)
         return "login";
+    }
+
+    @RequestMapping(value = "/register")
+    public String register(Model model, RedirectAttributes redir) {
+        if (!model.containsAttribute("user")) {
+            model.addAttribute("user", new App_User());
+        }
+        model.addAttribute("storeList", storeRepository.findAllStores());
+        return "register_user";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String postRegister(@ModelAttribute @Valid App_User user, BindingResult bindingResult,
+                                     int storeId, Model model, RedirectAttributes redir) {
+        if (bindingResult.hasErrors()) {
+            redir.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redir.addFlashAttribute("user", user);
+            return "redirect:/register";
+        }
+
+        try {
+            userRepository.insertUser(user);
+            customerRepository.insertCustomer(new Customer(user.getId(), storeId));
+        } catch (DuplicateKeyException exc) {
+            exc.printStackTrace();
+            redir.addFlashAttribute("registerError", true);
+            redir.addFlashAttribute("errorMsg", "The username '" + user.getUsername() + "' has already been taken.");
+            return "redirect:/register";
+        }
+
+
+
+        model.addAttribute("registerSuccess", true);
+        return "/login";
     }
 
     @RequestMapping("/login-error")
@@ -55,4 +115,5 @@ public class IndexController {
         model.addAttribute("loginError", true);
         return "login";
     }
+
 }

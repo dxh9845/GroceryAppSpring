@@ -1,5 +1,10 @@
 package desbytes.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * An App_User object representing an App_User tuple
  */
@@ -7,10 +12,20 @@ package desbytes.models;
 public class App_User
 {
     private int id;
+    @NotNull
+    @Size(min=6, max=25)
 	private String username;
+    @NotNull
+	@Max(25)
 	private String name;
+    @NotNull
+	@Size(min=6, max=16)
 	private String password;
+    @NotNull
+	@Size(min=10, max=10)
 	private String phone;
+    @NotNull
+	@Max(100)
 	private String address;
 	private int role_id;
 
@@ -24,6 +39,10 @@ public class App_User
 		this.address = address;
 		this.role_id = role_id;
     }
+
+	public App_User() {
+    	super();
+	}
 
 	public int getId() {
 		return id;

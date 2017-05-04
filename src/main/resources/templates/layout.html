@@ -46,7 +46,9 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
                         </ul>
-                        <form class="navbar-form navbar-left" action="#" th:action="@{/search}" method="GET">
+                        <form class="navbar-form navbar-left" action="#"
+                              th:action="${#authentication.isAuthenticated()} ? @{/search?prefStore={id}(id=${storeId})} : @{/search/}"
+                              method="GET">
                             <div class="form-group">
                                 <input type="text" minlength="1"
                                        class="form-control"
@@ -70,7 +72,7 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" th:fragment="logout">
                                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
-                                    <li sec:authorize="isAnonymous()"><a href="#">Create an account</a></li>
+                                    <li sec:authorize="isAnonymous()"><a th:href="@{/register}">Create an account</a></li>
                                     <li sec:authorize="isAuthenticated()"><a href="#">Profile</a></li>
 
                                     <li sec:authorize="isAuthenticated()" role="separator" class="divider"></li>

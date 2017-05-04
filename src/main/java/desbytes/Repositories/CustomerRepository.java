@@ -55,18 +55,15 @@ public class CustomerRepository {
     public Customer insertCustomer(Customer newCustomer) {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("customer_queries", "create_new_customer.sql");
-        KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(content, Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, newCustomer.getPref_store_id());
+                ps.setInt(1, newCustomer.getUser_id());
+                ps.setInt(2, newCustomer.getPref_store_id());
                 return ps;
             }
-        }, holder);
-
-        int newCustomerId = holder.getKey().intValue();
-        newCustomer.setUser_id(newCustomerId);
+        });
         return newCustomer;
     }
 

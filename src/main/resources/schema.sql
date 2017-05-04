@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Role(
 
 CREATE TABLE IF NOT EXISTS App_User(
 	user_id int auto_increment,
-	username varchar(25),
+	username varchar(25) UNIQUE,
 	name varchar(25),
 	password varchar(16),
 	phone char(10),

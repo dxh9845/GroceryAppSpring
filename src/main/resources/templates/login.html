@@ -23,6 +23,9 @@
                     <div th:if="${loginError}" class="alert alert-danger" role="alert">
                         <p><b><i class="glyphicon glyphicon-alert"></i> Uh oh!</b> We didn't recognize that username or password.</p>
                     </div>
+                    <div th:if="${registerSuccess}" class="alert alert-success" role="alert">
+                        <p><b><i class="glyphicon glyphicon-check"></i> Success! </b> You can now login with your new account.</p>
+                    </div>
                     <div th:if="${param.logout}" class="alert alert-success" role="alert">
                         <p><i class="glyphicon glyphicon-ok"></i> You've successfully logged off! </p>
                     </div>
