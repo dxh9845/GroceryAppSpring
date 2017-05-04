@@ -16,16 +16,16 @@ public class App_User
     @Size(min=6, max=25)
 	private String username;
     @NotNull
-	@Max(25)
+	@Size(max = 25, message = "Name must not exceed 25 characters.")
 	private String name;
     @NotNull
 	@Size(min=6, max=16)
 	private String password;
     @NotNull
-	@Size(min=10, max=10)
+	@Size(min=10, max=10, message = "Phone numbers must be 10 characters long. Please remove any non-numeric characters.")
 	private String phone;
     @NotNull
-	@Max(100)
+	@Size(max = 100, message = "The address must not exceed 100 characters.")
 	private String address;
 	private int role_id;
 

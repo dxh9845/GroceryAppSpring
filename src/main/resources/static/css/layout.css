@@ -136,3 +136,13 @@
     color: #FFF;
     font-size: 250px;
 }
+
+.error:before {
+    content:"*"
+
+}
+
+/** Form validation **/
+.has-error {
+    color: #a94442;
+}

@@ -23,36 +23,43 @@
                     <p><i class="glyphicon glyphicon-alert"></i><span th:text="${errorMsg}"></span></p>
                 </div>
                 <form th:action="@{/register}" th:object="${user}" method="post">
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error has-feedback'">
                         <label for="name" class="FranklinDemi required">Name</label>:
                         <input type="text" th:field="*{name}" class="form-control"
-                               id="name" name="name" autofocus="autofocus" required="required" />
-                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">The name isn't right.</p>
+                               id="name" name="name" autofocus="autofocus" required="required"
+                                aria-describedby="invalidName"/>
+                        <span class="help-block" id="#invalidName"
+                              th:if="${#fields.hasErrors('name')}" th:errors="*{name}">The name isn't right.</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? 'has-error has-feedback'">
                         <label for="username" class="FranklinDemi required">Username</label>:
                         <input type="text" minlength="6" maxlength="25" th:field="*{username}"
                                class="form-control" id="username" name="username" autofocus="autofocus"
-                               required="required"/>
-                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                               required="required" aria-describedby="invalidUsername"/>
+                        <span class="help-block" id="#invalidUsername">
+                            Please choose a username between 6 and 25 characters.</span>
                     </div>
-                    <div class="form-group">
-                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error has-feedback'">
                         <label for="password" class="FranklinDemi required">Password</label>:
                         <input type="password" th:field="*{password}" class="form-control"
-                               id="password" name="password" required="required" />
+                               id="password" name="password" required="required" aria-describedby="invalidPassword"/>
+                        <span class="help-block" id="#invalidPassword">Please choose a password between 6 and 16 characters.</span>
                     </div>
-                    <div class="form-group">
-                        <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">The phone isn't right</p>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('phone')} ? 'has-error has-feedback'">
                         <label for="phone" class="FranklinDemi required">Phone</label>:
                         <input type="tel" th:field="*{phone}"
-                               class="form-control" id="phone" name="phone" required="required" />
+                               class="form-control" id="phone" name="phone"
+                               required="required" aria-describedby="invalidPhone"/>
+                        <span class="help-block" id="#invalidPhone"
+                              th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
                     </div>
-                    <div class="form-group">
-                        <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('address')} ? 'has-error has-feedback'">
                         <label for="address" class="FranklinDemi required">Address</label>:
                         <input type="text" maxlength="100" th:field="*{address}"
-                               class="form-control" id="address" name="address" required="required" />
+                               class="form-control" id="address" name="address"
+                               required="required" aria-describedby="invalidAddress" />
+                        <span id="#invalidAddress" class="help-block" th:if="${#fields.hasErrors('address')}"
+                              th:errors="*{address}"></span>
                     </div>
                     <div class="form-group">
                         <label class="FranklinDemi required">Preferred store:</label>
