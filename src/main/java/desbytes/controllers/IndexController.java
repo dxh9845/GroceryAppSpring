@@ -51,11 +51,6 @@ public class IndexController {
             App_User user = userRepository.findUserByName(currentUser);
             if (user != null) {
                 int customerId = user.getId();
-/*
-                int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
-                model.addAttribute("storeId", storeId);
-                model.addAttribute("loggedUser", user);
-*/
                 if (user.getRole_id() == 0) {
                     int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
                     model.addAttribute("storeId", storeId);
