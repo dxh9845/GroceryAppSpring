@@ -1,5 +1,6 @@
 package desbytes.models;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * A shopping cart object.
@@ -30,5 +31,10 @@ public class Shopping_Cart
 
     public void setProductList(HashMap<Product, Integer> productList) {
         this.productList = productList;
+    }
+
+    public Set<Product> getProducts()
+    {
+        return productList.keySet();
     }
 }

@@ -2,9 +2,11 @@ package desbytes.controllers;
 
 import desbytes.Repositories.AppUserRepository;
 import desbytes.Repositories.OrderHistoryRepository;
+import desbytes.Repositories.ShoppingCartRepository;
 import desbytes.models.Grocery_Order;
 import desbytes.models.OrderHistory;
 import desbytes.models.Product;
+import desbytes.models.Shopping_Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,14 +21,16 @@ import java.util.*;
  * @author Jeff
  */
 @Controller
-public class OrderHistoryController {
+public class ShoppingCartController {
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
     @Autowired
     private AppUserRepository userRepository;
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
 
-    @RequestMapping("/history")
+    @RequestMapping("/cart")
     public String greeting(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -34,11 +38,12 @@ public class OrderHistoryController {
             String username = auth.getName();
             int id = userRepository.findUserByName(username).getId();
 
-            List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
-            model.addAttribute("orderList", orderList);
+            Shopping_Cart cart = shoppingCartRepository.getShoppingCartByID(id);
+
+            model.addAttribute("cart", cart);
         }
 
-        return "history";
+        return "cart";
     }
 
 }
