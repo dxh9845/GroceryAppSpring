@@ -15,7 +15,8 @@
                 </div>
 
                 <div class="col-xs-12">
-                    <div th:each="order: ${orderList}" class="table">
+                    <div th:switch="${orderList.isEmpty()}">
+                    <div th:case="${false}" th:each="order: ${orderList}" class="table">
                         <table class="table table-condensed table-bordered">
                            <caption>
                                <h4 class="FranklinDemi">Order Id: <span th:text="${order.order_id}"></span></h4>
@@ -43,6 +44,16 @@
                                 </tr>
                             </div>
                         </table>
+                    </div>
+                        <div class="text-center" th:case="${true}" >
+                            <span style="font-size: 75px;">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                            </span>
+                            <h2 class="page-header no-border">
+                                <i class="fa fa-frown-o"></i>
+                                No previous orders found.
+                            </h2>
+                        </div>
                     </div>
 
                 </div>

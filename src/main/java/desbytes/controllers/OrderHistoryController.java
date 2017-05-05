@@ -38,7 +38,6 @@ public class OrderHistoryController {
             model.addAttribute("orderList", orderList);
         }
 
-
         return "history";
     }
 
