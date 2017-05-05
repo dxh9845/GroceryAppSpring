@@ -41,19 +41,19 @@ public class ManageProductRepository {
         return jdbcTemplate.query(sql, new ManageProductInfoRowMapper(), storeId);
     }
 
-    public void changeQuantity(int qty, double productId, double storeId) {
+    public void changeQuantity(int qty, String productId, double storeId) {
         QueryReader reader = new QueryReader();
         String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
         jdbcTemplate.update(sql, qty, productId, storeId);
     }
 
-    public void changeAisle(int aisle, double productId, double storeId) {
+    public void changeAisle(int aisle, String productId, double storeId) {
         QueryReader reader = new QueryReader();
         String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
         jdbcTemplate.update(sql, aisle, productId, storeId);
     }
 
-    public void changeName(String name, double productId) {
+    public void changeName(String name, String productId) {
         QueryReader reader = new QueryReader();
         String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
         jdbcTemplate.update(sql, name, productId);
@@ -84,7 +84,7 @@ public class ManageProductRepository {
         );
     }
 
-    public void removeProductInfo(double productId, double storeId) {
+    public void removeProductInfo(String productId, double storeId) {
         QueryReader reader = new QueryReader();
 
         // Make new inventory row
