@@ -80,7 +80,7 @@ public class ShoppingCartRepository {
         });
     }
 
-    public void deleteShoppingCart(int user_id, String product_id)
+    public void deleteItem(int user_id, String product_id)
     {
         QueryReader r = new QueryReader();
         String content = r.readQueryFile("shopping_cart_queries", "delete_shopping_cart.sql");
@@ -91,6 +91,21 @@ public class ShoppingCartRepository {
                 PreparedStatement ps = connection.prepareStatement(content);
                 ps.setInt(1, user_id);
                 ps.setString(2, product_id);
+                return ps;
+            }
+        });
+    }
+
+    public void deleteCart(int user_id)
+    {
+        QueryReader r = new QueryReader();
+        String content = r.readQueryFile("shopping_cart_queries", "delete_user_shopping_cart.sql");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(content);
+                ps.setInt(1, user_id);
                 return ps;
             }
         });

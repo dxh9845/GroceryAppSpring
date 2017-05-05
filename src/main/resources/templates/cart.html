@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="LeadText">Shopping Cart</h1>
+            </div>
+
+            <div class="col-xs-12">
+                <div th:switch="${cart.getProducts().isEmpty()}">
+                    <div th:case="${false}" class="table">
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                            <tr>
+                                <th><h4 class="FranklinDemi">Product</h4></th>
+                                <th><h4 class="FranklinDemi">Price</h4></th>
+                                <th><h4 class="FranklinDemi">Quantity</h4></th>
+                            </tr>
+                            </thead>
+                            <div th:each="product: ${cart.getProducts()}" class="table">
+                                <tr>
+                                    <td>
+                                        <h5 class="FranklinDemi" th:text="${product.name}"></h5>
+                                    </td>
+                                    <td>
+                                        <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h5>
+                                    </td>
+                                    <td>
+                                        <h5 class="FranklinDemi" th:text="${cart.productList.get(product)}"></h5>
+                                    </td>
+
+                                </tr>
+                            </div>
+                        </table>
+
+
+
+                    </div>
+                    <div class="text-center" th:case="${true}" >
+                            <span style="font-size: 75px;">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                            </span>
+                        <h2 class="page-header no-border">
+                            <i class="fa fa-frown-o"></i>
+                            Shopping cart is empty.
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
