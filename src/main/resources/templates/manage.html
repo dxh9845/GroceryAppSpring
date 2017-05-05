@@ -16,64 +16,125 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid">
-        <div class="row">
-            <h1>Manage Products</h1>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span> Manage Products</span>
+                <span class="pull-right dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" th:text="${CurrentStore}">
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu scrollable-menu">
+                        <li><a th:href="@{__${store.store_id}__}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
+                    </ul>
+                </span>
+                <!--<a href="edit.html" th:href="@{__${CurrentStoreId}}__}"><span class="caret"></span></a>-->
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <!--<th>Product Id</th>-->
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Aisle</th>
+                    <th>Quantity</th>
+                </tr>
+                <tr th:each="info: ${ProductInfos}">
+                    <!--<td th:text="${info.product_id}"></td>-->
+                    <td th:text="${info.name}"></td>
+                    <td th:text="${info.price}"></td>
+                    <td th:text="${info.aisle}"></td>
+                    <td th:text="${info.qty}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Add Product</div>
+            <form class="panel-body" action="#" th:action="@{/manage}" th:object="${productInfo}" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">Product Id</span>
+                    <input type="text" th:field="*{product_id}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="000000000000000"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('product_id')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{product_id}"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">Store Id</span>
+                    <input type="text" th:field="*{store_id}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="0000"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('store_id')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{store_id}"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">Name</span>
+                    <input type="text" th:field="*{name}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="Product Name"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('name')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{name}"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" th:field="*{price}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="1.00"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{price}"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">Quantity</span>
+                    <input type="text" th:field="*{qty}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="1"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">Aisle</span>
+                    <input type="text" th:field="*{aisle}" class="form-control"
+                           aria-label="Amount (to the nearest dollar)"
+                           placeholder="0"
+                    />
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
+                </div>
+                <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+            </form>
         </div>
 
-        <!-- Table -->
-        <table class="table">
-            <tr>
-                <!--<th>Product Id</th>-->
-                <th>Name</th>
-                <th>Price</th>
-                <th>Aisle</th>
-                <th>Quantity</th>
-            </tr>
-            <tr th:each="info: ${ProductInfos}">
-                <!--<td th:text="${info.product_id}"></td>-->
-                <td th:text="${info.name}"></td>
-                <td th:text="${info.price}"></td>
-                <td th:text="${info.aisle}"></td>
-                <td th:text="${info.qty}"></td>
-            </tr>
-        </table>
     </div>
-    <div class="container=fluid">
-        <div class="row">
-            <h1>Add Product</h1>
-        </div>
-        <form action="#" th:action="@{/manage}" th:object="${productInfo}" method="post">
-            <div class="input-group">
-                <input type="text" th:field="*{product_id}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span th:if="${#fields.hasErrors('product_id')}" th:errors="*{product_id}"></span>
-            </div>
-            <div class="input-group">
-                <input type="text" th:field="*{store_id}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span th:if="${#fields.hasErrors('store_id')}" th:errors="*{store_id}"></span>
-            </div>
-            <div class="input-group">
-                <input type="text" th:field="*{name}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="text" th:field="*{price}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span class="input-group-addon">.00</span>
-                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
-
-            </div>
-            <div class="input-group">
-                <input type="text" th:field="*{qty}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span th:if="${#fields.hasErrors('qty')}" th:errors="*{qty}"></span>
-            </div>
-            <div class="input-group">
-                <input type="text" th:field="*{aisle}" class="form-control" aria-label="Amount (to the nearest dollar)"/>
-                <span th:if="${#fields.hasErrors('aisle')}" th:errors="*{aisle}"></span>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" value="save">Submit</button>
-        </form>
-    </div>
-
 </div>
 </body>
 </html>
