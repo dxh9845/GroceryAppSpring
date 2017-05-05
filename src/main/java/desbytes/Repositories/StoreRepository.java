@@ -1,6 +1,5 @@
 package desbytes.Repositories;
 
-import desbytes.models.Product;
 import desbytes.models.Store;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import javax.annotation.PostConstruct;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
@@ -41,8 +40,7 @@ public class StoreRepository {
     public Store findStoreById(int id) {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("store_queries", "get_store.sql");
-        return jdbcTemplate.queryForObject(content,
-                new Object[]{id}, new StoreRowMapper());
+        return jdbcTemplate.queryForObject(content, new StoreRowMapper(), id);
     }
 
     public Store insertStore(Store newStore) {

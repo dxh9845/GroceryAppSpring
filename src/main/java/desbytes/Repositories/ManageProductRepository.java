@@ -79,8 +79,8 @@ public class ManageProductRepository {
         String sqlNewInventory = reader.readQueryFile(
                 "manage_queries", "insert_inventory.sql");
         jdbcTemplate.update(sqlNewInventory,
-                productInfo.getProduct_id(), productInfo.getStore_id(),
-                productInfo.getAisle(), productInfo.getQty()
+                productInfo.getProduct_id(), productInfo.getStore_id(), productInfo.getQty(),
+                productInfo.getAisle()
         );
     }
 
