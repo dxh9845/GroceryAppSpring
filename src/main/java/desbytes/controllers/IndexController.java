@@ -47,20 +47,17 @@ public class IndexController {
     @RequestMapping("/")
     public String greeting(Model model) {
 
-//        App_User user = userRepository.findUserByName("hwhite");
-
-
         List<Product> productList = productRepository.findTopProducts(25, 0);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            String currentUser = auth.getName();
-//            user = userRepository.findUserByName(currentUser);
-//            if (user != null) {
-//                int customerId = user.getId();
-//                int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
-//                model.addAttribute("storeId", storeId);
-//            }
-//        }
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String currentUser = auth.getName();
+            App_User user = userRepository.findUserByName(currentUser);
+            if (user != null) {
+                int customerId = user.getId();
+                int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
+                model.addAttribute("storeId", storeId);
+            }
+        }
 
         model.addAttribute("productList", productList);
         return "index";
