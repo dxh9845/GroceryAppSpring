@@ -46,6 +46,57 @@ public class ShoppingCartRepository {
         return jdbcTemplate.queryForObject(content, new Object[]{id}, new ShoppingCartRowMapper(id));
     }
 
+    public void addProductToCart(int user_id, String product_id, int qty)
+    {
+        QueryReader r = new QueryReader();
+        String content = r.readQueryFile("shopping_cart_queries", "add_product.sql");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(content);
+                ps.setInt(1, user_id);
+                ps.setString(2, product_id);
+                ps.setInt(3, qty);
+                return ps;
+            }
+        });
+    }
+
+    public void updateShoppingCart(int user_id, String product_id, int qty)
+    {
+        QueryReader r = new QueryReader();
+        String content = r.readQueryFile("shopping_cart_queries", "update_shopping_cart.sql");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(content);
+                ps.setInt(2, user_id);
+                ps.setString(3, product_id);
+                ps.setInt(1, qty);
+                return ps;
+            }
+        });
+    }
+
+    public void deleteShoppingCart(int user_id, String product_id)
+    {
+        QueryReader r = new QueryReader();
+        String content = r.readQueryFile("shopping_cart_queries", "delete_shopping_cart.sql");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(content);
+                ps.setInt(1, user_id);
+                ps.setString(2, product_id);
+                return ps;
+            }
+        });
+    }
+
+
     public class ShoppingCartRowMapper implements RowMapper<Shopping_Cart> {
         private int customerId;
 
