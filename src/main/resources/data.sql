@@ -18,7 +18,8 @@ INSERT INTO APP_USER(User_ID, Name, Username, Password, Phone, Address, Role_ID)
 (NULL, 'Jerry Kennedy', 'jkennedy', '9zEgSAT', '9176884300', '96 Talisman Drive,New York City,New York,10155', 0),
 (NULL, 'Brandon Harper','bharper', 'FnoSr6JLFP', '7143314786', '2248 Morrow Street,Garden Grove,California,92645', 1),
 (NULL, 'Kathleen Johnson','kjohnson', 'zVMmT2diq', '9176511325', '762 Almo Alley,New York City,New York,10039', 2),
-(NULL, 'Chris Cruz','ccruz', '9uWEQEzP', '3029577899', '446 Loftsgordon Terrace,Wilmington,Delaware,19886', 0);
+(NULL, 'Chris Cruz','ccruz', '9uWEQEzP', '3029577899', '446 Loftsgordon Terrace,Wilmington,Delaware,19886', 0),
+(NULL, 'Mr Manager', 'manager', 'manage', '1234567890', '799 Monument Parkway,Rochester,New York,14623', 2);
 
 INSERT INTO CUSTOMER VALUES
 (1, 2),
