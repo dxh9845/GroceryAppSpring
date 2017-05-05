@@ -1,10 +1,15 @@
 package desbytes.controllers;
 
+import desbytes.Repositories.AppUserRepository;
 import desbytes.Repositories.ManageProductRepository;
 import desbytes.Repositories.StoreRepository;
+import desbytes.models.App_User;
 import desbytes.models.Manage_Product_Info;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,6 +32,9 @@ public class ManageController {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private AppUserRepository userRepository;
 
     private int storeId = 1;
 
@@ -52,20 +60,28 @@ public class ManageController {
 
     @GetMapping("/manage")
     public String render(Model model){
-        model.addAttribute("productInfo", new Manage_Product_Info());
         return "redirect:/manage/"+this.storeId;
     }
 
     @GetMapping("/manage/{storeId}")
     public String changeStore(ModelMap model,
                               @PathVariable("storeId") int store){
-        // TODO Fix error if this key isn't in our db
-        this.storeId = store;
-        model.put("CurrentStore", currentStore());
-        model.put("ProductInfos", ProductInfos());
-        model.addAttribute("productInfo", new Manage_Product_Info());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            App_User user = userRepository.findUserByName(auth.getName());
+            if (user != null) {
+                if (user.getRole_id() == 2) {
+                    // TODO Fix error if this key isn't in our db
+                    this.storeId = store;
+                    model.put("CurrentStore", currentStore());
+                    model.put("ProductInfos", ProductInfos());
+                    model.addAttribute("productInfo", new Manage_Product_Info());
 
-        return "manage";
+                    return "manage";
+                }
+            }
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/manage")

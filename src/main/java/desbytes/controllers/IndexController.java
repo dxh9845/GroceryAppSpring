@@ -55,6 +55,7 @@ public class IndexController {
                     int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
                     model.addAttribute("storeId", storeId);
                 }
+
             }
         }
 

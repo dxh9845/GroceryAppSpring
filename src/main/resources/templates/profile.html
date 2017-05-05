@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Profile</title>
+    <th:block layout:fragment="css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span>Profile</span>
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+                <tr>
+                    <td th:text="${loggedUser.username}"></td>
+                    <td th:text="${loggedUser.name}"></td>
+                    <td th:text="${loggedUser.password}"></td>
+                    <td th:text="${loggedUser.phone}"></td>
+                    <td th:text="${loggedUser.address}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -55,7 +55,7 @@ public class EditProductController {
     }
 
     @GetMapping("/edit/{storeId}")
-    public String changeStore(ModelMap model,
+    public String editStore(ModelMap model,
                               @PathVariable("storeId") int store){
         // TODO Fix error if this key isn't in our db
         this.storeId = store;
