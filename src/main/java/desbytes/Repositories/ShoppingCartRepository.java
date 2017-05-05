@@ -5,6 +5,7 @@ import desbytes.models.Product;
 import desbytes.models.Shopping_Cart;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,7 +44,13 @@ public class ShoppingCartRepository {
     {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("shopping_cart_queries", "get_shopping_cart.sql");
-        return jdbcTemplate.queryForObject(content, new Object[]{id}, new ShoppingCartRowMapper(id));
+        try {
+            return jdbcTemplate.queryForObject(content, new Object[]{id}, new ShoppingCartRowMapper());
+        }
+        catch(EmptyResultDataAccessException e)
+        {
+            return null;
+        }
     }
 
     public void addProductToCart(int user_id, String product_id, int qty)
@@ -113,17 +120,13 @@ public class ShoppingCartRepository {
 
 
     public class ShoppingCartRowMapper implements RowMapper<Shopping_Cart> {
-        private int customerId;
-
-        public ShoppingCartRowMapper(int customerId) {
-            this.customerId = customerId;
-        }
-
         @Override
         public Shopping_Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Customer customer = customerRepository.findCustomerByID(customerId);
-
+            //Customer customer = new Customer();
+            Shopping_Cart cart = new Shopping_Cart();
             HashMap<Product, Integer> productList = new HashMap<>();
+
+            cart.setCustomer_id(rs.getInt("customer_id"));
             do {
                 String prodId = rs.getString("product_id");
                 String prodName = rs.getString("name");
@@ -132,9 +135,10 @@ public class ShoppingCartRepository {
                 Product prod = new Product(prodId, prodName, prodPrice);
                 productList.put(prod, qty);
             } while (rs.next());
+            cart.setProductList(productList);
 
-            return new Shopping_Cart(customer, productList);
-
+           // return new Shopping_Cart(customer, productList);
+            return cart;
         }
     }
 }

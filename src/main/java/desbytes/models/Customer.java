@@ -14,6 +14,8 @@ public class Customer{
         this.pref_store_id = pref_store_id;
     }
 
+    public Customer(){}
+
     public int getUser_id() {
         return user_id;
     }

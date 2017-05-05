@@ -40,6 +40,12 @@ public class ShoppingCartController {
 
             Shopping_Cart cart = shoppingCartRepository.getShoppingCartByID(id);
 
+            if(cart == null)
+            {
+                cart = new Shopping_Cart();
+                cart.setProductList(new HashMap<Product, Integer>());
+            }
+
             model.addAttribute("cart", cart);
         }
 

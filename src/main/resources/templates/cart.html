@@ -15,7 +15,7 @@
             </div>
 
             <div class="col-xs-12">
-                <div th:switch="${cart.getProducts().isEmpty()}">
+                <div th:switch="${cartProducts.isEmpty()}">
                     <div th:case="${false}" class="table">
                         <table class="table table-condensed table-bordered">
                             <thead>

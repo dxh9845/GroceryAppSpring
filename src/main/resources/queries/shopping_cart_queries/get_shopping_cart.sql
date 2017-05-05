@@ -2,7 +2,8 @@ SELECT
   Product.product_id,
 	Product.name,
 	Product.price,
-	Shopping_Cart.qty
+	Shopping_Cart.qty,
+	Shopping_Cart.customer_id
 
 FROM
 	Shopping_Cart, Product
