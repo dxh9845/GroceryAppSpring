@@ -6,6 +6,9 @@ import desbytes.models.Grocery_Order;
 import desbytes.models.OrderHistory;
 import desbytes.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +27,17 @@ public class OrderHistoryController {
     private AppUserRepository userRepository;
 
     @RequestMapping("/history")
-    public String greeting(@RequestParam(value="username", required=false, defaultValue="psullivan")String username, Model model) {
+    public String greeting(Model model) {
 
-        int id = userRepository.findUserByName(username).getId();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
+            int id = userRepository.findUserByName(username).getId();
 
-        List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
-        model.addAttribute("orderList", orderList);
+            List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
+            model.addAttribute("orderList", orderList);
+        }
+
 
         return "history";
     }
