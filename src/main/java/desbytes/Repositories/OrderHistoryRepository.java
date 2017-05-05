@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,8 +54,14 @@ public class OrderHistoryRepository {
         QueryReader r = new QueryReader();
         String content = r.readQueryFile("order_history_queries", "get_order_history_by_user.sql");
 
+        List<Grocery_Order> orders = grocery_orderRepository.getOrdersByUser(id);
+        List<OrderHistory> history = new ArrayList<OrderHistory>();
 
-        return jdbcTemplate.query(content, new Object[]{id}, new OrderHistoryRowMapper());
+        for(Grocery_Order g : orders)
+        {
+            history.add(findOrderById(g.getOrder_id()));
+        }
+        return history;
     }
 
     public OrderHistory insertOrder(OrderHistory newHistory)
@@ -93,6 +100,7 @@ public class OrderHistoryRepository {
 
             history.setOrder_time(rs.getDate("order_time"));
             history.setStore(storeRespository.findStoreById(rs.getInt("store_id")));
+            history.setOrder_id(rs.getInt("order_id"));
 
             HashMap<Product, Integer> productList = new HashMap<>();
 

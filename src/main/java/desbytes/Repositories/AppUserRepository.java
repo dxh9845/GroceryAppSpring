@@ -79,7 +79,7 @@ public class AppUserRepository {
     public class UserRowMapper implements RowMapper<App_User> {
         @Override
         public App_User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            int id = rs.getInt("id");
+            int id = rs.getInt("user_id");
             String username = rs.getString("username");
             String name = rs.getString("name");
             String password = rs.getString("password");

@@ -3,7 +3,8 @@ SELECT Product.product_id,
        Product.price,
        Order_Product.qty,
        Grocery_Order.order_time,
-       Grocery_Order.store_id
+       Grocery_Order.store_id,
+       Grocery_Order.order_id
 FROM Order_Product,
      Product,
      Grocery_Order

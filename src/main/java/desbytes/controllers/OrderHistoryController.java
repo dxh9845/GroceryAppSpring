@@ -1,5 +1,6 @@
 package desbytes.controllers;
 
+import desbytes.Repositories.AppUserRepository;
 import desbytes.Repositories.OrderHistoryRepository;
 import desbytes.models.Grocery_Order;
 import desbytes.models.OrderHistory;
@@ -19,16 +20,17 @@ public class OrderHistoryController {
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
+    @Autowired
+    private AppUserRepository userRepository;
 
     @RequestMapping("/history")
-    public String greeting(Model model) {
+    public String greeting(@RequestParam(value="username", required=false, defaultValue="psullivan")String username, Model model) {
 
-        int id = 1;
-        //List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
-        OrderHistory history = orderHistoryRepository.findOrderById(1);
+        int id = userRepository.findUserByName(username).getId();
 
-        //model.addAttribute("orderList", orderList);
-        model.addAttribute("productList", history.getProductList().keySet());
+        List<OrderHistory> orderList = orderHistoryRepository.findOrderByUser(id);
+        model.addAttribute("orderList", orderList);
+
         return "history";
     }
 

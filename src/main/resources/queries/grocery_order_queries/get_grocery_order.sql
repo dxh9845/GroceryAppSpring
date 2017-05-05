@@ -1,2 +1,2 @@
 SELECT * FROM Grocery_Order
-WHERE order_id = ??
+WHERE order_id = ?
