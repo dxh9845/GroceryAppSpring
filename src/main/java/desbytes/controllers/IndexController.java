@@ -1,26 +1,23 @@
 package desbytes.controllers;
 
 import desbytes.Repositories.*;
-import desbytes.models.*;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.h2.jdbc.JdbcSQLException;
+import desbytes.models.App_User;
+import desbytes.models.Customer;
+import desbytes.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ClassUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -54,8 +51,10 @@ public class IndexController {
             App_User user = userRepository.findUserByName(currentUser);
             if (user != null) {
                 int customerId = user.getId();
-                int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
-                model.addAttribute("storeId", storeId);
+                if (user.getRole_id() == 0) {
+                    int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
+                    model.addAttribute("storeId", storeId);
+                }
             }
         }
 
