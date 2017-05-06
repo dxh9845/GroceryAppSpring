@@ -27,6 +27,7 @@
                                 <th><h4 class="FranklinDemi">Product</h4></th>
                                 <th><h4 class="FranklinDemi">Price</h4></th>
                                 <th><h4 class="FranklinDemi">Quantity</h4></th>
+                                <th><h4 class="FranklinDemi">Total</h4></th>
                             </tr>
                             </thead>
                             <div th:each="product: ${order.getProducts()}" class="table">
@@ -39,6 +40,11 @@
                                     </td>
                                     <td>
                                         <h5 class="FranklinDemi" th:text="${order.productList.get(product)}"></h5>
+                                    </td>
+                                    <td>
+                                        <div th:with="result=${product.price * order.productList.get(product)}">
+                                            <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}"/></h5>
+                                        </div>
                                     </td>
 
                                 </tr>
