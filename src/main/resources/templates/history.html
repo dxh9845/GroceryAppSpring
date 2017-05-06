@@ -15,8 +15,7 @@
                 </div>
 
                 <div class="col-xs-12">
-                    <div th:switch="${orderList.isEmpty()}">
-                    <div th:case="${false}" th:each="order: ${orderList}" class="table">
+                    <div th:if="${!orderList.isEmpty()}" th:each="order: ${orderList}" class="table">
                         <table class="table table-condensed table-bordered">
                            <caption>
                                <h4 class="FranklinDemi">Order Id: <span th:text="${order.order_id}"></span></h4>
@@ -51,7 +50,7 @@
                             </div>
                         </table>
                     </div>
-                        <div class="text-center" th:case="${true}" >
+                    <div class="text-center" th:if="${orderList.isEmpty()}" >
                             <span style="font-size: 75px;">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
                             </span>
@@ -61,8 +60,6 @@
                             </h2>
                         </div>
                     </div>
-
-                </div>
         </div>
     </div>
 </div>

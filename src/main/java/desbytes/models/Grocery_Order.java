@@ -1,19 +1,20 @@
 package desbytes.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * A Grocery_Order object representing a Grocery_Order tuple
  */
 public class Grocery_Order {
     private int order_id;
-    private Date order_time;
+    private Timestamp order_time;
     private int store_id;
     private int user_id;
 
     public Grocery_Order(){}
 
-    public Grocery_Order(int order_id, Date order_time, int store_id, int user_id) {
+    public Grocery_Order(int order_id, Timestamp order_time, int store_id, int user_id) {
         this.order_id = order_id;
         this.order_time = order_time;
         this.store_id = store_id;
@@ -28,11 +29,11 @@ public class Grocery_Order {
         this.order_id = order_id;
     }
 
-    public Date getOrder_time() {
+    public Timestamp getOrder_time() {
         return order_time;
     }
 
-    public void setOrder_time(Date order_time) {
+    public void setOrder_time(Timestamp order_time) {
         this.order_time = order_time;
     }
 

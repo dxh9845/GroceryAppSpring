@@ -1,6 +1,7 @@
 package desbytes.controllers;
 
 import desbytes.Repositories.AppUserRepository;
+import desbytes.Repositories.CustomerRepository;
 import desbytes.Repositories.OrderHistoryRepository;
 import desbytes.Repositories.ShoppingCartRepository;
 import desbytes.models.Grocery_Order;
@@ -30,6 +31,8 @@ public class ShoppingCartController {
     private AppUserRepository userRepository;
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @RequestMapping("/cart")
     public String greeting(Model model) {
@@ -52,6 +55,32 @@ public class ShoppingCartController {
         }
 
         return "cart";
+    }
+
+    @PostMapping("/cart")
+    public String orderShoppingCart(Model model)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
+            int id = userRepository.findUserByName(username).getId();
+
+            Shopping_Cart cart = shoppingCartRepository.getShoppingCartByID(id);
+
+            if(cart != null)
+            {
+                OrderHistory order = new OrderHistory();
+                order.setProductList(cart.getProductList());
+                order.setUser_id(cart.getCustomer_id());
+                order.setStore_id(customerRepository.findCustomerByID(id).getPref_store_id());
+                order.setOrder_time(new java.sql.Timestamp(new java.util.Date().getTime()));
+
+                orderHistoryRepository.insertOrder(order);
+                shoppingCartRepository.deleteCart(id);
+            }
+        }
+
+        return "redirect:/history";
     }
 
 }

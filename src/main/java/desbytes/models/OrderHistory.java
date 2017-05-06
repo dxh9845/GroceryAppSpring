@@ -1,5 +1,6 @@
 package desbytes.models;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -8,15 +9,15 @@ import java.util.Set;
  */
 public class OrderHistory {
     private HashMap<Product, Integer> productList = new HashMap<>();
-    private Date order_time;
-    private Store store;
+    private Timestamp order_time;
+    private int store_id;
     private int user_id;
     private int order_id;
 
-    public OrderHistory(HashMap<Product, Integer> productList, Date order_time, Store store, int user_id, int order_id) {
+    public OrderHistory(HashMap<Product, Integer> productList, Timestamp order_time, int store_id, int user_id, int order_id) {
         this.productList = productList;
         this.order_time = order_time;
-        this.store = store;
+        this.store_id = store_id;
         this.user_id = user_id;
         this.order_id = order_id;
     }
@@ -33,24 +34,25 @@ public class OrderHistory {
         return productList;
     }
 
+    public Timestamp getOrder_time() {
+        return order_time;
+    }
+
+    public void setOrder_time(Timestamp order_time) {
+        this.order_time = order_time;
+    }
+
     public void setProductList(HashMap<Product, Integer> productList) {
         this.productList = productList;
     }
 
-    public Date getOrder_time() {
-        return order_time;
+
+    public int getStore_id() {
+        return store_id;
     }
 
-    public void setOrder_time(Date order_time) {
-        this.order_time = order_time;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
     }
 
     public int getUser_id() {

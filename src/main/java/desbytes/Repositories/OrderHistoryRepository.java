@@ -68,13 +68,13 @@ public class OrderHistoryRepository {
     {
         Grocery_Order newOrder = new Grocery_Order();
         newOrder.setOrder_time(newHistory.getOrder_time());
-        newOrder.setStore_id(newHistory.getStore().getStore_id());
+        newOrder.setStore_id(newHistory.getStore_id());
         newOrder.setUser_id(newHistory.getUser_id());
 
         Grocery_Order orderWithId = grocery_orderRepository.insertGrocery_Order(newOrder);
 
         QueryReader r = new QueryReader();
-        String content = r.readQueryFile("order_history_queries", "create_new_order.sql");
+        String content = r.readQueryFile("order_history_queries", "insert_order.sql");
 
         for(Product p : newHistory.getProductList().keySet())
         {
@@ -98,8 +98,8 @@ public class OrderHistoryRepository {
         public OrderHistory mapRow(ResultSet rs, int rowNum) throws SQLException {
             OrderHistory history = new OrderHistory();
 
-            history.setOrder_time(rs.getDate("order_time"));
-            history.setStore(storeRespository.findStoreById(rs.getInt("store_id")));
+            history.setOrder_time(rs.getTimestamp("order_time"));
+            history.setStore_id(rs.getInt("store_id"));
             history.setOrder_id(rs.getInt("order_id"));
 
             HashMap<Product, Integer> productList = new HashMap<>();

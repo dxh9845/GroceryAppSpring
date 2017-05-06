@@ -43,7 +43,7 @@ public class Grocery_OrderRepository {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(content, Statement.RETURN_GENERATED_KEYS);
-                ps.setDate(1, newOrder.getOrder_time());
+                ps.setTimestamp(1, newOrder.getOrder_time());
                 ps.setInt(2, newOrder.getStore_id());
                 ps.setInt(3, newOrder.getUser_id());
                 return ps;
@@ -79,7 +79,7 @@ public class Grocery_OrderRepository {
         public Grocery_Order mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             int order_id = rs.getInt("order_id");
-            Date order_time = rs.getDate("order_time");
+            Timestamp order_time = rs.getTimestamp("order_time");
             int store_id = rs.getInt("store_id");
             int user_id = rs.getInt("user_id");
             return new Grocery_Order(order_id, order_time, store_id, user_id);
