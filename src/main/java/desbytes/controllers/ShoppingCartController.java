@@ -47,6 +47,7 @@ public class ShoppingCartController {
             }
 
             model.addAttribute("cart", cart);
+            model.addAttribute("cartProducts", cart.getProducts());
         }
 
         return "cart";
