@@ -1,2 +1,2 @@
 DELETE FROM Shopping_Cart
-WHERE user_id = ? AND product_id = ?;
+WHERE customer_id = ? AND product_id = ?;

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 
@@ -44,8 +45,7 @@ public class ShoppingCartController {
 
             Shopping_Cart cart = shoppingCartRepository.getShoppingCartByID(id);
 
-            if(cart == null)
-            {
+            if (cart == null) {
                 cart = new Shopping_Cart();
                 cart.setProductList(new HashMap<Product, Integer>());
             }
@@ -58,8 +58,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/cart")
-    public String orderShoppingCart(Model model)
-    {
+    public String orderShoppingCart(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             String username = auth.getName();
@@ -67,8 +66,7 @@ public class ShoppingCartController {
 
             Shopping_Cart cart = shoppingCartRepository.getShoppingCartByID(id);
 
-            if(cart != null)
-            {
+            if (cart != null) {
                 OrderHistory order = new OrderHistory();
                 order.setProductList(cart.getProductList());
                 order.setUser_id(cart.getCustomer_id());
@@ -80,7 +78,34 @@ public class ShoppingCartController {
             }
         }
 
+
         return "redirect:/history";
+    }
+
+
+    @RequestMapping(value = "/cart/product_id", method=RequestMethod.POST, params = "action=update")
+    public String qtyByProductId(@RequestParam("quantity") int quantity, @RequestParam("product_id") String product_id, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
+            int id = userRepository.findUserByName(username).getId();
+
+            shoppingCartRepository.updateShoppingCart(id, product_id, quantity);
+        }
+
+        return "redirect:/cart";
+    }
+
+    @RequestMapping(value = "/cart/product_id", method=RequestMethod.POST,  params = "action=delete")
+    public String deleteByProductId(@RequestParam("product_id") String product_id, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
+            int id = userRepository.findUserByName(username).getId();
+
+            shoppingCartRepository.deleteItem(id, product_id);
+        }
+        return"redirect:/cart"; 
     }
 
 }
