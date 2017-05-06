@@ -53,6 +53,14 @@ public class InventoryRepository {
         return jdbcTemplate.query(content, new Object[]{storeQuery, storeId}, new InventoryRowMapper());
     }
 
+    public Inventory getItemFromStore(int store_id, String product_id)
+    {
+        QueryReader reader = new QueryReader();
+        String content = reader.readQueryFile("inventory_queries", "get_store_product.sql");
+
+        return jdbcTemplate.queryForObject(content, new Object[]{store_id, product_id}, new InventoryRowMapper());
+    }
+
     public Inventory insertInventory(Inventory newInventory)
     {
         QueryReader r = new QueryReader();
@@ -91,6 +99,23 @@ public class InventoryRepository {
         });
 
         return newInventory;
+    }
+
+    public void updateInventoryQty(int store_id, String product_id, int qty)
+    {
+        QueryReader r = new QueryReader();
+        String content = r.readQueryFile("inventory_queries", "update_inventory_qty.sql");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(content);
+                ps.setInt(1, qty);
+                ps.setString(3, product_id);
+                ps.setInt(2, store_id);
+                return ps;
+            }
+        });
     }
 
     public class InventoryRowMapper implements RowMapper<Inventory> {

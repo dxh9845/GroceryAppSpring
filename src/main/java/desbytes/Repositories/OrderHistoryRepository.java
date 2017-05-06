@@ -30,6 +30,9 @@ public class OrderHistoryRepository {
     @Autowired
     private Grocery_OrderRepository grocery_orderRepository;
 
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
     private JdbcTemplate jdbcTemplate;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -66,6 +69,8 @@ public class OrderHistoryRepository {
 
     public OrderHistory insertOrder(OrderHistory newHistory)
     {
+        validate(newHistory);
+
         Grocery_Order newOrder = new Grocery_Order();
         newOrder.setOrder_time(newHistory.getOrder_time());
         newOrder.setStore_id(newHistory.getStore_id());
@@ -76,8 +81,7 @@ public class OrderHistoryRepository {
         QueryReader r = new QueryReader();
         String content = r.readQueryFile("order_history_queries", "insert_order.sql");
 
-        for(Product p : newHistory.getProductList().keySet())
-        {
+        for (Product p : newHistory.getProductList().keySet()) {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -88,9 +92,28 @@ public class OrderHistoryRepository {
                     return ps;
                 }
             });
+
+            inventoryRepository.updateInventoryQty(newHistory.getStore_id(), p.getProduct_id(), newHistory.getProductList().get(p));
         }
 
+
         return newHistory;
+    }
+
+    private void validate(OrderHistory order)
+    {
+        boolean ans = true;
+
+        for(Product p : order.getProducts())
+        {
+            int storeQty = inventoryRepository.getItemFromStore(order.getStore_id(), p.getProduct_id()).getQty();
+
+            if(order.getProductList().get(p) > storeQty)
+            {
+                throw new IllegalArgumentException(p.getName());
+            }
+        }
+
     }
 
     public class OrderHistoryRowMapper implements RowMapper<OrderHistory> {

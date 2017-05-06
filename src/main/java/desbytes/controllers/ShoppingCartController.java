@@ -73,8 +73,14 @@ public class ShoppingCartController {
                 order.setStore_id(customerRepository.findCustomerByID(id).getPref_store_id());
                 order.setOrder_time(new java.sql.Timestamp(new java.util.Date().getTime()));
 
-                orderHistoryRepository.insertOrder(order);
-                shoppingCartRepository.deleteCart(id);
+                try {
+                    orderHistoryRepository.insertOrder(order);
+                    shoppingCartRepository.deleteCart(id);
+                }
+                catch(IllegalArgumentException e)
+                {
+                    return "redirect:/cart";
+                }
             }
         }
 
