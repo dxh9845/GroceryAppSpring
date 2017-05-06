@@ -12,31 +12,56 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid">
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <span>Profile</span>
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="page-header text-center">Welcome, <span th:text="${loggedUser.name}"></span>!</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 profile-hero">
+                <div class="profile-circle">
+                    <span class="glyphicon glyphicon-user"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border">Your name: <span class="FranklinRegular" th:text="${loggedUser.name}"></span></h2>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border">Your username: <span class="FranklinRegular" th:text="${loggedUser.username}"></span></h2>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border" id="#ProfilePassword">Your password:
+                    <!--<button id="#passwordProfile" class="btn btn-sm btn-primary">-->
+                        <!--<span class="glyphicon glyphicon-eye"></span>Show password-->
+                    <!--</button>-->
+                    <span class="FranklinRegular" th:text="${loggedUser.password}"></span>
+                </h2>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border">Your phone number: <span class="FranklinRegular" th:text="${loggedUser.phone}"></span></h2>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border">Your address: <span class="FranklinRegular" th:text="${loggedUser.address}"></span></h2>
             </div>
 
-            <!-- Table -->
-            <table class="table">
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Password</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                </tr>
-                <tr>
-                    <td th:text="${loggedUser.username}"></td>
-                    <td th:text="${loggedUser.name}"></td>
-                    <td th:text="${loggedUser.password}"></td>
-                    <td th:text="${loggedUser.phone}"></td>
-                    <td th:text="${loggedUser.address}"></td>
-                </tr>
-            </table>
+
         </div>
     </div>
 </div>
+
 </body>
+<th:block layout:fragment="scripts">
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+//            $('#passwordProfile').click(function() {
+//                $('.hide').fadeToggle();
+//            });
+        });
+    </script>
+</th:block>
 </html>
+
