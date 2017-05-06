@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by zach on 4/27/17.
  */
-public class Manage_Product_Info {
+public class ProductInfo {
     @NotNull
     private String product_id;
     @NotNull
@@ -20,10 +20,10 @@ public class Manage_Product_Info {
     @NotNull
     private int aisle;
 
-    public Manage_Product_Info(){
+    public ProductInfo(){
         super();
     }
-    public Manage_Product_Info(String product_id, int store_id, String name, float price, int qty, int aisle) {
+    public ProductInfo(String product_id, int store_id, String name, float price, int qty, int aisle) {
         this.product_id = product_id;
         this.store_id = store_id;
         this.name = name;
@@ -82,7 +82,7 @@ public class Manage_Product_Info {
 
     @Override
     public String toString() {
-        return "Manage_Product_Info{" +
+        return "ProductInfo{" +
                 "product_id=" + product_id +
                 ", store_id=" + store_id +
                 ", name='" + name + '\'' +

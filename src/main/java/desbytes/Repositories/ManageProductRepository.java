@@ -1,7 +1,7 @@
 package desbytes.Repositories;
 
 
-import desbytes.models.Manage_Product_Info;
+import desbytes.models.ProductInfo;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,11 +29,11 @@ public class ManageProductRepository {
     }
 
     @PostConstruct
-    public List<Manage_Product_Info> findProductInventoryPage() {
-        return findProductInventoryPage(0, 0);
+    public List<ProductInfo> findProductInventory(){
+        return findProductInventoryByStoreId(1);
     }
 
-    public List<Manage_Product_Info> findProductInventoryPage(int pageNum, int storeId) {
+    public List<ProductInfo> findProductInventoryByStoreId(int storeId) {
         QueryReader reader = new QueryReader();
         String sql = reader.readQueryFile(
                 "manage_queries",
@@ -41,31 +41,18 @@ public class ManageProductRepository {
         return jdbcTemplate.query(sql, new ManageProductInfoRowMapper(), storeId);
     }
 
-    public void changeQuantity(int qty, String productId, double storeId) {
+    public void updateProductInfo(ProductInfo info) {
         QueryReader reader = new QueryReader();
-        String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
-        jdbcTemplate.update(sql, qty, productId, storeId);
+        String sql = reader.readQueryFile("manage_queries", "update_product.sql");
+        jdbcTemplate.update(sql,
+                info.getName(), info.getPrice(), info.getProduct_id());
+
+        sql = reader.readQueryFile("manage_queries", "update_inventory.sql");
+        jdbcTemplate.update(sql,
+                info.getAisle(), info.getQty(), info.getProduct_id(), info.getStore_id());
     }
 
-    public void changeAisle(int aisle, String productId, double storeId) {
-        QueryReader reader = new QueryReader();
-        String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
-        jdbcTemplate.update(sql, aisle, productId, storeId);
-    }
-
-    public void changeName(String name, String productId) {
-        QueryReader reader = new QueryReader();
-        String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
-        jdbcTemplate.update(sql, name, productId);
-    }
-
-    public void changePrice(float price, double productId) {
-        QueryReader reader = new QueryReader();
-        String sql = reader.readQueryFile("manage_queries", "update_inventory_qty.sql");
-        jdbcTemplate.update(sql, price, productId);
-    }
-
-    public void insertProductInfo(Manage_Product_Info productInfo) {
+    public void insertProductInfo(ProductInfo productInfo) {
         QueryReader reader = new QueryReader();
 
         // Make new product row
@@ -84,25 +71,25 @@ public class ManageProductRepository {
         );
     }
 
-    public void removeProductInfo(String productId, double storeId) {
+    public void removeProductInfo(ProductInfo info) {
         QueryReader reader = new QueryReader();
 
         // Make new inventory row
         String sql = reader.readQueryFile(
                 "manage_queries", "remove_product_info.sql");
-        jdbcTemplate.update(sql, productId, storeId);
+        jdbcTemplate.update(sql, info.getProduct_id(), info.getStore_id());
     }
 
-    public class ManageProductInfoRowMapper implements RowMapper<Manage_Product_Info> {
+    public class ManageProductInfoRowMapper implements RowMapper<ProductInfo> {
         @Override
-        public Manage_Product_Info mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public ProductInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
             String productId = rs.getString("product_id");
             int storeId = rs.getInt("store_id");
             String productName = rs.getString("name");
             float price = rs.getFloat("price");
             int qty = rs.getInt("qty");
             int aisle = rs.getInt("aisle");
-            return new Manage_Product_Info(productId, storeId, productName, price, qty, aisle);
+            return new ProductInfo(productId, storeId, productName, price, qty, aisle);
         }
     }
 }

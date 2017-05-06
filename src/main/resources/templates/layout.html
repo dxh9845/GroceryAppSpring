@@ -76,9 +76,13 @@
                                 <ul class="dropdown-menu" th:fragment="logout">
                                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
                                     <li sec:authorize="isAnonymous()"><a th:href="@{/register}">Create an account</a></li>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/profile?username={username}(username=${#authentication.name})}">Profile</a></li>
-
-                                    <li sec:authorize="isAuthenticated()" role="separator" class="divider"></li>
+                                    <li sec:authorize="isAuthenticated()">
+                                        <a th:href="@{/profile?username={username}(username=${#authentication.name})}">Profile</a>
+                                    </li>
+                                    <li sec:authorize="hasAuthority(2)">
+                                        <a th:href="@{/manage}">Manage Store</a>
+                                    </li>
+                                    <li sec:authorize="" role="separator" class="divider"></li>
                                     <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 
                                 </ul>

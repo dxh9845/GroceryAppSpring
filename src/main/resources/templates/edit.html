@@ -17,21 +17,31 @@
 <div layout:fragment="content">
     <div class="container-fluid">
         <div class="panel panel-default">
-            <!-- Default panel contents -->
+
+            <!-- Mange Product Panel Heading -->
             <div class="panel-heading">
-                <span> Manage Products</span>
-                <span class="pull-right dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false" th:text="${CurrentStore}">
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu scrollable-menu">
-                        <li><a th:href="@{__${store.store_id}__}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
-                    </ul>
-                </span>
-                <!--<a href="edit.html" th:href="@{__${CurrentStoreId}}__}"><span class="caret"></span></a>-->
+                <div class="row">
+                    <div class="col-xs-7 col-md-9"> Manage Products</div>
+                    <div class="col-xs-5 col-md-3">
+                        <div class="col-xs-6 dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false" th:text="${CurrentStore}">
+                            </a><a class="caret dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"></a>
+                            <ul class="dropdown-menu scrollable-menu">
+                                <li><a th:href="@{/edit/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
+                            </ul>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <a class="col-xs-3 glyphicon glyphicon-plus" data-toggle="modal" data-target="#AddProductModal"></a>
+                        <div class="col-xs-3">
+                            <a class="glyphicon glyphicon-cog" href="edit.html" th:href="@{/edit/{storeId}(storeId=${CurrentStoreId})}"></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <!-- Table -->
+            <!-- Product Info Table -->
             <table class="table">
                 <tr>
                     <!--<th>Product Id</th>-->
@@ -40,18 +50,59 @@
                     <th>Aisle</th>
                     <th>Quantity</th>
                 </tr>
-                <tr th:each="info: ${ProductInfos}">
-                    <form>
-                        <!--<td th:text="${info.product_id}"></td>-->
-                        <td><input th:field="${info.name}" /></td>
-                        <td><input th:field="${info.price}" /></td>
-                        <td><input th:field="${info.aisle}" /></td>
-                        <td><input th:field="${info.qty}" /></td>
-                        <td><span class="glyphicon glyphicon-floppy-disk"></span></td>
+                <tr th:each="info, stat: ${ProductInfos}">
+                    <form class="panel-body" action="#" th:action="@{/edit}" th:object="${ProductInfo}" method="post">
+                        <td class="hidden">
+                            <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
+                                   class="form-control"
+                                   aria-label="Amount (to the nearest dollar)"
+                                   th:value="${info.product_id}"
+                            />
+                        </td>
+                        <td>
+                            <div class="col-xs-8 input-group">
+                                <input type="text" th:name="name" th:id="name+__${stat.index}__" class="form-control"
+                                       aria-label="Amount (to the nearest dollar)"
+                                       th:value="${info.name}"
+                                />
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-xs-1 input-group">
+                                <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
+                                       aria-label="Amount (to the nearest dollar)"
+                                       th:value="${info.price}"
+                                />
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-xs-1 input-group">
+                                <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
+                                       aria-label="Amount (to the nearest dollar)"
+                                       th:value="${info.aisle}"
+                                />
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-xs-1 input-group">
+                                <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
+                                       aria-label="Amount (to the nearest dollar)"
+                                       th:value="${info.qty}"
+                                />
+                            </div>
+                        </td>
+                        <td class="col-xs-1">
+                            <button class="btn glyphicon glyphicon-floppy-disk" type="submit" value="save"></button>
+                        </td>
+
                     </form>
                 </tr>
             </table>
         </div>
+
     </div>
 </div>
 </body>

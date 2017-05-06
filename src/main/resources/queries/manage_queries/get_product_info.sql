@@ -7,4 +7,5 @@ SELECT Product.product_id,
 FROM Product,
   Inventory
 WHERE Product.product_id = Inventory.product_id
-      AND  Inventory.store_id = ?;
+      AND  Inventory.store_id = ?
+ORDER BY product_id;

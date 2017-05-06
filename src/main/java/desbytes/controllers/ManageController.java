@@ -4,7 +4,7 @@ import desbytes.Repositories.AppUserRepository;
 import desbytes.Repositories.ManageProductRepository;
 import desbytes.Repositories.StoreRepository;
 import desbytes.models.App_User;
-import desbytes.models.Manage_Product_Info;
+import desbytes.models.ProductInfo;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -39,8 +39,8 @@ public class ManageController {
     private int storeId = 1;
 
     @ModelAttribute("ProductInfos")
-    public List<Manage_Product_Info> ProductInfos(){
-        return this.productInfoRepo.findProductInventoryPage(0, this.storeId);
+    public List<ProductInfo> ProductInfos(){
+        return this.productInfoRepo.findProductInventoryByStoreId(this.storeId);
     }
 
     @ModelAttribute("CurrentStore")
@@ -75,7 +75,7 @@ public class ManageController {
                     this.storeId = store;
                     model.put("CurrentStore", currentStore());
                     model.put("ProductInfos", ProductInfos());
-                    model.addAttribute("productInfo", new Manage_Product_Info());
+                    model.addAttribute("productInfo", new ProductInfo());
 
                     return "manage";
                 }
@@ -85,10 +85,11 @@ public class ManageController {
     }
 
     @PostMapping("/manage")
-    public  String addProductInfo(Model model, @Valid @ModelAttribute("productInfo") Manage_Product_Info productInfo, final BindingResult bindingResult){
+    public  String addProductInfo(Model model, @Valid @ModelAttribute("productInfo") ProductInfo productInfo, final BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/manage";
         }
+        productInfo.setStore_id(this.storeId);
         this.productInfoRepo.insertProductInfo(productInfo);
         return "redirect:/manage";
     }
