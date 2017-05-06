@@ -20,23 +20,24 @@
             <!-- Mange Product Panel Heading -->
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-7 col-md-9"> Manage Products</div>
-                    <div class="col-xs-5 col-md-3">
-                        <div class="col-xs-6 dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false" th:text="${CurrentStore}">
-                                </a><a class="caret dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"></a>
-                            <ul class="dropdown-menu scrollable-menu">
-                                <li><a th:href="@{/manage/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
-                            </ul>
+                    <h1 class="col-xs-5"><span th:text="${CurrentStore}"/>'s Inventory</h1>
+                    <h1 class="col-xs-offset-3 col-xs-4">
+                        <div class="pull-right btn-group" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Change Store
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu scrollable-menu">
+                                    <li><a th:href="@{/manage/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
+                                </ul>
+                            </div>
+                            <a type="button" class="btn btn-default" th:href="@{/edit/{storeId}(storeId=${CurrentStoreId})}">
+                                <span class="glyphicon glyphicon-cog"/>
+                            </a>
                         </div>
-                    <!-- Button trigger modal -->
-                        <a class="col-xs-3 glyphicon glyphicon-plus" data-toggle="modal" data-target="#AddProductModal"></a>
-                        <div class="col-xs-3">
-                            <a class="glyphicon glyphicon-cog" href="edit.html" th:href="@{/edit/{storeId}(storeId=${CurrentStoreId})}"></a>
-                        </div>
-                    </div>
-
+                    </h1>
                 </div>
             </div>
 
@@ -57,89 +58,6 @@
                     <td th:text="${info.qty}"></td>
                 </tr>
             </table>
-        </div>
-
-
-
-        <!-- Add Product Modal -->
-        <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog" aria-labelledby="AddProductModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Add Product</div>
-                            <form class="panel-body" action="#" th:action="@{/manage}" th:object="${productInfo}" method="post">
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon2">Product Id</span>
-                                    <input type="text" th:field="*{product_id}" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
-                                           placeholder="000000000000000"
-                                    />
-                                </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('product_id')}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>ERROR!</strong> <span th:errors="*{product_id}"></span>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon2">Name</span>
-                                    <input type="text" th:field="*{name}" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
-                                           placeholder="Product Name"
-                                    />
-                                </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('name')}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>ERROR!</strong> <span th:errors="*{name}"></span>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                    <input type="number" th:field="*{price}" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
-                                           placeholder="1.00"
-                                    />
-                                </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>ERROR!</strong> <span th:errors="*{price}"></span>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon2">Quantity</span>
-                                    <input type="number" th:field="*{qty}" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
-                                           placeholder="1"
-                                    />
-                                </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-addon" id="sizing-addon2">Aisle</span>
-                                    <input type="number" th:field="*{aisle}" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
-                                           placeholder="0"
-                                    />
-                                </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
-                                </div>
-                                <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>

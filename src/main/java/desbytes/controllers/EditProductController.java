@@ -31,6 +31,13 @@ public class EditProductController {
 
     private int storeId = 1;
 
+    @ModelAttribute("ProductInfo")
+    public ProductInfo newProduct(){
+        ProductInfo newInfo = new ProductInfo();
+        newInfo.setStore_id(this.storeId);
+        return newInfo;
+    }
+
     @ModelAttribute("ProductInfos")
     public List<ProductInfo> ProductInfos(){
         return this.productInfoRepo.findProductInventoryByStoreId(this.storeId);
@@ -65,8 +72,7 @@ public class EditProductController {
         this.storeId = store;
         model.put("CurrentStore", currentStore());
         model.put("ProductInfos", ProductInfos());
-        model.addAttribute("productInfo", new ProductInfo());
-
+        model.put("ProductInfo", newProduct());
         return "edit";
     }
 
@@ -78,10 +84,23 @@ public class EditProductController {
         if (bindingResult.hasErrors()){
             return "/edit";
         }
-        productInfo.setStore_id(this.storeId);
         this.productInfoRepo.updateProductInfo(productInfo);
         model.put("ProductInfos", ProductInfos());
         return "edit";
+    }
+
+
+
+    @PostMapping("/add")
+    public  String addProductInfo(Model model,
+                                  @Valid @ModelAttribute("ProductInfo") ProductInfo productInfo,
+                                  final BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/edit";
+        }
+        productInfo.setStore_id(this.storeId);
+        this.productInfoRepo.insertProductInfo(productInfo);
+        return "redirect:/edit";
     }
 
 }
