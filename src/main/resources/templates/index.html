@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       layout:decorator="layout">
     <head>
         <title>Grocery App</title>
@@ -18,23 +19,39 @@
                 <div class="row">
                     <section class="itemSection">
                         <div class="col-xs-12">
-                            <h1 class="LeadText">Items on sale</h1>
+                            <h1 class="LeadText" sec:authorize="isAnonymous()">Products on sale</h1>
+                            <h1 class="LeadText" sec:authorize="isAuthenticated()">Products on sale in your store</h1>
                         </div>
 
                         <div class="col-xs-12">
                             <div class="owl-carousel">
 
-                                <div th:each="product: ${productList}" class="item">
+                                <div sec:authorize="isAnonymous()" th:each="product: ${productList}" class="item">
                                     <div class="icon-container">
                                         <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
                                     </div>
                                     <div class="text-container">
-                                        <h4 class="FranklinDemi" th:text="${product.name}"></h4>
+                                        <h4 class="FranklinDemi"><a th:text="${product.name}" th:href="@{/product?id={id}(id=${product.product_id})}"></a></h4>
                                         <h4 class="FranklinRegular">
                                             Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/>
                                         </h4>
                                     </div>
                                 </div>
+
+                                <div sec:authorize="isAuthenticated()" th:each="inventory: ${inventoryList}" class="item">
+                                    <div class="icon-container">
+                                        <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="text-container">
+                                        <h4 class="FranklinDemi"><a th:text="${inventory.product.name}"
+                                                                    th:href="@{/product?id={id}(id=${inventory.product.product_id})}"></a></h4>
+                                        <h4 class="FranklinRegular">
+                                            Price: $<span
+                                                th:text="${#numbers.formatDecimal(inventory.product.price, 0, 'COMMA', 2, 'POINT')}"/>
+                                        </h4>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

@@ -3,9 +3,13 @@ package desbytes.controllers;
 import desbytes.Repositories.*;
 import desbytes.models.App_User;
 import desbytes.models.Customer;
+import desbytes.models.Inventory;
 import desbytes.models.Product;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,7 +36,10 @@ public class IndexController {
     private ProductRepository productRepository;
 
     @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
+    private InventoryRepository inventoryRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -40,12 +47,34 @@ public class IndexController {
     @Autowired
     private StoreRepository storeRepository;
 
-    @RequestMapping("/")
-    public String greeting(Model model) {
+    public int getUserStore(App_User user) {
+        // Are we a user
+        if (user.getRole_id() == 0) {
+            int prefStoreId = customerRepository.findCustomerByID(user.getId()).getPref_store_id();
+            return prefStoreId;
+        }
+        // Are we an employee
+        else {
+            int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
+            return workStoreId;
+        }
+    }
 
-        List<Product> productList = productRepository.findTopProducts(25, 0);
+    @RequestMapping("/")
+    public String greeting(Model model, HttpServletRequest request) {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("productList", productList);
+        if (auth instanceof AnonymousAuthenticationToken) {
+            List<Product> productList = productRepository.findTopProducts(25, 0);
+            model.addAttribute("productList", productList);
+        }
+        else {
+            App_User user = userRepository.findUserByName(auth.getName());
+            int storeId = getUserStore(user);
+            List<Inventory> inventoryList = inventoryRepository.getStoreInventory(storeId);
+            model.addAttribute("inventoryList", inventoryList);
+        }
+
         return "index";
     }
 
