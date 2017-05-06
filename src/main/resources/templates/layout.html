@@ -48,9 +48,11 @@
                             <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
                         </ul>
                         <form class="navbar-form navbar-left" action="#"
-                              th:action="${#authentication.isAuthenticated()} ? @{/search?prefStore={id}(id=${storeId})} : @{/search/}"
+                              th:action="@{/search/}"
                               method="GET">
                             <div class="form-group">
+                                <input th:if="${#authentication.isAuthenticated()}" hidden="hidden" type="text" th:value="${session.storeId}"
+                                    name="storeId"/>
                                 <input type="text" minlength="1"
                                        class="form-control"
                                        th:name="query"

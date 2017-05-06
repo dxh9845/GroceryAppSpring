@@ -5,6 +5,8 @@ package desbytes.models;
  */
 public class Inventory {
 
+    private Product product;
+
     private String product_id;
     private int store_id;
     private int qty;
@@ -15,6 +17,14 @@ public class Inventory {
         this.store_id = store_id;
         this.qty = qty;
         this.aisle = aisle;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String getProduct_id() {

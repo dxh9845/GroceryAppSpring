@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       layout:decorator="layout">
 <head>
     <title>Search products</title>
@@ -12,11 +13,13 @@
 <div layout:fragment="content">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <h2 class="page-header">Search for '<span th:text="${searchTerm}"></span>': </h2>
+            <div class="col-sm-12" th:switch="${#authentication.isAuthenticated()}">
+                <h2 class="page-header" th:case="${false}">Search for '<span th:text="${searchTerm}"></span>': </h2>
+                <h2 class="page-header" th:case="${true}">
+                    Search for '<span th:text="${searchTerm}"></span>' in your preferred store: </h2>
             </div>
         </div>
-        <div th:switch="${productList.isEmpty()}">
+        <div th:if="!${#authentication.isAuthenticated()}" th:switch="${productList.isEmpty()}">
             <div th:case="${false}" class="row item-row" th:each="product: ${productList}">
                 <div class="col-md-2 col-sm-6">
                     <div class="search-item">
@@ -29,6 +32,35 @@
                     <div class="product-text">
                         <h3><a th:text="${product.name}" th:href="@{/product?id={id}(id=${product.product_id})}"></a></h3>
                         <h4>Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center" th:case="${true}" >
+                <span style="font-size: 75px;">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                </span>
+                <h2 class="page-header no-border">
+                    <i class="fa fa-frown-o"></i>
+                    We couldn't find any results that matched <span th:text="${searchTerm}"></span>.
+                </h2>
+            </div>
+        </div>
+        <div th:if="${#authentication.isAuthenticated()}" th:switch="${inventoryList.isEmpty()}">
+            <div th:case="${false}" class="row item-row" th:each="inventory: ${inventoryList}">
+                <div class="col-md-2 col-sm-6">
+                    <div class="search-item">
+                        <div class="icon-container">
+                            <span class="glyphicon glyphicon-qrcode"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-6">
+                    <div class="product-text">
+                        <h3><a th:text="${inventory.product.name}" th:href="@{/product?id={id}(id=${inventory.product.product_id})}"></a></h3>
+                        <h4>Price: $<span th:text="${#numbers.formatDecimal(inventory.product.price, 0, 'COMMA', 2, 'POINT')}"/></h4>
+                        <h4>Aisle: <span th:text="${inventory.aisle}"/></h4>
+                        <h4>Quantity: <span th:text="${inventory.qty}"/></h4>
                     </div>
                 </div>
 

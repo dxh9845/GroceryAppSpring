@@ -1,7 +1,9 @@
 package desbytes.controllers;
 
+import desbytes.Repositories.InventoryRepository;
 import desbytes.Repositories.ProductRepository;
 import desbytes.Repositories.StoreRepository;
+import desbytes.models.Inventory;
 import desbytes.models.Product;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,13 +27,24 @@ public class SearchController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String greeting(@RequestParam(value="query", required=false) String query, Model model) {
+    public String search(@RequestParam(value="query", required=true) String query,
+                         @RequestParam(value="storeId", required=false) Integer storeId, Model model) {
 
         List<Product> productList = productRepository.searchProducts(query);
         model.addAttribute("searchTerm", query);
         System.out.println(query);
-        model.addAttribute("productList", productList);
+        if (storeId == null) {
+            model.addAttribute("productList", productList);
+            model.addAttribute("inventoryList", new ArrayList<Inventory>());
+        } else {
+            List<Inventory> inventoryList = inventoryRepository.getStoreInventory(storeId);
+            model.addAttribute("productList", new ArrayList<Product>());
+            model.addAttribute("inventoryList", inventoryList);
+        }
         return "search";
     }
 }

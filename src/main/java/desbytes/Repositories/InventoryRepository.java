@@ -1,6 +1,7 @@
 package desbytes.Repositories;
 
 import desbytes.models.Inventory;
+import desbytes.models.Product;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,6 +23,9 @@ import java.util.List;
 @Repository
 public class InventoryRepository {
 
+    @Autowired
+    private ProductRepository productRepository;
+
     private JdbcTemplate jdbcTemplate;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -32,6 +36,13 @@ public class InventoryRepository {
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+
+    public List<Inventory> getStoreInventory(int storeId) {
+        QueryReader reader = new QueryReader();
+        String content = reader.readQueryFile("inventory_queries", "get_store_inventory.sql");
+        return jdbcTemplate.query(content, new Object[]{storeId}, new InventoryRowMapper());
     }
 
     public Inventory insertInventory(Inventory newInventory)
@@ -79,10 +90,13 @@ public class InventoryRepository {
         public Inventory mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             String product_id = rs.getString("product_id");
+            Product inventoryProduct = productRepository.findProductById(product_id);
             int store_id = rs.getInt("store_id");
             int qty = rs.getInt("qty");
             int aisle = rs.getInt("aisle");
-            return new Inventory(product_id, store_id, qty, aisle);
+            Inventory newInventory = new Inventory(product_id, store_id, qty, aisle);
+            newInventory.setProduct(inventoryProduct);
+            return newInventory;
         }
     }
 }

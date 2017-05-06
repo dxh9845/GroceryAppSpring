@@ -3,12 +3,14 @@ SELECT
 	product.name,
 	product.price,
 	inventory.qty,
-	inventory.aisle
+	inventory.aisle,
+	inventory.store_id,
+	store.store_id
 	FROM 
 		inventory, product, store
 	WHERE 
 		inventory.product_id = product.product_id
 		AND
-		inventory.store_ID = ??
+		inventory.store_id = ?
 		AND 
 		inventory.store_id = store.store_id

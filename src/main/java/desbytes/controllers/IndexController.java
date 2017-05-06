@@ -6,7 +6,6 @@ import desbytes.models.Customer;
 import desbytes.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -46,19 +45,6 @@ public class IndexController {
 
         List<Product> productList = productRepository.findTopProducts(25, 0);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            String currentUser = auth.getName();
-            App_User user = userRepository.findUserByName(currentUser);
-            if (user != null) {
-                int customerId = user.getId();
-                if (user.getRole_id() == 0) {
-                    int storeId = customerRepository.findCustomerByID(customerId).getPref_store_id();
-                    model.addAttribute("storeId", storeId);
-                }
-
-            }
-        }
-
         model.addAttribute("productList", productList);
         return "index";
     }
@@ -70,6 +56,12 @@ public class IndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String postLogin() {
+        return "login";
+    }
+
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
         return "login";
     }
 
@@ -101,16 +93,10 @@ public class IndexController {
             return "redirect:/register";
         }
 
-
-
         model.addAttribute("registerSuccess", true);
         return "/login";
     }
 
-    @RequestMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", true);
-        return "login";
-    }
+
 
 }

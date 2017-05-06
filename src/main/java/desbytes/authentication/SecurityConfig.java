@@ -18,6 +18,10 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+    @Autowired
+    AuthSuccessHandler securityHandler;
+
     @Autowired
     DataSource dataSource;
 
@@ -39,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/search").permitAll();
         http
                 .formLogin().loginPage("/login").failureUrl("/login-error")
+                .successHandler(securityHandler)
                 .usernameParameter("username").passwordParameter("password")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout");
