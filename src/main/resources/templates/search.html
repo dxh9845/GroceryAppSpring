@@ -13,14 +13,21 @@
 <div layout:fragment="content">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12" th:switch="${#authentication.isAuthenticated()}">
-                <h2 class="page-header" th:case="${false}">Search for '<span th:text="${searchTerm}"></span>': </h2>
-                <h2 class="page-header" th:case="${true}">
-                    Search for '<span th:text="${searchTerm}"></span>' in your preferred store: </h2>
+            <div class="col-sm-12" sec:authorize="isAnonymous()">
+                <h2 class="page-header">
+                    Search for '<span th:text="${searchTerm}"></span>' in all stores:
+                </h2>
+                <h2><small>Found <span th:text="${#lists.size(productList)}"></span> results.</small></h2>
+            </div>
+            <div class="col-sm-12" sec:authorize="isAuthenticated()">
+                <h2 class="page-header">
+                    Search for '<span th:text="${searchTerm}"></span>' in your preferred store:
+                </h2>
+                <h2><small>Found <span th:text="${#lists.size(inventoryList)}"></span> results.</small></h2>
             </div>
         </div>
-        <div th:if="!${#authentication.isAuthenticated()}" th:switch="${productList.isEmpty()}">
-            <div th:case="${false}" class="row item-row" th:each="product: ${productList}">
+        <div sec:authorize="isAnonymous()">
+            <div th:if="!${productList.isEmpty()}" class="row item-row" th:each="product: ${productList}">
                 <div class="col-md-2 col-sm-6">
                     <div class="search-item">
                         <div class="icon-container">
@@ -36,7 +43,7 @@
                 </div>
 
             </div>
-            <div class="text-center" th:case="${true}" >
+            <div class="text-center" th:if="${productList.isEmpty()}" >
                 <span style="font-size: 75px;">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
                 </span>
@@ -46,8 +53,8 @@
                 </h2>
             </div>
         </div>
-        <div th:if="${#authentication.isAuthenticated()}" th:switch="${inventoryList.isEmpty()}">
-            <div th:case="${false}" class="row item-row" th:each="inventory: ${inventoryList}">
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${!inventoryList.isEmpty()}" class="row item-row" th:each="inventory: ${inventoryList}">
                 <div class="col-md-2 col-sm-6">
                     <div class="search-item">
                         <div class="icon-container">
@@ -65,7 +72,7 @@
                 </div>
 
             </div>
-            <div class="text-center" th:case="${true}" >
+            <div class="text-center" th:if="${inventoryList.isEmpty()}">
                 <span style="font-size: 75px;">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
                 </span>

@@ -13,8 +13,8 @@ INSERT INTO STORE VALUES (NULL, 'Mega Bytes','586 Corry Trail,Jacksonville,Flori
 
 INSERT INTO APP_USER(User_ID, Name, Username, Password, Phone, Address, Role_ID) VALUES
 (NULL, 'Peter Sullivan', 'psullivan', 'LhhkyEZigIT', '4066410484', '77 Dahle Road,Bozeman,Montana,59771', 0),
-(NULL, 'Heather White', 'hwhite', 'qLAs64o8', '4042276915', '82 Hermina Avenue,Atlanta,Georgia,30392', 0),
-(NULL, 'Carl Fox','cfox', 'GAufXlzdV', '8082543085', '03916 Corben Street,Honolulu,Hawaii,96840', 1),
+(NULL, 'Heather White', 'hwhite', 'hwhite', '4042276915', '82 Hermina Avenue,Atlanta,Georgia,30392', 0),
+(NULL, 'Carl Fox','cfox', 'cfox', '8082543085', '03916 Corben Street,Honolulu,Hawaii,96840', 1),
 (NULL, 'Jerry Kennedy', 'jkennedy', '9zEgSAT', '9176884300', '96 Talisman Drive,New York City,New York,10155', 0),
 (NULL, 'Brandon Harper','bharper', 'FnoSr6JLFP', '7143314786', '2248 Morrow Street,Garden Grove,California,92645', 1),
 (NULL, 'Kathleen Johnson','kjohnson', 'zVMmT2diq', '9176511325', '762 Almo Alley,New York City,New York,10039', 2),

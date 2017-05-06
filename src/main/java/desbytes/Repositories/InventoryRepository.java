@@ -45,6 +45,14 @@ public class InventoryRepository {
         return jdbcTemplate.query(content, new Object[]{storeId}, new InventoryRowMapper());
     }
 
+    public List<Inventory> searchStoreInventory(int storeId, String storeQuery) {
+        storeQuery = storeQuery.toLowerCase();
+        storeQuery = '%' + storeQuery + '%';
+        QueryReader reader = new QueryReader();
+        String content = reader.readQueryFile("inventory_queries", "search_store_inventory.sql");
+        return jdbcTemplate.query(content, new Object[]{storeQuery, storeId}, new InventoryRowMapper());
+    }
+
     public Inventory insertInventory(Inventory newInventory)
     {
         QueryReader r = new QueryReader();

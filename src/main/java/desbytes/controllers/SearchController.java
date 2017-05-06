@@ -34,14 +34,13 @@ public class SearchController {
     public String search(@RequestParam(value="query", required=true) String query,
                          @RequestParam(value="storeId", required=false) Integer storeId, Model model) {
 
-        List<Product> productList = productRepository.searchProducts(query);
         model.addAttribute("searchTerm", query);
-        System.out.println(query);
         if (storeId == null) {
+            List<Product> productList = productRepository.searchProducts(query);
             model.addAttribute("productList", productList);
             model.addAttribute("inventoryList", new ArrayList<Inventory>());
         } else {
-            List<Inventory> inventoryList = inventoryRepository.getStoreInventory(storeId);
+            List<Inventory> inventoryList = inventoryRepository.searchStoreInventory(storeId, query);
             model.addAttribute("productList", new ArrayList<Product>());
             model.addAttribute("inventoryList", inventoryList);
         }
