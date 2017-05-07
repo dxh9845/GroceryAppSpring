@@ -1,13 +1,8 @@
 package desbytes.controllers;
 
-import desbytes.Repositories.AppUserRepository;
-import desbytes.Repositories.CustomerRepository;
-import desbytes.Repositories.OrderHistoryRepository;
-import desbytes.Repositories.ShoppingCartRepository;
-import desbytes.models.Grocery_Order;
-import desbytes.models.OrderHistory;
-import desbytes.models.Product;
-import desbytes.models.Shopping_Cart;
+import desbytes.Repositories.*;
+import desbytes.models.*;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.*;
 
 /**
@@ -34,6 +31,10 @@ public class ShoppingCartController {
     private ShoppingCartRepository shoppingCartRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private InventoryRepository inventoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @RequestMapping("/cart")
     public String greeting(Model model) {
@@ -48,6 +49,8 @@ public class ShoppingCartController {
             if (cart == null) {
                 cart = new Shopping_Cart();
                 cart.setProductList(new HashMap<Product, Integer>());
+            } else {
+                HashMap<Product, Integer> productList = cart.getProductList();
             }
 
             model.addAttribute("cart", cart);
@@ -90,11 +93,26 @@ public class ShoppingCartController {
 
 
     @RequestMapping(value = "/cart/product_id", method=RequestMethod.POST, params = "action=update")
-    public String qtyByProductId(@RequestParam("quantity") int quantity, @RequestParam("product_id") String product_id, Model model) {
+    public String qtyByProductId(@RequestParam("quantity") int quantity, @RequestParam("product_id") String product_id,
+                                 HttpServletRequest request, Model model, RedirectAttributes redir) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             String username = auth.getName();
             int id = userRepository.findUserByName(username).getId();
+
+            // Get the product
+            Product prod = productRepository.findProductById(product_id);
+            // Get the user's preferred store
+            Integer prefStore = (Integer) request.getSession().getAttribute("storeId");
+            // If we have overdrawn from the store's inventory
+            Inventory inventoryItem = inventoryRepository.getItemFromStore(prefStore, product_id);
+            if (inventoryItem.getQty() < quantity) {
+                redir.addFlashAttribute("updateError", true);
+                redir.addFlashAttribute("errorMsg", "There are not enough of " + prod.getName() + "' in stock. " +
+                        "We have at most " + inventoryItem.getQty() + " of this item in stock.");
+                return "redirect:/cart";
+            }
+
 
             shoppingCartRepository.updateShoppingCart(id, product_id, quantity);
         }
