@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -127,6 +124,17 @@ public class EditProductController {
         }
         productInfo.setStore_id(this.storeId);
         this.productInfoRepo.insertProductInfo(productInfo);
+        model.put("ProductInfos", ProductInfos());
+        return "edit";
+    }
+
+    @PostMapping("/remove")
+    public  String removeProductInfo(ModelMap model,
+                                     @RequestParam("deleteItem")String productId){
+        ProductInfo productInfo = newProduct();
+        productInfo.setStore_id(this.storeId);
+        productInfo.setProduct_id(productId);
+        this.productInfoRepo.removeProductInfo(productInfo);
         model.put("ProductInfos", ProductInfos());
         return "edit";
     }

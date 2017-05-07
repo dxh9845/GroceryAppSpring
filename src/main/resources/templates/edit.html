@@ -34,7 +34,7 @@
                                     <li><a th:href="@{/edit/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
+                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
                                 <span class="glyphicon glyphicon-plus"/>
                             </button>
                             <a type="button" class="btn btn-default" th:href="@{/manage/{storeId}(storeId=${CurrentStoreId})}">
@@ -54,65 +54,76 @@
                     <th>Aisle</th>
                     <th>Quantity</th>
                 </tr>
-                <tr th:each="info, stat: ${ProductInfos}">
-                    <form class="panel-body" action="#" th:action="@{/edit}" th:object="${ProductInfo}" method="post">
-                        <td class="hidden">
-                            <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
-                                   class="form-control"
-                                   aria-label="Amount (to the nearest dollar)"
-                                   th:value="${info.product_id}"
-                            />
-                        </td>
-                        <td class="col-xs-7">
-                            <div class="input-group" style="width: 100%">
-                                <input type="text" th:name="name" th:id="name+__${stat.index}__" class="form-control"
+                <div class="panel-body">
+                    <tr th:each="info, stat: ${ProductInfos}">
+                        <form action="#" th:action="@{/remove}" th:object="${ProductInfo}" method="post">
+                            <td sec:authorize="hasAuthority(2)">
+                                <button class="btn btn-danger" name="deleteItem" th:value="${info.product_id}">
+                                    <span class="glyphicon glyphicon-remove"/>
+                                </button>
+                            </td>
+                        </form>
+                        <form action="#" th:action="@{/edit}" th:object="${ProductInfo}" method="post">
+                            <td class="hidden">
+                                <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
+                                       class="form-control"
                                        aria-label="Amount (to the nearest dollar)"
-                                       th:value="${info.name}"
+                                       th:value="${info.product_id}"
                                 />
-                            </div>
-                        </td>
+                            </td>
+                            <td class="col-xs-7">
+                                <div class="input-group" style="width: 100%">
+                                    <input type="text" th:name="name" th:id="name+__${stat.index}__" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)"
+                                           th:value="${info.name}"
+                                    />
+                                </div>
+                            </td>
 
-                        <td class="col-xs-2">
-                            <div class="input-group" style="width: 100%">
-                                <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
-                                       th:value="${info.price}"
-                                />
-                            </div>
-                        </td>
+                            <td class="col-xs-2">
+                                <div class="input-group" style="width: 100%">
+                                    <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)"
+                                           th:value="${info.price}"
+                                    />
+                                </div>
+                            </td>
 
-                        <td class="col-xs-1">
-                            <div class="input-group" style="width: 100%">
-                                <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
-                                       th:value="${info.aisle}"
-                                />
-                            </div>
-                        </td>
+                            <td class="col-xs-1">
+                                <div class="input-group" style="width: 100%">
+                                    <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)"
+                                           th:value="${info.aisle}"
+                                    />
+                                </div>
+                            </td>
 
-                        <td class="col-xs-1">
-                            <div class="input-group" style="width: 100%">
-                                <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
-                                       th:value="${info.qty}"
-                                />
-                            </div>
-                        </td>
-                        <td class="col-xs-1">
-                            <button class="btn btn-primary" type="submit" value="save">
-                                <span class="glyphicon glyphicon-floppy-disk"/>
-                            </button>
-                        </td>
+                            <td class="col-xs-1">
+                                <div class="input-group" style="width: 100%">
+                                    <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)"
+                                           th:value="${info.qty}"
+                                    />
+                                </div>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-primary" type="submit" value="save">
+                                    <span class="glyphicon glyphicon-floppy-disk"/>
+                                </button>
+                            </td>
 
-                    </form>
-                </tr>
+                        </form>
+                    </tr>
+                </div>
+
             </table>
         </div>
 
     </div>
 
     <!-- Add Product Modal -->
-    <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog" aria-labelledby="AddProductModalLabel">
+    <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog"
+         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

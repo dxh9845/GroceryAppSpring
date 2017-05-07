@@ -76,7 +76,7 @@ public class ManageProductRepository {
 
         // Make new inventory row
         String sql = reader.readQueryFile(
-                "manage_queries", "remove_product_info.sql");
+                "manage_queries", "remove_inventory.sql");
         jdbcTemplate.update(sql, info.getProduct_id(), info.getStore_id());
     }
 
