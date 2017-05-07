@@ -52,7 +52,7 @@ public class ManageProductRepository {
                 info.getAisle(), info.getQty(), info.getProduct_id(), info.getStore_id());
     }
 
-    public void insertProductInfo(ProductInfo productInfo) {
+    public void insertProduct(ProductInfo productInfo) {
         QueryReader reader = new QueryReader();
 
         // Make new product row
@@ -61,6 +61,10 @@ public class ManageProductRepository {
         jdbcTemplate.update(sqlNewProduct,
                 productInfo.getProduct_id(), productInfo.getName(), productInfo.getPrice()
         );
+    }
+
+    public void insertProductInfo(ProductInfo productInfo) {
+        QueryReader reader = new QueryReader();
 
         // Make new inventory row
         String sqlNewInventory = reader.readQueryFile(

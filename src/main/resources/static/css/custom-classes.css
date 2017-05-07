@@ -3,3 +3,7 @@
     max-height: 10em;
     overflow-x: hidden;
 }
+
+.select2-container{
+    width: 100% !important;
+}

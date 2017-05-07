@@ -129,65 +129,14 @@
     </div>
 
     <!-- Add Product Modal -->
-    <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog"
-         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel" style="tab-index: false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Add Product</div>
-                        <form class="panel-body" action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon2">Product Id</span>
-                                <select th:field="*{product_id}">
-                                    <option th:each="product : ${AllProducts}"
-                                            th:value="${product}"
-                                            th:text="${product.name}"></option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon2">Quantity</span>
-                                <input type="number" th:field="*{qty}" class="form-control"
-                                       aria-label="Quantity of the item"
-                                       placeholder="1"  min="0"
-                                />
-                            </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon2">Aisle</span>
-                                <input type="number" th:field="*{aisle}" class="form-control"
-                                       aria-label="Aisle where the item is located"
-                                       placeholder="0"  min="0"
-                                />
-                            </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
-                            </div>
-                            <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Inventory Modal -->
-    <div class="modal fade" id="AddInventoryModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="AddProductModal" role="dialog"
          sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="panel panel-default">
                         <div class="panel-heading">Add Product</div>
-                        <form class="panel-body" action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
+                        <form class="panel-body" action="#" th:action="@{/addProduct}" th:object="${ProductInfo}" method="post">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Product Id</span>
                                 <input type="text" th:field="*{product_id}" class="form-control"
@@ -226,6 +175,31 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <strong>ERROR!</strong> <span th:errors="*{price}"></span>
+                            </div>
+                            <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div class="modal fade" id="AddInventoryModal" role="dialog"
+         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Add Product</div>
+                        <form class="panel-body" action="#" th:action="@{/addInventory}" th:object="${ProductInfo}" method="post">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2">Product Id</span>
+                                <select th:field="*{product_id}"  tabindex="-1">
+                                    <option th:each="product : ${AllProducts}"
+                                            th:value="${product.product_id }"
+                                            th:text="${product.name}"></option>
+                                </select>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Quantity</span>
@@ -266,8 +240,13 @@
 
 <th:block layout:fragment="scripts">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
-        $('select').select2();
+        $(document).ready(function() {
+            $("select").select2();
+            $("table").DataTable();
+        });
     </script>
 </th:block>
 </html>

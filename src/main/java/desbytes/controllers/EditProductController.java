@@ -119,14 +119,26 @@ public class EditProductController {
         return "edit";
     }
 
-
-
-    @PostMapping("/add")
-    public  String addProductInfo(ModelMap model,
+    @PostMapping("/addProduct")
+    public  String addProduct(ModelMap model,
                                   @Valid @ModelAttribute("ProductInfo") ProductInfo productInfo,
                                   final BindingResult bindingResult){
         if (bindingResult.hasErrors()){
-            return "/edit";
+            return "edit";
+        }
+        productInfo.setStore_id(this.storeId);
+        this.productInfoRepo.insertProduct(productInfo);
+        model.put("ProductInfos", ProductInfos());
+        return "edit";
+    }
+
+
+    @PostMapping("/addInventory")
+    public  String addInventory(ModelMap model,
+                                  @Valid @ModelAttribute("ProductInfo") ProductInfo productInfo,
+                                  final BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "edit";
         }
         productInfo.setStore_id(this.storeId);
         this.productInfoRepo.insertProductInfo(productInfo);
