@@ -47,6 +47,11 @@
                 <h2 class="FranklinDemi border">Your address: <span class="FranklinRegular" th:text="${loggedUser.address}"></span></h2>
             </div>
 
+            <div class="col-sm-12">
+                <h2 class="FranklinDemi border">Your preferred store:
+                    <span class="FranklinRegular" th:text="${prefStore.name} + ' at ' + ${prefStore.location}"></span></h2>
+            </div>
+
 
         </div>
     </div>

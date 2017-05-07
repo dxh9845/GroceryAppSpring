@@ -3,7 +3,10 @@ package desbytes.controllers;
 import desbytes.Repositories.AppUserRepository;
 import desbytes.Repositories.CustomerRepository;
 import desbytes.Repositories.EmployeeRepository;
+import desbytes.Repositories.StoreRepository;
 import desbytes.models.App_User;
+import desbytes.models.Store;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,12 +29,16 @@ public class ProfileController {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private StoreRepository storeRepository;
+
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String username(@RequestParam("username") String username, Model model) {
+    public String username(@RequestParam("username") String username, HttpServletRequest request, Model model) {
         App_User user = appUserRepository.findUserByName(username);
-        int storeId = customerRepository.findCustomerByID(user.getId()).getPref_store_id();
-        model.addAttribute("storeId", storeId);
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
+        Store prefStore = storeRepository.findStoreById(storeId);
+        model.addAttribute("prefStore", prefStore);
         model.addAttribute("loggedUser", user);
 
         return "profile";
