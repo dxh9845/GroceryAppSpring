@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="row" sec:authorize="isAuthenticated()">
+                        <div class="row" sec:authorize="isAuthenticated() and hasAuthority(0) ">
                             <form action="#" th:action="@{/product}" th:object="${product}" method="post">
                                     <input type="hidden" th:field="*{product_id}" th:value="${product.product_id}"/>
                                     <input type="hidden" th:field="*{name}" th:value="${product.name}"/>
