@@ -7,7 +7,7 @@ INSERT INTO STORE VALUES (NULL, 'Mega Bytes','586 Corry Trail,Jacksonville,Flori
 (NULL, 'Deez Bytes', '56 Truax Alley,Roanoke,Virginia,24048'),
 (NULL, 'Giga Bytes', '391 Rusk Center,Kalamazoo,Michigan,49048'),
 (NULL, 'Kilo Bytes', '8275 Scott Way,Fort Pierce,Florida,34949'),
-(NULL, 'Meag Bytes', '1875 Sunfield Park,New Haven,Connecticut,06538'),
+(NULL, 'Mega Bytes', '1875 Sunfield Park,New Haven,Connecticut,06538'),
 (NULL, 'Deez Bytes', '40327 Marcy Crossing,Olympia,Washington,98516'),
 (NULL, 'Terra Bytes', '1447 Lawn Court,Winston Salem,North Carolina,27150');
 
