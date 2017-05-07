@@ -7,7 +7,7 @@ INSERT INTO STORE VALUES (NULL, 'Mega Bytes','586 Corry Trail,Jacksonville,Flori
 (NULL, 'Deez Bytes', '56 Truax Alley,Roanoke,Virginia,24048'),
 (NULL, 'Giga Bytes', '391 Rusk Center,Kalamazoo,Michigan,49048'),
 (NULL, 'Kilo Bytes', '8275 Scott Way,Fort Pierce,Florida,34949'),
-(NULL, 'Meag Bytes', '1875 Sunfield Park,New Haven,Connecticut,06538'),
+(NULL, 'Mega Bytes', '1875 Sunfield Park,New Haven,Connecticut,06538'),
 (NULL, 'Deez Bytes', '40327 Marcy Crossing,Olympia,Washington,98516'),
 (NULL, 'Terra Bytes', '1447 Lawn Court,Winston Salem,North Carolina,27150');
 
@@ -1493,6 +1493,7 @@ insert into inventory (product_id, store_id, qty, aisle) values ('79818911273526
 insert into inventory (product_id, store_id, qty, aisle) values ('07381266696401', 6, 148, 15);
 insert into inventory (product_id, store_id, qty, aisle) values ('48586879777076', 6, 55, 3);
 insert into inventory (product_id, store_id, qty, aisle) values ('63220427277322', 5, 74, 5);
+insert into inventory (product_id, store_id, qty, aisle) values ('23728487557003', 2, 3, 9);
 insert into inventory (product_id, store_id, qty, aisle) values ('02719636336018', 6, 197, 15);
 insert into inventory (product_id, store_id, qty, aisle) values ('60392909210750', 1, 34, 9);
 insert into inventory (product_id, store_id, qty, aisle) values ('38342323525291', 3, 99, 5);

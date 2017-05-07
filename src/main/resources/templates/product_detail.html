@@ -26,31 +26,52 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-8">
-                <h1 style="margin-top:0;" class="FranklinRegular">
-                    Price: $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/>
-                </h1>
-                <h1 sec:authorize="isAuthenticated()" class="FranklinRegular">
-                    Aisle: <span th:text="${inventoryItem.aisle}"></span>
-                </h1>
-                <h1 sec:authorize="isAuthenticated()" class="FranklinRegular">
-                    Aisle: <span th:text="${inventoryItem.qty}"></span>
-                </h1>
-                <div sec:authorize="isAnonymous()" class="FranklinRegular">
-                    <h2 class="FranklinDemi">This product is available in the following stores:</h2>
-                    <ul th:each="store: ${storeList}" >
-                        <li><h4 class="FranklinRegular" th:text="${store.name} + ', ' + ${store.location}"></h4></li>
-                    </ul>
+                <div class="product-details">
+                    <h2 class="header FranklinDemi">Product details</h2>
+                    <div class="content container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2 style="margin-top:0;" class="FranklinRegular">
+                                    <span class="FranklinDemi"> Price: </span>$<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2 sec:authorize="isAuthenticated()" class="FranklinDemi">
+                                    Aisle: <span th:text="${inventoryItem.aisle}"></span>
+                                </h2>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2 sec:authorize="isAuthenticated()" class="FranklinDemi">
+                                    Quantity available: <span th:text="${inventoryItem.qty}"></span>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row FranklinDemi" sec:authorize="isAnonymous()">
+                            <div class="col-sm-12">
+                                <h2 class="FranklinDemi">This product is available in the following stores:</h2>
+                                <ul th:each="store: ${storeList}" >
+                                    <li><h4 class="FranklinRegular" th:text="${store.name} + ', ' + ${store.location}"></h4></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row" sec:authorize="isAuthenticated() and hasAuthority(0) ">
+                            <form action="#" th:action="@{/product}" th:object="${product}" method="post">
+                                    <input type="hidden" th:field="*{product_id}" th:value="${product.product_id}"/>
+                                    <input type="hidden" th:field="*{name}" th:value="${product.name}"/>
+                                    <input type="hidden" th:field="*{price}" th:value="${product.price}"/>
+
+                                    <button class="btn btn-lg btn-primary FranklinDemi text-uppercase" type="submit" value="save">Add to shopping cart</button>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
-                <form class="panel-body" action="#" th:action="@{/product}" th:object="${product}" method="post">
-                    <div sec:authorize="isAuthenticated()">
-                    <input type="hidden" th:field="*{product_id}" th:value="${product.product_id}"/>
-                    <input type="hidden" th:field="*{name}" th:value="${product.name}"/>
-                    <input type="hidden" th:field="*{price}" th:value="${product.price}"/>
-
-                    <button class="btn btn-lg btn-primary" type="submit" value="save">Add to shopping cart</button>
-                    </div>
-                </form>
 
             </div>
         </div>
