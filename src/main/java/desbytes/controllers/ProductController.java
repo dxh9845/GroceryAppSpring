@@ -1,10 +1,9 @@
 package desbytes.controllers;
 
-import desbytes.Repositories.AppUserRepository;
-import desbytes.Repositories.ProductRepository;
-import desbytes.Repositories.ShoppingCartRepository;
+import desbytes.Repositories.*;
+import desbytes.models.App_User;
+import desbytes.models.Inventory;
 import desbytes.models.Product;
-import desbytes.models.Shopping_Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,11 +30,39 @@ public class ProductController {
     @Autowired
     private AppUserRepository userRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
+    public int getUserStore(App_User user) {
+        // Are we a user
+        if (user.getRole_id() == 0) {
+            int prefStoreId = customerRepository.findCustomerByID(user.getId()).getPref_store_id();
+            return prefStoreId;
+        }
+        // Are we an employee
+        else {
+            int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
+            return workStoreId;
+        }
+    }
+
     @RequestMapping(value="/product", method = RequestMethod.GET)
     public String greeting(@RequestParam("id") String id, Model model) {
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Product prod = productRepository.findProductById(id);
         model.addAttribute("product", prod);
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            App_User user = userRepository.findUserByName(auth.getName());
+            int storeId = getUserStore(user);
+            Inventory inventoryItem = inventoryRepository.getItemFromStore(storeId, id);
+            model.addAttribute("inventoryItem", inventoryItem);
+        }
         return "product_detail";
     }
 
