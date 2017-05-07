@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css"
               href="/css/owl.theme.default.min.css"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-
+        <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     </th:block>
 </head>
 <body>
@@ -43,23 +43,36 @@
                 </div>
             </div>
 
-            <!-- Product Info Table -->
-            <table class="table">
-                <tr>
-                    <!--<th>Product Id</th>-->
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Aisle</th>
-                    <th>Quantity</th>
-                </tr>
-                <tr th:each="info: ${ProductInfos}">
-                    <!--<td th:text="${info.product_id}"></td>-->
-                    <td th:text="${info.name}"></td>
-                    <td th:text="${info.price}"></td>
-                    <td th:text="${info.aisle}"></td>
-                    <td th:text="${info.qty}"></td>
-                </tr>
-            </table>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Product Info Table -->
+                        <table id="#productInfo" class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Aisle</th>
+                                <th>Quantity</th>
+                            </tr>
+                            <!--<th>Product Id</th>-->
+
+                            </thead>
+                            <tbody>
+                            <tr th:each="info: ${ProductInfos}">
+                                <!--<td th:text="${info.product_id}"></td>-->
+                                <td th:text="${info.name}"></td>
+                                <td th:text="${info.price}"></td>
+                                <td th:text="${info.aisle}"></td>
+                                <td th:text="${info.qty}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
     </div>
@@ -68,9 +81,12 @@
 
 <th:block layout:fragment="scripts">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $(".select2Test").select2();
+            $("table").DataTable();
         });
     </script>
 </th:block>
