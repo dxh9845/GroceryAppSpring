@@ -27,11 +27,11 @@ INSERT INTO CUSTOMER VALUES
 (4, 7),
 (7, 5);
 
-INSERT INTO EMPLOYEE(User_ID, Schedule, Salary, work_store_id) VALUES
-(3, '<?xml version="1.0" encoding="UTF-8"?> <schedule> <shift> <date>Sun March 5, 2017</date> <start>7:00</start> <end>15:00</end> <job>Service Clerk</job> <hours>9</hours> </shift> <shift> <date>Mon March 6, 2017</date> <start>14:00</start> <end>20:00</end> <job>Service Clerk</job> <hours>6</hours> </shift> <shift> <date>Sun March 7, 2017</date> <start>7:00</start> <end>11:00</end> <job>Cashier</job> <hours>4</hours> </shift> <shift> <date>Sun March 5, 2017</date> <start>12:00</start> <end>20:00</end> <job>Service Clerk</job> <hours>8</hours> </shift> </schedule>', 7.25, 1),
-(5, '<?xml version="1.0" encoding="UTF-8"?> <schedule> <shift> <date>Sun March 5, 2017</date> <start>7:00</start> <end>15:00</end> <job>Service Clerk</job> <hours>9</hours> </shift> <shift> <date>Mon March 6, 2017</date> <start>14:00</start> <end>20:00</end> <job>Service Clerk</job> <hours>6</hours> </shift> <shift> <date>Sun March 7, 2017</date> <start>7:00</start> <end>11:00</end> <job>Cashier</job> <hours>4</hours> </shift> <shift> <date>Sun March 5, 2017</date> <start>12:00</start> <end>20:00</end> <job>Service Clerk</job> <hours>8</hours> </shift> </schedule>', 8.75, 4),
-(6, '<?xml version="1.0" encoding="UTF-8"?> <schedule> <shift> <date>Sun March 5, 2017</date> <start>7:00</start> <end>15:00</end> <job>Manager</job> <hours>9</hours> </shift> <shift> <date>Mon March 6, 2017</date> <start>14:00</start> <end>20:00</end> <job>Manager</job> <hours>6</hours> </shift> <shift> <date>Sun March 7, 2017</date> <start>7:00</start> <end>11:00</end> <job>Manager</job> <hours>4</hours> </shift> <shift> <date>Sun March 5, 2017</date> <start>12:00</start> <end>20:00</end> <job>Manager</job> <hours>8</hours> </shift> </schedule>', 17.75, 2),
-(8, '<?xml version="1.0" encoding="UTF-8"?> <schedule> <shift> <date>Sun March 5, 2017</date> <start>7:00</start> <end>15:00</end> <job>Manager</job> <hours>9</hours> </shift> <shift> <date>Mon March 6, 2017</date> <start>14:00</start> <end>20:00</end> <job>Manager</job> <hours>6</hours> </shift> <shift> <date>Sun March 7, 2017</date> <start>7:00</start> <end>11:00</end> <job>Manager</job> <hours>4</hours> </shift> <shift> <date>Sun March 5, 2017</date> <start>12:00</start> <end>20:00</end> <job>Manager</job> <hours>8</hours> </shift> </schedule>', 25, 3);
+INSERT INTO EMPLOYEE(User_ID, Salary, work_store_id) VALUES
+(3, 7.25, 1),
+(5, 8.75, 4),
+(6, 17.75, 2),
+(8, 25, 3);
 
 INSERT INTO PRODUCT(Product_ID, Name, Price) VALUES
 ('00036632035769', 'Dannon Activia Peach And Strawberry Lowfat Yogurt - 12 Ct', 7.29),
