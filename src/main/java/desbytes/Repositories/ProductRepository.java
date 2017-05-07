@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import javax.annotation.PostConstruct;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -45,6 +45,12 @@ public class ProductRepository {
         String content = reader.readQueryFile("product_queries", "get_product.sql");
         return jdbcTemplate.queryForObject(content,
                 new Object[]{id}, new ProductRowMapper());
+    }
+
+    public List<Product> getAll() {
+        QueryReader reader = new QueryReader();
+        String content = reader.readQueryFile("product_queries", "get_all_products.sql");
+        return jdbcTemplate.query(content, new ProductRowMapper());
     }
 
     public List<Product> searchProducts(String searchQuery) {

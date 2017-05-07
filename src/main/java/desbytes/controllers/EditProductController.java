@@ -1,10 +1,8 @@
 package desbytes.controllers;
 
-import desbytes.Repositories.AppUserRepository;
-import desbytes.Repositories.EmployeeRepository;
-import desbytes.Repositories.ManageProductRepository;
-import desbytes.Repositories.StoreRepository;
+import desbytes.Repositories.*;
 import desbytes.models.App_User;
+import desbytes.models.Product;
 import desbytes.models.ProductInfo;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class EditProductController {
     private ManageProductRepository productInfoRepo;
 
     @Autowired
+    private ProductRepository productRepo;
+
+    @Autowired
     private StoreRepository storeRepository;
 
     @Autowired
@@ -50,6 +51,11 @@ public class EditProductController {
     @ModelAttribute("ProductInfos")
     public List<ProductInfo> ProductInfos(){
         return this.productInfoRepo.findProductInventoryByStoreId(this.storeId);
+    }
+
+    @ModelAttribute("AllProducts")
+    public List<Product> AllProductInfos(){
+        return this.productRepo.getAll();
     }
 
     @ModelAttribute("CurrentStore")

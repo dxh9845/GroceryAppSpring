@@ -140,24 +140,34 @@ public class IndexController {
                                float salary,
                                Model model,
                                RedirectAttributes redir) {
-        if (bindingResult.hasErrors()) {
-            redir.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
-            redir.addFlashAttribute("user", user);
-            return "redirect:/register/employee";
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            App_User currentUser = userRepository.findUserByName(auth.getName());
+            if (currentUser != null) {
+                if (currentUser.getRole_id() == 2) {
+                    if (bindingResult.hasErrors()) {
+                        redir.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+                        redir.addFlashAttribute("user", user);
+                        return "redirect:/register/employee";
+                    }
 
-        try {
-            userRepository.insertUser(user);
-            employeeRepository.insertEmployee(new Employee(user.getId(), salary, storeId));
-        } catch (DuplicateKeyException exc) {
-            exc.printStackTrace();
-            redir.addFlashAttribute("registerError", true);
-            redir.addFlashAttribute("errorMsg", "The username '" + user.getUsername() + "' has already been taken.");
-            return "redirect:/register/employee";
-        }
+                    try {
+                        userRepository.insertUser(user);
+                        employeeRepository.insertEmployee(new Employee(user.getId(), salary, storeId));
+                    } catch (DuplicateKeyException exc) {
+                        exc.printStackTrace();
+                        redir.addFlashAttribute("registerError", true);
+                        redir.addFlashAttribute("errorMsg", "The username '" + user.getUsername() + "' has already been taken.");
+                        return "redirect:/register/employee";
+                    }
 
-        model.addAttribute("registerSuccess", true);
-        return "redirect:/register/employee";
+                    model.addAttribute("registerSuccess", true);
+                    return "redirect:/register/employee";
+                }
+            }
+        }
+        return "redirect:/";
+
     }
 
 

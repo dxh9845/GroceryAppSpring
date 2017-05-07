@@ -11,6 +11,8 @@
               href="/css/owl.carousel.min.css"/>
         <link rel="stylesheet" type="text/css"
               href="/css/owl.theme.default.min.css"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
     </th:block>
 </head>
 <body>
@@ -34,8 +36,11 @@
                                     <li><a th:href="@{/edit/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
                                 </ul>
                             </div>
-                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
+                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddInventoryModal">
                                 <span class="glyphicon glyphicon-plus"/>
+                            </button>
+                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
+                                <span class="glyphicon glyphicon-fire"/>
                             </button>
                             <a type="button" class="btn btn-default" th:href="@{/manage/{storeId}(storeId=${CurrentStoreId})}">
                                 <span class="glyphicon glyphicon-lock"/>
@@ -49,10 +54,12 @@
             <table class="table">
                 <tr>
                     <!--<th>Product Id</th>-->
+                    <th></th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Aisle</th>
                     <th>Quantity</th>
+                    <th></th>
                 </tr>
                 <div class="panel-body">
                     <tr th:each="info, stat: ${ProductInfos}">
@@ -67,14 +74,14 @@
                             <td class="hidden">
                                 <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
                                        class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
+                                       aria-label="UPC code for product"
                                        th:value="${info.product_id}"
                                 />
                             </td>
                             <td class="col-xs-7">
                                 <div class="input-group" style="width: 100%">
                                     <input type="text" th:name="name" th:id="name+__${stat.index}__" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
+                                           aria-label="Name of a product"
                                            th:value="${info.name}"
                                     />
                                 </div>
@@ -83,7 +90,7 @@
                             <td class="col-xs-2">
                                 <div class="input-group" style="width: 100%">
                                     <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
+                                           aria-label="Amount (to the nearest dollar)" min="0" step="0.01"
                                            th:value="${info.price}"
                                     />
                                 </div>
@@ -92,7 +99,7 @@
                             <td class="col-xs-1">
                                 <div class="input-group" style="width: 100%">
                                     <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
+                                           aria-label="Aisle where item is located"  min="0"
                                            th:value="${info.aisle}"
                                     />
                                 </div>
@@ -101,7 +108,7 @@
                             <td class="col-xs-1">
                                 <div class="input-group" style="width: 100%">
                                     <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
-                                           aria-label="Amount (to the nearest dollar)"
+                                           aria-label="Quantity of product"  min="0"
                                            th:value="${info.qty}"
                                     />
                                 </div>
@@ -123,6 +130,57 @@
 
     <!-- Add Product Modal -->
     <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog"
+         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel" style="tab-index: false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Add Product</div>
+                        <form class="panel-body" action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2">Product Id</span>
+                                <select th:field="*{product_id}">
+                                    <option th:each="product : ${AllProducts}"
+                                            th:value="${product}"
+                                            th:text="${product.name}"></option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2">Quantity</span>
+                                <input type="number" th:field="*{qty}" class="form-control"
+                                       aria-label="Quantity of the item"
+                                       placeholder="1"  min="0"
+                                />
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2">Aisle</span>
+                                <input type="number" th:field="*{aisle}" class="form-control"
+                                       aria-label="Aisle where the item is located"
+                                       placeholder="0"  min="0"
+                                />
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
+                            </div>
+                            <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div class="modal fade" id="AddInventoryModal" tabindex="-1" role="dialog"
          sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -133,7 +191,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Product Id</span>
                                 <input type="text" th:field="*{product_id}" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
+                                       aria-label="UPC code of product"
                                        placeholder="000000000000000"
                                 />
                             </div>
@@ -146,7 +204,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Name</span>
                                 <input type="text" th:field="*{name}" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
+                                       aria-label="Name of product"
                                        placeholder="Product Name"
                                 />
                             </div>
@@ -160,7 +218,7 @@
                                 <span class="input-group-addon">$</span>
                                 <input type="number" th:field="*{price}" class="form-control"
                                        aria-label="Amount (to the nearest dollar)"
-                                       placeholder="1.00"
+                                       placeholder="1.00"  min="0"  step="0.01"
                                 />
                             </div>
                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
@@ -172,8 +230,8 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Quantity</span>
                                 <input type="number" th:field="*{qty}" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
-                                       placeholder="1"
+                                       aria-label="Quantity of the item"
+                                       placeholder="1"  min="0"
                                 />
                             </div>
                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
@@ -185,8 +243,8 @@
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Aisle</span>
                                 <input type="number" th:field="*{aisle}" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)"
-                                       placeholder="0"
+                                       aria-label="Aisle where the item is located"
+                                       placeholder="0"  min="0"
                                 />
                             </div>
                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
@@ -205,4 +263,11 @@
 
 </div>
 </body>
+
+<th:block layout:fragment="scripts">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $('select').select2();
+    </script>
+</th:block>
 </html>
