@@ -4,63 +4,69 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">
 <head>
-    <title>Order History</title>
+    <title>View your order history</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="container-fluid">
         <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="LeadText">Past Orders</h1>
-                </div>
-
-                <div class="col-xs-12">
-                    <div th:if="${!orderList.isEmpty()}" th:each="order: ${orderList}" class="table">
-                        <table class="table table-condensed table-bordered">
-                           <caption>
-                               <h4 class="FranklinDemi">Order Id: <span th:text="${order.order_id}"></span></h4>
-                               <h4 class="FranklinDemi">Time: <span th:text="${order.order_time}"></span></h4>
-                           </caption>
-                            <thead>
-                            <tr>
-                                <th><h4 class="FranklinDemi">Product</h4></th>
-                                <th><h4 class="FranklinDemi">Price</h4></th>
-                                <th><h4 class="FranklinDemi">Quantity</h4></th>
-                                <th><h4 class="FranklinDemi">Total</h4></th>
-                            </tr>
-                            </thead>
-                            <div th:each="product: ${order.getProducts()}" class="table">
-                                <tr>
-                                    <td>
-                                        <h5 class="FranklinDemi" th:text="${product.name}"></h5>
-                                    </td>
-                                    <td>
-                                        <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h5>
-                                    </td>
-                                    <td>
-                                        <h5 class="FranklinDemi" th:text="${order.productList.get(product)}"></h5>
-                                    </td>
-                                    <td>
-                                        <div th:with="result=${product.price * order.productList.get(product)}">
-                                            <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}"/></h5>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                            </div>
-                        </table>
-                    </div>
-                    <div class="text-center" th:if="${orderList.isEmpty()}" >
-                            <span style="font-size: 75px;">
-                    <i class="glyphicon glyphicon-exclamation-sign"></i>
-                            </span>
-                            <h2 class="page-header no-border">
-                                <i class="fa fa-frown-o"></i>
-                                No previous orders found.
-                            </h2>
-                        </div>
-                    </div>
+            <div class="col-sm-12">
+                <h1 class="page-header">
+                    Here's your past orders:
+                </h1>
+            </div>
         </div>
+        <div class="row" th:if="!${orderList.isEmpty()}" th:each="order: ${orderList}">
+            <div class="col-sm-12">
+                <h4 class="FranklinRegular border">
+                    <span class="FranklinDemi">Order Id:</span>
+                    <span th:text="${order.order_id}"></span>,
+                    purchased at <span th:text="${#dates.format(new java.util.Date(order.order_time))}"></span></h4>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-condensed table-hover table-bordered">
+                    <thead>
+                    <tr class="info">
+                        <th><h4 class="FranklinDemi">Product</h4></th>
+                        <th><h4 class="FranklinDemi">Price</h4></th>
+                        <th><h4 class="FranklinDemi">Quantity</h4></th>
+                        <th><h4 class="FranklinDemi">Total</h4></th>
+                    </tr>
+                    </thead>
+
+                    <tr th:each="product: ${order.getProducts()}" >
+                        <td>
+                            <h5 class="FranklinDemi" th:text="${product.name}"></h5>
+                        </td>
+                        <td>
+                            <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h5>
+                        </td>
+                        <td>
+                            <h5 class="FranklinDemi" th:text="${order.productList.get(product)}"></h5>
+                        </td>
+                        <td>
+                            <div th:with="result=${product.price * order.productList.get(product)}">
+                                <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}"/></h5>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-sm-12" th:if="${orderList.isEmpty()}">
+            <div class="text-center"  >
+                    <span style="font-size: 75px;">
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+                    </span>
+                <h2 class="page-header no-border">
+                    <i class="fa fa-frown-o"></i>
+                    No previous orders found.
+                </h2>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>
