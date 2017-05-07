@@ -35,6 +35,13 @@
                 <h1 sec:authorize="isAuthenticated()" class="FranklinRegular">
                     Aisle: <span th:text="${inventoryItem.qty}"></span>
                 </h1>
+                <div sec:authorize="isAnonymous()" class="FranklinRegular">
+                    <h2 class="FranklinDemi">This product is available in the following stores:</h2>
+                    <ul th:each="store: ${storeList}" >
+                        <li><h4 class="FranklinRegular" th:text="${store.name} + ', ' + ${store.location}"></h4></li>
+                    </ul>
+
+                </div>
                 <form class="panel-body" action="#" th:action="@{/product}" th:object="${product}" method="post">
                     <div sec:authorize="isAuthenticated()">
                     <input type="hidden" th:field="*{product_id}" th:value="${product.product_id}"/>

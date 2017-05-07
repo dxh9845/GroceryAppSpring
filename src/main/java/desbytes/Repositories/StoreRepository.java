@@ -37,6 +37,12 @@ public class StoreRepository {
         return jdbcTemplate.query(content, new StoreRowMapper());
     }
 
+    public List<Store> findStoresThatHaveProduct(String productId) {
+        QueryReader reader = new QueryReader();
+        String content = reader.readQueryFile("store_queries", "find_stores_that_have_product.sql");
+        return jdbcTemplate.query(content, new Object[]{productId}, new StoreRowMapper());
+    }
+
     public Store findStoreById(int id) {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("store_queries", "get_store.sql");

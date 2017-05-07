@@ -4,6 +4,7 @@ import desbytes.Repositories.*;
 import desbytes.models.App_User;
 import desbytes.models.Inventory;
 import desbytes.models.Product;
+import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,6 +40,9 @@ public class ProductController {
     @Autowired
     private InventoryRepository inventoryRepository;
 
+    @Autowired
+    private StoreRepository storeRepository;
+
     public int getUserStore(App_User user) {
         // Are we a user
         if (user.getRole_id() == 0) {
@@ -62,6 +66,9 @@ public class ProductController {
             int storeId = getUserStore(user);
             Inventory inventoryItem = inventoryRepository.getItemFromStore(storeId, id);
             model.addAttribute("inventoryItem", inventoryItem);
+        } else {
+            List<Store> storeList = storeRepository.findStoresThatHaveProduct(id);
+            model.addAttribute("storeList", storeList);
         }
         return "product_detail";
     }
