@@ -1493,6 +1493,7 @@ insert into inventory (product_id, store_id, qty, aisle) values ('79818911273526
 insert into inventory (product_id, store_id, qty, aisle) values ('07381266696401', 6, 148, 15);
 insert into inventory (product_id, store_id, qty, aisle) values ('48586879777076', 6, 55, 3);
 insert into inventory (product_id, store_id, qty, aisle) values ('63220427277322', 5, 74, 5);
+insert into inventory (product_id, store_id, qty, aisle) values ('23728487557003', 2, 3, 9);
 insert into inventory (product_id, store_id, qty, aisle) values ('02719636336018', 6, 197, 15);
 insert into inventory (product_id, store_id, qty, aisle) values ('60392909210750', 1, 34, 9);
 insert into inventory (product_id, store_id, qty, aisle) values ('38342323525291', 3, 99, 5);
