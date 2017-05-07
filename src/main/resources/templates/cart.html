@@ -41,7 +41,7 @@
                                         <h5 class="FranklinDemi"> $<span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"/></h5>
                                     </td>
                                     <td>
-                                        <input type = "text" class="form-control" th:name="quantity" th:value="${cart.productList.get(product)}"/>
+                                        <input type = "number" min = "1" class="form-control" th:name="quantity" th:value="${cart.productList.get(product)}"/>
                                     </td>
                                     <td>
                                         <div th:with="result=${product.price * cart.productList.get(product)}">
