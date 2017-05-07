@@ -9,9 +9,8 @@
     <th:block layout:fragment="css">
         <link rel="stylesheet" type="text/css"
               href="/css/owl.carousel.min.css"/>
-        <link rel="stylesheet" type="text/css"
-              href="/css/owl.theme.default.min.css"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 
     </th:block>
 </head>
@@ -50,19 +49,23 @@
                 </div>
             </div>
 
-            <!-- Product Info Table -->
-            <table class="table">
-                <tr>
-                    <!--<th>Product Id</th>-->
-                    <th></th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Aisle</th>
-                    <th>Quantity</th>
-                    <th></th>
-                </tr>
-                <div class="panel-body">
-                    <tr th:each="info, stat: ${ProductInfos}">
+            <div class="panel-body">
+                <!-- Product Info Table -->
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <!--<th>Product Id</th>-->
+                            <th></th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Aisle</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="info, stat: ${ProductInfos}">
+                            
                         <form action="#" th:action="@{/remove}" th:object="${ProductInfo}" method="post">
                             <td sec:authorize="hasAuthority(2)">
                                 <button class="btn btn-danger" name="deleteItem" th:value="${info.product_id}">
@@ -121,9 +124,12 @@
 
                         </form>
                     </tr>
-                </div>
+                    </tbody>
 
-            </table>
+
+                </table>
+            </div>
+
         </div>
 
     </div>
