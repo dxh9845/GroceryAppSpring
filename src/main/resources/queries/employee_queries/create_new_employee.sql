@@ -1,2 +1,2 @@
-INSERT INTO EMPLOYEE
-VALUES(NULL, ?);
+INSERT INTO EMPLOYEE(user_id, salary, work_store_id)
+VALUES(?, ?, ?);

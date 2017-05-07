@@ -1,10 +1,16 @@
 package desbytes.controllers;
 
+import desbytes.Repositories.AppUserRepository;
+import desbytes.Repositories.EmployeeRepository;
 import desbytes.Repositories.ManageProductRepository;
 import desbytes.Repositories.StoreRepository;
+import desbytes.models.App_User;
 import desbytes.models.ProductInfo;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -28,6 +34,12 @@ public class EditProductController {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private AppUserRepository userRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     private int storeId = 1;
 
@@ -69,11 +81,26 @@ public class EditProductController {
     public String editStore(ModelMap model,
                               @PathVariable("storeId") int store){
         // TODO Fix error if this key isn't in our db
-        this.storeId = store;
-        model.put("CurrentStore", currentStore());
-        model.put("ProductInfos", ProductInfos());
-        model.put("ProductInfo", newProduct());
-        return "edit";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            App_User user = userRepository.findUserByName(auth.getName());
+            if (user != null) {
+                if (user.getRole_id() != 0) {
+                    if (user.getRole_id() == 1){
+                        int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
+                        if (this.storeId != workStoreId) {
+                            return "redirect:/edit/" + workStoreId;
+                        }
+                    }
+                    this.storeId = store;
+                    model.put("CurrentStore", currentStore());
+                    model.put("ProductInfos", ProductInfos());
+
+                    return "edit";
+                }
+            }
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/edit")
@@ -92,7 +119,7 @@ public class EditProductController {
 
 
     @PostMapping("/add")
-    public  String addProductInfo(Model model,
+    public  String addProductInfo(ModelMap model,
                                   @Valid @ModelAttribute("ProductInfo") ProductInfo productInfo,
                                   final BindingResult bindingResult){
         if (bindingResult.hasErrors()){
@@ -100,7 +127,8 @@ public class EditProductController {
         }
         productInfo.setStore_id(this.storeId);
         this.productInfoRepo.insertProductInfo(productInfo);
-        return "redirect:/edit";
+        model.put("ProductInfos", ProductInfos());
+        return "edit";
     }
 
 }

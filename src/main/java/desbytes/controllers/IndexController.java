@@ -1,14 +1,10 @@
 package desbytes.controllers;
 
 import desbytes.Repositories.*;
-import desbytes.models.App_User;
-import desbytes.models.Customer;
-import desbytes.models.Inventory;
-import desbytes.models.Product;
+import desbytes.models.*;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,6 +122,43 @@ public class IndexController {
         return "/login";
     }
 
+
+    @RequestMapping(value = "/register/employee")
+    public String registerEmployee(Model model,
+                           RedirectAttributes redir) {
+        if (!model.containsAttribute("user")) {
+            model.addAttribute("user", new App_User());
+        }
+        model.addAttribute("storeList", storeRepository.findAllStores());
+        return "registerEmployee";
+    }
+
+    @RequestMapping(value = "/register/employee", method = RequestMethod.POST)
+    public String postRegisterEmployee(@ModelAttribute @Valid App_User user,
+                               BindingResult bindingResult,
+                               int storeId,
+                               float salary,
+                               Model model,
+                               RedirectAttributes redir) {
+        if (bindingResult.hasErrors()) {
+            redir.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redir.addFlashAttribute("user", user);
+            return "redirect:/register/employee";
+        }
+
+        try {
+            userRepository.insertUser(user);
+            employeeRepository.insertEmployee(new Employee(user.getId(), salary, storeId));
+        } catch (DuplicateKeyException exc) {
+            exc.printStackTrace();
+            redir.addFlashAttribute("registerError", true);
+            redir.addFlashAttribute("errorMsg", "The username '" + user.getUsername() + "' has already been taken.");
+            return "redirect:/register/employee";
+        }
+
+        model.addAttribute("registerSuccess", true);
+        return "redirect:/register/employee";
+    }
 
 
 }

@@ -79,9 +79,20 @@
                                     <li sec:authorize="isAuthenticated()">
                                         <a th:href="@{/profile?username={username}(username=${#authentication.name})}">Profile</a>
                                     </li>
+
+                                    <!-- Manager Section -->
                                     <li sec:authorize="hasAuthority(2)">
                                         <a th:href="@{/manage}">Manage Store</a>
                                     </li>
+                                    <li sec:authorize="hasAuthority(2)">
+                                        <a th:href="@{/register/employee}">Create Employee</a>
+                                    </li>
+
+                                    <!-- Employee Section -->
+                                    <li sec:authorize="hasAuthority(1)">
+                                        <a th:href="@{/manage/{storeId}(storeId=${session.storeId})}">Manage Store</a>
+                                    </li>
+
                                     <li sec:authorize="" role="separator" class="divider"></li>
                                     <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 

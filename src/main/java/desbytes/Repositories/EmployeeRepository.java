@@ -4,15 +4,13 @@ import desbytes.models.Employee;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -53,20 +51,10 @@ public class EmployeeRepository {
 
     public Employee insertEmployee(Employee newEmployee) {
         QueryReader reader = new QueryReader();
-        String content = reader.readQueryFile("employee_queries", "create_new_employee.sql");
-        KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement(content, Statement.RETURN_GENERATED_KEYS);
-                ps.setFloat(1, newEmployee.getSalary());
-                ps.setInt(2, newEmployee.getWork_store_id());
-                return ps;
-            }
-        }, holder);
-
-        int newEmployeeId = holder.getKey().intValue();
-        newEmployee.setUser_id(newEmployeeId);
+        String sql = reader.readQueryFile(
+                "employee_queries", "create_new_employee.sql");
+        jdbcTemplate.update(sql,
+                newEmployee.getUser_id(), newEmployee.getSalary(), newEmployee.getWork_store_id());
         return newEmployee;
     }
 

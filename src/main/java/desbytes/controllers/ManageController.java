@@ -1,6 +1,7 @@
 package desbytes.controllers;
 
 import desbytes.Repositories.AppUserRepository;
+import desbytes.Repositories.EmployeeRepository;
 import desbytes.Repositories.ManageProductRepository;
 import desbytes.Repositories.StoreRepository;
 import desbytes.models.App_User;
@@ -33,6 +34,9 @@ public class ManageController {
     @Autowired
     private AppUserRepository userRepository;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     private int storeId = 1;
 
     @ModelAttribute("ProductInfos")
@@ -63,12 +67,18 @@ public class ManageController {
     @GetMapping("/manage/{storeId}")
     public String changeStore(ModelMap model,
                               @PathVariable("storeId") int store){
+        // TODO Fix error if store_id key isn't in our db
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             App_User user = userRepository.findUserByName(auth.getName());
             if (user != null) {
-                if (user.getRole_id() == 2) {
-                    // TODO Fix error if this key isn't in our db
+                if (user.getRole_id() != 0) {
+                    if (user.getRole_id() == 1){
+                        int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
+                        if (this.storeId != workStoreId) {
+                            return "redirect:/manage/" + workStoreId;
+                        }
+                    }
                     this.storeId = store;
                     model.put("CurrentStore", currentStore());
                     model.put("ProductInfos", ProductInfos());
