@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS Customer(
 
 CREATE TABLE IF NOT EXISTS Employee(
 	user_id int,
-	schedule varchar(600),
 	salary numeric(10,2),
 	work_store_id int,
 	PRIMARY KEY(user_id),
