@@ -11,6 +11,8 @@
               href="/css/owl.carousel.min.css"/>
         <link rel="stylesheet" type="text/css"
               href="/css/owl.theme.default.min.css"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
     </th:block>
 </head>
 <body>
@@ -63,4 +65,13 @@
     </div>
 </div>
 </body>
+
+<th:block layout:fragment="scripts">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".select2Test").select2();
+        });
+    </script>
+</th:block>
 </html>
