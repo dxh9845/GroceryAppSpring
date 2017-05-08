@@ -81,6 +81,7 @@ public class ManageController {
                     }
                     this.storeId = store;
                     model.put("CurrentStore", currentStore());
+                    model.put("CurrentStoreId", currentStoreId());
                     model.put("ProductInfos", ProductInfos());
                     model.addAttribute("productInfo", new ProductInfo());
 

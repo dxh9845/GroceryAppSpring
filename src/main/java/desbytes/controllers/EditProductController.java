@@ -96,6 +96,7 @@ public class EditProductController {
                         }
                     }
                     this.storeId = store;
+                    model.put("CurrentStoreId", currentStoreId());
                     model.put("CurrentStore", currentStore());
                     model.put("ProductInfos", ProductInfos());
 
