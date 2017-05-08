@@ -6,7 +6,7 @@
       layout:decorator="layout">
 <head>
     <meta charset="UTF-8"/>
-    <title>Manage Products</title>
+    <title>Update store inventory</title>
     <th:block layout:fragment="css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
@@ -16,198 +16,154 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid">
-        <div class="panel panel-default">
+        <div class="row">
+            <div style="margin-top:20px;"  class="col-sm-12">
 
-            <!-- Mange Product Panel Heading -->
-            <div class="panel-heading">
-                <div class="row">
-                    <h1 class="col-xs-5">Edit <span th:text="${CurrentStore}"/>'s Inventory</h1>
-                    <h1 class="col-xs-offset-3 col-xs-4">
-                        <div class="pull-right btn-group" role="group" aria-label="...">
-                            <div sec:authorize="hasAuthority(2)" class="btn-group" role="group">
-                                <button type="button" class="btn btn-default dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Change Store
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu scrollable-menu">
-                                    <li><a th:href="@{/edit/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
-                                </ul>
-                            </div>
-                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddInventoryModal">
-                                <span class="glyphicon glyphicon-plus"/>
-                            </button>
-                            <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
-                                <span class="glyphicon glyphicon-fire"/>
-                            </button>
-                            <a type="button" class="btn btn-default" th:href="@{/manage/{storeId}(storeId=${CurrentStoreId})}">
-                                <span class="glyphicon glyphicon-lock"/>
-                            </a>
+                <div class="panel panel-default">
+
+                    <!-- Mange Product Panel Heading -->
+                    <div class="panel-heading">
+                        <div class="row">
+                            <h1 class="col-xs-5">Edit <span th:text="${CurrentStore}"/>'s Inventory</h1>
+                            <h1 class="col-xs-offset-3 col-xs-4">
+                                <div class="pull-right btn-group" role="group" aria-label="...">
+                                    <div sec:authorize="hasAuthority(2)" class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Change Store
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu scrollable-menu">
+                                            <li><a th:href="@{/edit/{storeId}(storeId=${store.store_id})}" th:each="store: ${StoreList}" th:text="${store.name}"></a></li>
+                                        </ul>
+                                    </div>
+                                    <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddInventoryModal">
+                                        <span class="glyphicon glyphicon-plus"/>
+                                    </button>
+                                    <button sec:authorize="hasAuthority(2)" type="button" class="btn btn-default" data-toggle="modal" data-target="#AddProductModal">
+                                        <span class="glyphicon glyphicon-fire"/>
+                                    </button>
+                                    <a type="button" class="btn btn-default" th:href="@{/manage/{storeId}(storeId=${CurrentStoreId})}">
+                                        <span class="glyphicon glyphicon-lock"/>
+                                    </a>
+                                </div>
+                            </h1>
                         </div>
-                    </h1>
+                    </div>
+
+
+                    <div class="panel-body">
+                        <!-- Product Info Table -->
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <!--<th>Product Id</th>-->
+                                <th></th>
+                                <th class="hidden"></th>
+                                <th class="hidden"></th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Aisle</th>
+                                <th>Quantity</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="info, stat: ${ProductInfos}">
+                                <td>
+                                    <form sec:authorize="hasAuthority(2)" action="#" th:action="@{/remove}" th:object="${ProductInfo}" method="post">
+                                        <button class="btn btn-danger" name="deleteItem" th:value="${info.product_id}">
+                                            <span class="glyphicon glyphicon-remove"/>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="hidden">
+                                    <form th:id="'product' + ${info.product_id} + 'Form'" action="#" th:action="@{/edit}" th:object="${ProductInfo}" method="post"></form>
+                                </td>
+                                <td class="hidden">
+                                    <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
+                                           class="form-control"
+                                           aria-label="UPC code for product"
+                                           th:form="'product' + ${info.product_id} + 'Form'"
+                                           th:value="${info.product_id}"
+                                    />
+                                </td>
+                                <td class="col-xs-8">
+                                    <input type="text" th:name="name" th:id="name+__${stat.index}__"
+                                           class="form-control full-width"
+                                           aria-label="Name of a product"
+                                           th:form="'product' + ${info.product_id} + 'Form'"
+                                           th:value="${info.name}"
+                                    />
+                                </td>
+                                <td class="col-xs-2">
+                                    <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)" min="0" step="0.01"
+                                           th:form="'product' + ${info.product_id} + 'Form'"
+                                           th:value="${info.price}"
+                                    />
+                                </td>
+                                <td class="col-xs-1">
+                                    <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
+                                           aria-label="Aisle where item is located"  min="0"
+                                           th:form="'product' + ${info.product_id} + 'Form'"
+                                           th:value="${info.aisle}"
+                                    />
+                                </td>
+                                <td class="col-xs-1">
+                                    <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
+                                           aria-label="Quantity of product"  min="0"
+                                           th:form="'product' + ${info.product_id} + 'Form'"
+                                           th:value="${info.qty}"
+                                    />
+                                </td>
+                                <td class="col-xs-1">
+                                    <button th:form="'product' + ${info.product_id} + 'Form'" class="btn btn-primary" type="submit" value="save">
+                                        <span class="glyphicon glyphicon-floppy-disk"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
                 </div>
             </div>
-
-
-            <div class="panel-body">
-                <!-- Product Info Table -->
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <!--<th>Product Id</th>-->
-                            <th></th>
-                            <th class="hidden"></th>
-                            <th class="hidden"></th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Aisle</th>
-                            <th>Quantity</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="info, stat: ${ProductInfos}">
-                            <td>
-                                <form sec:authorize="hasAuthority(2)" action="#" th:action="@{/remove}" th:object="${ProductInfo}" method="post">
-                                    <button class="btn btn-danger" name="deleteItem" th:value="${info.product_id}">
-                                        <span class="glyphicon glyphicon-remove"/>
-                                    </button>
-                                </form>
-                            </td>
-                            <td class="hidden">
-                                <form th:id="'product' + ${info.product_id} + 'Form'" action="#" th:action="@{/edit}" th:object="${ProductInfo}" method="post"></form>
-                            </td>
-                            <td class="hidden">
-                                <input type="text" th:name="product_id" th:id="product_id+__${stat.index}__"
-                                       class="form-control"
-                                       aria-label="UPC code for product"
-                                       th:form="'product' + ${info.product_id} + 'Form'"
-                                       th:value="${info.product_id}"
-                                />
-                            </td>
-                            <td class="col-xs-8">
-                                <input type="text" th:name="name" th:id="name+__${stat.index}__"
-                                       class="form-control full-width"
-                                       aria-label="Name of a product"
-                                       th:form="'product' + ${info.product_id} + 'Form'"
-                                       th:value="${info.name}"
-                                />
-                            </td>
-                            <td class="col-xs-2">
-                                <input type="number" th:name="price" th:id="price+__${stat.index}__" class="form-control"
-                                       aria-label="Amount (to the nearest dollar)" min="0" step="0.01"
-                                       th:form="'product' + ${info.product_id} + 'Form'"
-                                       th:value="${info.price}"
-                                />
-                            </td>
-                            <td class="col-xs-1">
-                                <input type="number"  th:name="aisle" th:id="aisle+__${stat.index}__" class="form-control"
-                                       aria-label="Aisle where item is located"  min="0"
-                                       th:form="'product' + ${info.product_id} + 'Form'"
-                                       th:value="${info.aisle}"
-                                />
-                            </td>
-                            <td class="col-xs-1">
-                                <input type="number" th:name="qty" th:id="qty+__${stat.index}__" class="form-control"
-                                       aria-label="Quantity of product"  min="0"
-                                       th:form="'product' + ${info.product_id} + 'Form'"
-                                       th:value="${info.qty}"
-                                />
-                            </td>
-                            <td class="col-xs-1">
-                                <button th:form="'product' + ${info.product_id} + 'Form'" class="btn btn-primary" type="submit" value="save">
-                                    <span class="glyphicon glyphicon-floppy-disk"/>
-                                </button>
-                            </td>
-                    </tr>
-                    </tbody>
-
-
-                </table>
-            </div>
-
         </div>
+
 
     </div>
 
-    <!-- Add Product Modal -->`
+    <!-- Add Product Modal -->
     <div class="modal fade" id="AddProductModal" role="dialog"
-         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel" style="tab-index: false">
+         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    Add a product
+                <div style="font-size: 20px;" class="modal-header FranklinDemi">
+                    Add an existing product to your inventory
                 </div>
                 <div class="modal-body">
-                    <form action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="sizing-addon2">Product Id</span>
-                            <select th:field="*{product_id}">
-                                <option th:each="product : ${AllProducts}"
-                                        th:value="${product}"
-                                        th:text="${product.name}"></option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="sizing-addon2">Quantity</span>
-                            <input type="number" th:field="*{qty}" class="form-control"
-                                   aria-label="Quantity of the item"
-                                   placeholder="1"  min="0"
-                            />
-                        </div>
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="sizing-addon2">Aisle</span>
-                            <input type="number" th:field="*{aisle}" class="form-control"
-                                   aria-label="Aisle where the item is located"
-                                   placeholder="0"  min="0"
-                            />
-                        </div>
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
-                        </div>
-                        <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Inventory Modal -->
-    <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    Add a product to your store
-                </div>
-                <div class="model-body">
-                    <form action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
+                    <form class="panel-body" action="#" th:action="@{/addProduct}" th:object="${ProductInfo}" method="post">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Product Id</span>
                                 <input type="text" th:field="*{product_id}" class="form-control"
                                        aria-label="UPC code of product"
+                                       placeholder="00000000000000"
                                        maxlength="14"
-                                       placeholder="000000000000000"
                                 />
                             </div>
                         </div>
+
                         <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('product_id')}">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <strong>ERROR!</strong> <span th:errors="*{product_id}"></span>
                         </div>
+
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Name</span>
@@ -232,16 +188,15 @@
                                 />
                             </div>
                         </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{price}"></span>
-                            </div>
-                            <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
-                        </form>
-
-                    </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{price}"></span>
+                        </div>
+                        <button class="btn btn-md btn-primary text-uppercase FranklinDemi pull-right"
+                                type="submit" value="save">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -252,10 +207,12 @@
          sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Add Product</div>
-                        <form class="panel-body" action="#" th:action="@{/addInventory}" th:object="${ProductInfo}" method="post">
+                <div style="font-size: 20px;" class="modal-header FranklinDemi">
+                    Add an existing product to your inventory
+                </div>
+                <div class="modal-body">
+                    <form class="panel-body" action="#" th:action="@{/addInventory}" th:object="${ProductInfo}" method="post">
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Product Id</span>
                                 <select th:field="*{product_id}"  tabindex="-1">
@@ -264,6 +221,7 @@
                                             th:text="${product.name}"></option>
                                 </select>
                             </div>
+                        </div>
                         <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -301,7 +259,8 @@
                             </button>
                             <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
                         </div>
-                        <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+                        <button class="btn btn-md btn-primary text-uppercase FranklinDemi pull-right"
+                                type="submit" value="save">Submit</button>
                     </form>
                 </div>
             </div>
