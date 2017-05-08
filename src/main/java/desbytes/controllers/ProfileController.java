@@ -34,8 +34,10 @@ public class ProfileController {
 
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String username(@RequestParam("username") String username, HttpServletRequest request, Model model) {
-        App_User user = appUserRepository.findUserByName(username);
+    public String username(HttpServletRequest request, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        App_User user = appUserRepository.findUserByName(auth.getName());
         Integer storeId = (Integer) request.getSession().getAttribute("storeId");
         Store prefStore = storeRepository.findStoreById(storeId);
         model.addAttribute("prefStore", prefStore);

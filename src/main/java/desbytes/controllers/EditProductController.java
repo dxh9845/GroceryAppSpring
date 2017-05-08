@@ -8,6 +8,7 @@ import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zach on 5/5/17.
@@ -82,29 +84,25 @@ public class EditProductController {
 
     @GetMapping("/edit/{storeId}")
     public String editStore(ModelMap model,
-                              @PathVariable("storeId") int store){
-        // TODO Fix error if this key isn't in our db
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            App_User user = userRepository.findUserByName(auth.getName());
-            if (user != null) {
-                if (user.getRole_id() != 0) {
-                    if (user.getRole_id() == 1){
-                        int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
-                        if (this.storeId != workStoreId) {
-                            return "redirect:/edit/" + workStoreId;
-                        }
-                    }
-                    this.storeId = store;
-                    model.put("CurrentStoreId", currentStoreId());
-                    model.put("CurrentStore", currentStore());
-                    model.put("ProductInfos", ProductInfos());
+                              @PathVariable("storeId") int store, HttpServletRequest request){
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
 
-                    return "edit";
-                }
-            }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
+        if (roles.contains("0")) {
+            return "redirect:/error";
         }
-        return "redirect:/";
+        else if (this.storeId != storeId ) {
+            return "redirect:/edit/" + storeId;
+        } else {
+
+            this.storeId = store;
+            model.put("CurrentStoreId", currentStoreId());
+            model.put("CurrentStore", currentStore());
+            model.put("ProductInfos", ProductInfos());
+
+            return "edit";
+        }
     }
 
     @PostMapping("/edit")

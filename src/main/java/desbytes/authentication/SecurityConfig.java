@@ -1,27 +1,36 @@
 package desbytes.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import javax.sql.DataSource;
+import java.util.EnumSet;
 
 /**
  * Configure the login authentication.
  */
+
 @Configuration
 @EnableAutoConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     AuthSuccessHandler securityHandler;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     DataSource dataSource;
 
@@ -40,7 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Fix for h2 console
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/console/**").permitAll()
-                .antMatchers("/search").permitAll();
+                .antMatchers("/search").permitAll()
+                .antMatchers("/edit").hasAnyRole("1", "2")
+                .antMatchers("/manage").hasAnyRole("1", "2");
         http
                 .formLogin().loginPage("/login").failureUrl("/login-error")
                 .successHandler(securityHandler)
@@ -51,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
         http.headers().frameOptions().disable();
     }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

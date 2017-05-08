@@ -163,6 +163,9 @@ public class IndexController {
                     }
 
                     model.addAttribute("registerSuccess", true);
+                    model.addAttribute("successMsg",
+                            "Successfully registered employee " +
+                                    user.getUsername() + " with username " + user.getUsername() + ".");
                     return "redirect:/register/employee";
                 }
             }

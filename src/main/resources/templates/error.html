@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorator="layout">
+<head>
+    <title>Uh oh!</title>
+    <th:block layout:fragment="css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid error-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="text-center">
+            <span style="font-size: 100px;">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+            </span>
+                    <h2 class="page-header no-border">
+                        We don't quite know what happened, but it doesn't look good.
+                        <br/>
+                        <small>
+                            <span th:text="${errorMsg}"></span>.
+                        </small>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

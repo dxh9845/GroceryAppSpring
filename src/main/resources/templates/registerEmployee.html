@@ -22,7 +22,13 @@
                 <div th:if="${registerError}" class="alert alert-danger" role="alert">
                     <p><i class="glyphicon glyphicon-alert"></i><span th:text="${errorMsg}"></span></p>
                 </div>
+
+                <div th:if="${registerSuccess}" class="alert alert-success" role="alert">
+                    <p><i class="glyphicon glyphicon-check"></i><span th:text="${successMsg}"></span></p>
+                </div>
+
                 <form th:action="@{/registerEmployee}" th:object="${user}" method="post">
+
                     <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error has-feedback'">
                         <label for="name" class="FranklinDemi required">Name</label>:
                         <input type="text" th:field="*{name}" class="form-control"

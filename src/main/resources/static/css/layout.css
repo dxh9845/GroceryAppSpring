@@ -16,6 +16,13 @@
     width: 100%!important;
 }
 
+.error-container {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .alert .glyphicon {
     margin-right: 10px;
 }
