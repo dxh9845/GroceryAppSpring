@@ -1,22 +1,13 @@
 package desbytes.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
 import javax.sql.DataSource;
-import java.util.EnumSet;
 
 /**
  * Configure the login authentication.
@@ -50,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/search").permitAll()
-                .antMatchers("/edit").hasAnyRole("1", "2")
-                .antMatchers("/manage").hasAnyRole("1", "2");
+                .antMatchers("/edit").hasAnyAuthority("1", "2")
+                .antMatchers("/manage").hasAnyAuthority("1","2");
         http
                 .formLogin().loginPage("/login").failureUrl("/login-error")
                 .successHandler(securityHandler)
