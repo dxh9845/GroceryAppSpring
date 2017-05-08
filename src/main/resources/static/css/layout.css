@@ -12,6 +12,10 @@
     border-bottom: none!important;
 }
 
+.full-width {
+    width: 100%!important;
+}
+
 .alert .glyphicon {
     margin-right: 10px;
 }
