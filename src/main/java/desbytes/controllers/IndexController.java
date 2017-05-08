@@ -152,6 +152,7 @@ public class IndexController {
                     }
 
                     try {
+                        user.setRole_id(1);
                         userRepository.insertUser(user);
                         employeeRepository.insertEmployee(new Employee(user.getId(), salary, storeId));
                     } catch (DuplicateKeyException exc) {
