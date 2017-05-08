@@ -63,7 +63,7 @@ public class ManageController {
     @GetMapping("/manage")
     public String render(Model model, HttpServletRequest request){
         Integer storeId = (Integer) request.getSession().getAttribute("storeId");
-        return "redirect:/manage/"+ storeId;
+        return "redirect:/manage/"+storeId;
     }
 
     @GetMapping("/manage/{storeId}")
@@ -78,10 +78,12 @@ public class ManageController {
             if (user != null) {
                 if (user.getRole_id() != 0) {
                     if (user.getRole_id() == 1){
-                        if (store != storeId) {
-                            return "redirect:/manage/" + storeId;
+                        int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
+                        if (storeId != store) {
+                            return "redirect:/manage/" + workStoreId;
                         }
                     }
+                    this.storeId = store;
                     model.put("CurrentStore", currentStore());
                     model.put("CurrentStoreId", currentStoreId());
                     model.put("ProductInfos", ProductInfos());

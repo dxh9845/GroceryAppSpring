@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit").hasAnyAuthority("1", "2")
                 .antMatchers("/register/employee").hasAuthority( "2")
                 .antMatchers("/manage").hasAnyAuthority("1","2");
+
         http
                 .formLogin().loginPage("/login").failureUrl("/login-error")
                 .successHandler(securityHandler)

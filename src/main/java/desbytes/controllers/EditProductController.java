@@ -87,13 +87,14 @@ public class EditProductController {
     @GetMapping("/edit/{storeId}")
     public String editStore(ModelMap model,
                               @PathVariable("storeId") int store, HttpServletRequest request){
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
         if (roles.contains("0")) {
             return "redirect:/error";
         }
-        else if (storeId != store ) {
+        else if (storeId != store && roles.contains("1")) {
             return "redirect:/edit/" + storeId;
         } else {
 
