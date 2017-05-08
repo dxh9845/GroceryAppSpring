@@ -6,6 +6,7 @@ import desbytes.models.Product;
 import desbytes.models.ProductInfo;
 import desbytes.models.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -77,22 +78,22 @@ public class EditProductController {
 
 
     @GetMapping("/edit")
-    public String render(Model model){
+    public String render(Model model, HttpServletRequest request){
         model.addAttribute("productInfo", new ProductInfo());
-        return "redirect:/edit/"+this.storeId;
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
+        return "redirect:/edit/"+ storeId;
     }
 
     @GetMapping("/edit/{storeId}")
     public String editStore(ModelMap model,
                               @PathVariable("storeId") int store, HttpServletRequest request){
-        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
         if (roles.contains("0")) {
             return "redirect:/error";
         }
-        else if (this.storeId != storeId ) {
+        else if (storeId != store ) {
             return "redirect:/edit/" + storeId;
         } else {
 

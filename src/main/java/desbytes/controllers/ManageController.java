@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -60,26 +61,27 @@ public class ManageController {
     }
 
     @GetMapping("/manage")
-    public String render(Model model){
-        return "redirect:/manage/"+this.storeId;
+    public String render(Model model, HttpServletRequest request){
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
+        return "redirect:/manage/"+ storeId;
     }
 
     @GetMapping("/manage/{storeId}")
     public String changeStore(ModelMap model,
-                              @PathVariable("storeId") int store){
+                              @PathVariable("storeId") int store,
+                              HttpServletRequest request){
         // TODO Fix error if store_id key isn't in our db
+        Integer storeId = (Integer) request.getSession().getAttribute("storeId");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             App_User user = userRepository.findUserByName(auth.getName());
             if (user != null) {
                 if (user.getRole_id() != 0) {
                     if (user.getRole_id() == 1){
-                        int workStoreId = employeeRepository.findEmployeeByID(user.getId()).getWork_store_id();
-                        if (this.storeId != workStoreId) {
-                            return "redirect:/manage/" + workStoreId;
+                        if (store != storeId) {
+                            return "redirect:/manage/" + storeId;
                         }
                     }
-                    this.storeId = store;
                     model.put("CurrentStore", currentStore());
                     model.put("CurrentStoreId", currentStoreId());
                     model.put("ProductInfos", ProductInfos());
