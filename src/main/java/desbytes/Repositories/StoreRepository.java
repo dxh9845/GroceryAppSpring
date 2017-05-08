@@ -30,7 +30,6 @@ public class StoreRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @PostConstruct
     public List<Store> findAllStores() {
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("store_queries", "select_all_stores.sql");

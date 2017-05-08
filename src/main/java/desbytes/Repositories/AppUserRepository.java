@@ -1,24 +1,17 @@
 package desbytes.Repositories;
 
 import desbytes.models.App_User;
-import desbytes.models.Customer;
-import desbytes.models.Store;
 import desbytes.utils.QueryReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.List;
 
 /**
  * Created by zanegrasso

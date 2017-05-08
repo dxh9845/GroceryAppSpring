@@ -2,8 +2,10 @@ package desbytes.utils;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 /**
@@ -20,7 +22,8 @@ public class QueryReader {
         String content = null;
         try {
             Resource res = new ClassPathResource("queries/" + folder + "/" + specificQuery);
-            content = new String(Files.readAllBytes(res.getFile().toPath()));
+            byte[] bdata = FileCopyUtils.copyToByteArray(res.getInputStream());
+            content = new String(bdata, StandardCharsets.UTF_8);
         } catch (IOException exc){
             System.err.println("Cannot find queries/" + folder + "/" + specificQuery);
         }

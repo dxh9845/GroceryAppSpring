@@ -65,7 +65,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="info, stat: ${ProductInfos}">
-                            
+
                         <form action="#" th:action="@{/remove}" th:object="${ProductInfo}" method="post">
                             <td sec:authorize="hasAuthority(2)">
                                 <button class="btn btn-danger" name="deleteItem" th:value="${info.product_id}">
@@ -134,28 +134,85 @@
 
     </div>
 
-    <!-- Add Product Modal -->
+    <!-- Add Product Modal -->`
     <div class="modal fade" id="AddProductModal" role="dialog"
-         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel">
+         sec:authorize="hasAuthority(2)" aria-labelledby="AddProductModalLabel" style="tab-index: false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Add Product</div>
-                        <form class="panel-body" action="#" th:action="@{/addProduct}" th:object="${ProductInfo}" method="post">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    Add a product
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="sizing-addon2">Product Id</span>
+                            <select th:field="*{product_id}">
+                                <option th:each="product : ${AllProducts}"
+                                        th:value="${product}"
+                                        th:text="${product.name}"></option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="sizing-addon2">Quantity</span>
+                            <input type="number" th:field="*{qty}" class="form-control"
+                                   aria-label="Quantity of the item"
+                                   placeholder="1"  min="0"
+                            />
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="sizing-addon2">Aisle</span>
+                            <input type="number" th:field="*{aisle}" class="form-control"
+                                   aria-label="Aisle where the item is located"
+                                   placeholder="0"  min="0"
+                            />
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
+                        </div>
+                        <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog"
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    Add a product to your store
+                </div>
+                <div class="model-body">
+                    <form action="#" th:action="@{/add}" th:object="${ProductInfo}" method="post">
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Product Id</span>
                                 <input type="text" th:field="*{product_id}" class="form-control"
                                        aria-label="UPC code of product"
+                                       maxlength="14"
                                        placeholder="000000000000000"
                                 />
                             </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('product_id')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{product_id}"></span>
-                            </div>
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('product_id')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{product_id}"></span>
+                        </div>
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Name</span>
                                 <input type="text" th:field="*{name}" class="form-control"
@@ -163,12 +220,14 @@
                                        placeholder="Product Name"
                                 />
                             </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('name')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{name}"></span>
-                            </div>
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('name')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{name}"></span>
+                        </div>
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
                                 <input type="number" th:field="*{price}" class="form-control"
@@ -207,6 +266,13 @@
                                             th:text="${product.name}"></option>
                                 </select>
                             </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('price')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{price}"></span>
+                        </div>
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Quantity</span>
                                 <input type="number" th:field="*{qty}" class="form-control"
@@ -214,12 +280,14 @@
                                        placeholder="1"  min="0"
                                 />
                             </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
-                            </div>
+                        </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('qty')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{qty}"></span>
+                        </div>
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Aisle</span>
                                 <input type="number" th:field="*{aisle}" class="form-control"
@@ -227,15 +295,16 @@
                                        placeholder="0"  min="0"
                                 />
                             </div>
-                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
-                            </div>
-                            <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${#fields.hasErrors('aisle')}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>ERROR!</strong> <span th:errors="*{aisle}"></span>
+                        </div>
+                        <button class="btn btn-md btn-primary pull-right" type="submit" value="save">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>

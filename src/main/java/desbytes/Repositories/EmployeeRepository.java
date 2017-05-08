@@ -28,7 +28,6 @@ public class EmployeeRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @PostConstruct
     public List<Employee> findAllEmployees(){
         QueryReader reader = new QueryReader();
         String content = reader.readQueryFile("employee_queries", "select_all_employee.sql");

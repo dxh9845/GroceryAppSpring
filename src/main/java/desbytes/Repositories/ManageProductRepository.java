@@ -28,7 +28,6 @@ public class ManageProductRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @PostConstruct
     public List<ProductInfo> findProductInventory(){
         return findProductInventoryByStoreId(1);
     }

@@ -34,7 +34,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
     private EmployeeRepository employeeRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                                        Authentication authentication) throws IOException, ServletException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         App_User user = userRepository.findUserByName(authentication.getName());
         // Are we a user

@@ -30,7 +30,6 @@ public class CustomerRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @PostConstruct
     public List<Customer> findAllCustomers(){
         QueryReader reader = new QueryReader();
 
