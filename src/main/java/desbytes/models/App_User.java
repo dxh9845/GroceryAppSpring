@@ -1,7 +1,5 @@
 package desbytes.models;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -96,7 +94,7 @@ public class App_User
 		return role_id;
 	}
 
-	public void setRole_id(int roll_id) {
+	public void setRole_id(int role_id) {
 		this.role_id = role_id;
 	}
 

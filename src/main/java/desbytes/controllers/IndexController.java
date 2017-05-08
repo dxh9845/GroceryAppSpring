@@ -133,7 +133,7 @@ public class IndexController {
         return "registerEmployee";
     }
 
-    @RequestMapping(value = "/register/employee", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerEmployee", method = RequestMethod.POST)
     public String postRegisterEmployee(@ModelAttribute @Valid App_User user,
                                BindingResult bindingResult,
                                int storeId,
